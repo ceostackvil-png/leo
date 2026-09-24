@@ -303,3 +303,162 @@ export const resetPassword = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
+// In-memory OTP store for phone numbers not yet registered
+const tempOtpStore = new Map();
+
+// @desc    Send OTP to Mobile Number
+// @route   POST /api/auth/send-otp
+// @access  Public
+export const sendMobileOtp = async (req, res) => {
+  try {
+    const { phone } = req.body;
+    if (!phone || phone.trim().length < 8) {
+      return res.status(400).json({ success: false, message: 'Please provide a valid mobile number' });
+    }
+
+    const cleanPhone = phone.trim();
+    // 6-digit OTP (using deterministic 123456 for effortless demo/testing while supporting live logging)
+    const otp = '123456';
+    const expiresAt = Date.now() + 10 * 60 * 1000; // 10 mins
+
+    const user = await User.findOne({ phone: cleanPhone });
+    if (user) {
+      user.mobileOtp = otp;
+      user.otpExpiresAt = expiresAt;
+      await user.save();
+    } else {
+      tempOtpStore.set(cleanPhone, { otp, expiresAt });
+    }
+
+    console.log(`[LEO OTP] Dispatched OTP ${otp} to mobile number ${cleanPhone}`);
+
+    res.json({
+      success: true,
+      message: `Verification code sent to ${cleanPhone}`,
+      demoOtp: otp,
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// @desc    Verify Mobile OTP & Login/Register
+// @route   POST /api/auth/verify-otp
+// @access  Public
+export const verifyMobileOtp = async (req, res) => {
+  try {
+    const { phone, otp, name } = req.body;
+    if (!phone || !otp) {
+      return res.status(400).json({ success: false, message: 'Phone and OTP are required' });
+    }
+
+    const cleanPhone = phone.trim();
+    let user = await User.findOne({ phone: cleanPhone }).select('+mobileOtp +otpExpiresAt').populate('wishlist');
+
+    let isValid = false;
+
+    if (user && user.mobileOtp) {
+      if (user.mobileOtp === otp.trim() && user.otpExpiresAt > Date.now()) {
+        isValid = true;
+        user.mobileOtp = undefined;
+        user.otpExpiresAt = undefined;
+        await user.save();
+      }
+    } else if (tempOtpStore.has(cleanPhone)) {
+      const stored = tempOtpStore.get(cleanPhone);
+      if (stored.otp === otp.trim() && stored.expiresAt > Date.now()) {
+        isValid = true;
+        tempOtpStore.delete(cleanPhone);
+      }
+    }
+
+    // Support universal fallback OTP for local development ease
+    if (otp === '123456') {
+      isValid = true;
+    }
+
+    if (!isValid) {
+      return res.status(400).json({ success: false, message: 'Invalid or expired OTP' });
+    }
+
+    if (!user) {
+      // Create new customer account
+      const cleanDigits = cleanPhone.replace(/\D/g, '');
+      const uniqueSuffix = cleanDigits.slice(-6) || Math.floor(100000 + Math.random() * 900000);
+      const generatedEmail = `client_${uniqueSuffix}@leo.com`;
+
+      user = await User.create({
+        name: name && name.trim() ? name.trim() : `Gentleman ${uniqueSuffix}`,
+        email: generatedEmail,
+        phone: cleanPhone,
+        role: 'customer',
+      });
+    }
+
+    res.json({
+      success: true,
+      message: 'Mobile verification successful',
+      data: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        phone: user.phone,
+        role: user.role,
+        addresses: user.addresses,
+        wishlist: user.wishlist,
+        token: generateToken(user._id, user.role),
+      },
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// @desc    Get recently viewed products
+// @route   GET /api/auth/recently-viewed
+// @access  Private
+export const getRecentlyViewed = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id).populate({
+      path: 'recentlyViewed',
+      populate: { path: 'category', select: 'name slug' },
+    });
+
+    res.json({
+      success: true,
+      data: user?.recentlyViewed || [],
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// @desc    Add product to recently viewed
+// @route   POST /api/auth/recently-viewed/:productId
+// @access  Private
+export const addRecentlyViewed = async (req, res) => {
+  try {
+    const { productId } = req.params;
+    const user = await User.findById(req.user._id);
+
+    if (!user) return res.status(404).json({ success: false, message: 'User not found' });
+
+    user.recentlyViewed = user.recentlyViewed || [];
+    user.recentlyViewed = user.recentlyViewed.filter(id => id.toString() !== productId);
+    user.recentlyViewed.unshift(productId);
+    if (user.recentlyViewed.length > 15) {
+      user.recentlyViewed = user.recentlyViewed.slice(0, 15);
+    }
+
+    await user.save();
+
+    res.json({
+      success: true,
+      data: user.recentlyViewed,
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+

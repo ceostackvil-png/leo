@@ -19,7 +19,7 @@ const orderItemSchema = new mongoose.Schema({
 const statusTimelineSchema = new mongoose.Schema({
   status: {
     type: String,
-    enum: ['Placed', 'Confirmed', 'Packed', 'Shipped', 'Out for Delivery', 'Delivered', 'Cancelled', 'Refunded'],
+    enum: ['Placed', 'Pending', 'Confirmed', 'Processing', 'Packed', 'Shipped', 'Out for Delivery', 'Delivered', 'Cancelled', 'Return Requested', 'Returned', 'Refund Initiated', 'Refunded'],
     required: true,
   },
   timestamp: {
@@ -101,8 +101,22 @@ const orderSchema = new mongoose.Schema({
   },
   orderStatus: {
     type: String,
-    enum: ['Placed', 'Confirmed', 'Packed', 'Shipped', 'Out for Delivery', 'Delivered', 'Cancelled', 'Refunded'],
-    default: 'Placed',
+    enum: ['Placed', 'Pending', 'Confirmed', 'Processing', 'Packed', 'Shipped', 'Out for Delivery', 'Delivered', 'Cancelled', 'Return Requested', 'Returned', 'Refund Initiated', 'Refunded'],
+    default: 'Confirmed',
+  },
+  returnRequest: {
+    isRequested: { type: Boolean, default: false },
+    requestedAt: { type: Date },
+    reason: { type: String, default: '' },
+    description: { type: String, default: '' },
+    type: { type: String, enum: ['Return', 'Exchange'], default: 'Return' },
+    status: {
+      type: String,
+      enum: ['None', 'Pending Approval', 'Approved', 'Rejected', 'Item Received', 'Refund Completed'],
+      default: 'None',
+    },
+    adminNote: { type: String, default: '' },
+    refundAmount: { type: Number, default: 0 },
   },
   statusTimeline: [statusTimelineSchema],
   trackingNumber: {

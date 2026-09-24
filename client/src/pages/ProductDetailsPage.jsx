@@ -159,16 +159,40 @@ export const ProductDetailsPage = () => {
               </div>
             )}
 
-            {/* Main Active Image Viewport */}
-            <div className="flex-1 aspect-[3/4] bg-[#EAE6DF] overflow-hidden shadow-sm relative group">
+            {/* Main Active Image Viewport with Zoom */}
+            <div
+              className="flex-1 aspect-[3/4] bg-[#EAE6DF] overflow-hidden shadow-sm relative group cursor-crosshair"
+              onMouseMove={(e) => {
+                const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
+                const x = ((e.clientX - left) / width) * 100;
+                const y = ((e.clientY - top) / height) * 100;
+                e.currentTarget.querySelector('img').style.transformOrigin = `${x}% ${y}%`;
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.querySelector('img').style.transform = 'scale(1.75)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.querySelector('img').style.transform = 'scale(1)';
+              }}
+            >
               <img
                 src={images[selectedImageIdx]?.url}
                 alt={product.title}
-                className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                className="w-full h-full object-cover object-center transition-transform duration-200 ease-out"
               />
-              {product.discountPercentage > 0 && (
+              {product.status === 'Coming Soon' && (
+                <span className="absolute top-4 left-4 bg-amber-900 text-amber-100 text-[10px] uppercase tracking-widest px-3 py-1 font-semibold shadow-md">
+                  Coming Soon {product.launchDate ? `• Drops ${new Date(product.launchDate).toLocaleDateString()}` : ''}
+                </span>
+              )}
+              {product.discountPercentage > 0 && product.status !== 'Coming Soon' && (
                 <span className="absolute top-4 left-4 bg-stone-900 text-velora-champagne text-[10px] uppercase tracking-widest px-2.5 py-1 font-semibold">
                   -{product.discountPercentage}% Atelier Privilege
+                </span>
+              )}
+              {product.status === 'Out of Stock' && (
+                <span className="absolute top-4 right-4 bg-red-800 text-white text-[10px] uppercase tracking-widest px-2.5 py-1 font-semibold">
+                  Out of Stock
                 </span>
               )}
             </div>
@@ -178,7 +202,7 @@ export const ProductDetailsPage = () => {
           <div className="lg:col-span-5 space-y-6">
             <div>
               <div className="flex items-center justify-between text-xs text-velora-champagne uppercase tracking-widest font-medium">
-                <span>{product.categoryName || 'Atelier Selection'}</span>
+                <span>{product.brandName || product.categoryName || 'LEO Atelier'}</span>
                 <span className="text-velora-muted font-light">{product.sku}</span>
               </div>
               <h1 className="font-editorial text-3xl sm:text-4xl font-normal text-velora-black mt-1">
@@ -207,17 +231,28 @@ export const ProductDetailsPage = () => {
               {/* Price */}
               <div className="flex items-baseline space-x-3 mt-4">
                 <span className="text-2xl sm:text-3xl font-semibold text-velora-black">
-                  ₹{product.price.toLocaleString('en-IN')}
+                  ₹{product.price?.toLocaleString('en-IN')}
                 </span>
                 {product.compareAtPrice > product.price && (
                   <span className="text-sm text-stone-400 line-through font-light">
-                    ₹{product.compareAtPrice.toLocaleString('en-IN')}
+                    ₹{product.compareAtPrice?.toLocaleString('en-IN')}
                   </span>
                 )}
                 <span className="text-[11px] text-stone-500 font-light">
                   (Inclusive of all taxes)
                 </span>
               </div>
+            </div>
+
+            {/* Special Coupon Box Offer */}
+            <div className="p-3 bg-[#FAF7F0] border border-velora-champagne/40 rounded-sm text-xs space-y-1">
+              <div className="flex items-center space-x-2 text-stone-900 font-medium">
+                <Sparkles className="w-3.5 h-3.5 text-velora-champagne" />
+                <span>Special Privilege Available</span>
+              </div>
+              <p className="text-[11px] text-stone-600 font-light">
+                Use code <strong className="font-mono bg-white px-1.5 py-0.5 border border-stone-300">LEO10</strong> at checkout for 10% off orders above ₹2,999.
+              </p>
             </div>
 
             {/* Short Description */}
@@ -284,25 +319,45 @@ export const ProductDetailsPage = () => {
               </div>
             )}
 
-            {/* Quantity Counter */}
-            <div className="flex items-center space-x-4 pt-2">
-              <label className="text-xs uppercase tracking-widest text-velora-muted">Quantity</label>
-              <div className="flex items-center border border-velora-border bg-white">
-                <button
-                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                  className="p-2 text-stone-500 hover:text-black transition-colors"
-                  aria-label="Decrease quantity"
-                >
-                  <Minus className="w-3.5 h-3.5" />
-                </button>
-                <span className="text-xs font-semibold px-4 w-8 text-center">{quantity}</span>
-                <button
-                  onClick={() => setQuantity(quantity + 1)}
-                  className="p-2 text-stone-500 hover:text-black transition-colors"
-                  aria-label="Increase quantity"
-                >
-                  <Plus className="w-3.5 h-3.5" />
-                </button>
+            {/* Quantity Counter & Stock Status */}
+            <div className="flex items-center justify-between pt-2">
+              <div className="flex items-center space-x-4">
+                <label className="text-xs uppercase tracking-widest text-velora-muted">Quantity</label>
+                <div className="flex items-center border border-velora-border bg-white">
+                  <button
+                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                    className="p-2 text-stone-500 hover:text-black transition-colors"
+                    aria-label="Decrease quantity"
+                  >
+                    <Minus className="w-3.5 h-3.5" />
+                  </button>
+                  <span className="text-xs font-semibold px-4 w-8 text-center">{quantity}</span>
+                  <button
+                    onClick={() => setQuantity(quantity + 1)}
+                    className="p-2 text-stone-500 hover:text-black transition-colors"
+                    aria-label="Increase quantity"
+                  >
+                    <Plus className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              </div>
+
+              <div className="text-xs">
+                {product.status === 'Coming Soon' ? (
+                  <span className="text-amber-800 font-medium bg-amber-50 px-2.5 py-1 border border-amber-200">
+                    Coming Soon
+                  </span>
+                ) : !product.inStock || product.stock === 0 ? (
+                  <span className="text-red-700 font-medium bg-red-50 px-2.5 py-1 border border-red-200">
+                    Out of Stock
+                  </span>
+                ) : product.stock <= (product.lowStockThreshold || 5) ? (
+                  <span className="text-amber-700 font-medium">
+                    Only {product.stock} pieces left in atelier
+                  </span>
+                ) : (
+                  <span className="text-emerald-700 font-medium">In Stock & Ready to Dispatch</span>
+                )}
               </div>
             </div>
 
@@ -311,10 +366,14 @@ export const ProductDetailsPage = () => {
               <div className="flex space-x-3">
                 <button
                   onClick={handleAddToCart}
-                  disabled={!product.inStock}
-                  className="flex-1 bg-velora-black text-white py-4 text-xs uppercase tracking-[0.22em] font-medium hover:bg-black/85 transition-colors shadow-lg disabled:opacity-50"
+                  disabled={!product.inStock || product.status === 'Coming Soon' || product.status === 'Out of Stock'}
+                  className="flex-1 bg-velora-black text-white py-4 text-xs uppercase tracking-[0.22em] font-medium hover:bg-black/85 transition-colors shadow-lg disabled:opacity-40 disabled:cursor-not-allowed"
                 >
-                  {product.inStock ? `Add to Bag — ₹${(product.price * quantity).toLocaleString('en-IN')}` : 'Sold Out'}
+                  {product.status === 'Coming Soon'
+                    ? 'Coming Soon — Preview Only'
+                    : !product.inStock || product.status === 'Out of Stock'
+                    ? 'Out of Stock'
+                    : `Add to Bag — ₹${((product.price || 0) * quantity).toLocaleString('en-IN')}`}
                 </button>
                 <button
                   onClick={() => toggleWishlist(product)}
@@ -325,7 +384,7 @@ export const ProductDetailsPage = () => {
                 </button>
               </div>
 
-              {product.inStock && (
+              {product.inStock && product.status !== 'Coming Soon' && (
                 <button
                   onClick={handleBuyNow}
                   className="w-full bg-stone-900/90 text-velora-champagne border border-velora-champagne/40 py-3.5 text-xs uppercase tracking-[0.22em] font-medium hover:bg-black transition-colors"
@@ -343,7 +402,7 @@ export const ProductDetailsPage = () => {
               </div>
               <div className="flex items-center space-x-2">
                 <RotateCcw className="w-4 h-4 text-velora-champagne shrink-0" />
-                <span>Doorstep concierge exchange within 14 business days</span>
+                <span>7-Day Free Doorstep Return & Exchange guarantee</span>
               </div>
               <div className="flex items-center space-x-2">
                 <Sparkles className="w-4 h-4 text-velora-champagne shrink-0" />
@@ -393,19 +452,22 @@ export const ProductDetailsPage = () => {
                 )}
               </div>
 
-              {/* Shipping & Delivery */}
+              {/* Shipping & 7-Day Returns */}
               <div className="border-b border-velora-border pb-3">
                 <button
                   onClick={() => toggleAccordion('shipping')}
                   className="w-full flex items-center justify-between py-2 text-left uppercase tracking-widest font-semibold text-velora-black"
                 >
-                  <span>Complimentary Shipping & Returns</span>
+                  <span>7-Day Free Returns & Delivery</span>
                   {openAccordions.shipping ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
                 </button>
                 {openAccordions.shipping && (
                   <div className="pt-2 text-stone-600 font-light space-y-2 leading-relaxed">
                     <p>All garments are prepared and dispatched within 24 business hours from our central atelier.</p>
                     <p>Standard delivery arrives in 2–4 business days with end-to-end SMS & WhatsApp tracking.</p>
+                    <p className="pt-1 text-emerald-800 font-medium">
+                      ✓ 7-Day Doorstep Pickup: If you need a size exchange or return, request it directly from your Account Orders within 7 days of delivery.
+                    </p>
                   </div>
                 )}
               </div>

@@ -25,7 +25,7 @@ import { WishlistPage } from './pages/WishlistPage';
 import { AboutPage } from './pages/AboutPage';
 import { ContactPage } from './pages/ContactPage';
 import { FAQPage } from './pages/FAQPage';
-import { ShippingPolicyPage, PrivacyPolicyPage, TermsPage } from './pages/StaticPages';
+import { ShippingPolicyPage, PrivacyPolicyPage, TermsPage, ReturnPolicyPage } from './pages/StaticPages';
 import { LoginPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage } from './pages/AuthPages';
 import { MyOrdersPage, OrderDetailsPage, AddressesPage, ProfilePage } from './pages/CustomerAccount';
 import { NotFoundPage } from './pages/NotFoundPage';
@@ -40,6 +40,7 @@ import { AdminInventoryPage } from './pages/admin/AdminInventoryPage';
 import { AdminCategoriesPage, AdminCollectionsPage } from './pages/admin/AdminTaxonomyPages';
 import { AdminCouponsPage, AdminBannersPage } from './pages/admin/AdminMarketingPages';
 import { AdminReviewsPage, AdminCustomersPage, AdminAnalyticsPage, AdminSettingsPage } from './pages/admin/AdminModerationPages';
+import { AdminPoliciesPage, AdminHomepageSectionsPage, AdminFAQsPage, AdminSocialSettingsPage, AdminFlyersPage, AdminBrandsPage } from './pages/admin/AdminCMSPages';
 
 const AppLayout = () => {
   const location = useLocation();
@@ -74,6 +75,7 @@ const AppLayout = () => {
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/faq" element={<FAQPage />} />
           <Route path="/shipping-returns" element={<ShippingPolicyPage />} />
+          <Route path="/return-policy" element={<ReturnPolicyPage />} />
           <Route path="/privacy" element={<PrivacyPolicyPage />} />
           <Route path="/terms" element={<TermsPage />} />
 
@@ -99,8 +101,14 @@ const AppLayout = () => {
           <Route path="/admin/inventory" element={<AdminInventoryPage />} />
           <Route path="/admin/categories" element={<AdminCategoriesPage />} />
           <Route path="/admin/collections" element={<AdminCollectionsPage />} />
+          <Route path="/admin/brands" element={<AdminBrandsPage />} />
           <Route path="/admin/coupons" element={<AdminCouponsPage />} />
           <Route path="/admin/banners" element={<AdminBannersPage />} />
+          <Route path="/admin/flyers" element={<AdminFlyersPage />} />
+          <Route path="/admin/cms/sections" element={<AdminHomepageSectionsPage />} />
+          <Route path="/admin/cms/policies" element={<AdminPoliciesPage />} />
+          <Route path="/admin/cms/faqs" element={<AdminFAQsPage />} />
+          <Route path="/admin/cms/social" element={<AdminSocialSettingsPage />} />
           <Route path="/admin/reviews" element={<AdminReviewsPage />} />
           <Route path="/admin/customers" element={<AdminCustomersPage />} />
           <Route path="/admin/analytics" element={<AdminAnalyticsPage />} />

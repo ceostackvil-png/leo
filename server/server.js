@@ -19,6 +19,7 @@ import reviewRoutes from './routes/reviewRoutes.js';
 import bannerRoutes from './routes/bannerRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
 import uploadRoutes from './routes/uploadRoutes.js';
+import cmsRoutes from './routes/cmsRoutes.js';
 
 dotenv.config();
 
@@ -73,6 +74,7 @@ app.use('/api/reviews', reviewRoutes);
 app.use('/api/banners', bannerRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/upload', uploadRoutes);
+app.use('/api/cms', cmsRoutes);
 
 // Health Check
 app.get('/api/health', (req, res) => {

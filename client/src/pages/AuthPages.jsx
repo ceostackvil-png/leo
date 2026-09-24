@@ -6,16 +6,26 @@ import { useToast } from '../context/ToastContext';
 import api from '../services/api';
 
 export const LoginPage = () => {
+  const [authMode, setAuthMode] = useState('email'); // 'email' | 'otp'
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  
+  // Mobile OTP state
+  const [phone, setPhone] = useState('');
+  const [otp, setOtp] = useState('');
+  const [otpSent, setOtpSent] = useState(false);
+  const [countdown, setCountdown] = useState(0);
+  const [demoOtpHint, setDemoOtpHint] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { login } = useAuth();
+
+  const { login, loginWithOtp } = useAuth();
+  const { success, error } = useToast();
   const navigate = useNavigate();
   const location = useLocation();
 
   const redirectUrl = location.state?.from || '/';
 
-  const handleSubmit = async (e) => {
+  const handleEmailSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     const res = await login(email, password);
@@ -29,7 +39,48 @@ export const LoginPage = () => {
     }
   };
 
+  const handleSendOtp = async (e) => {
+    if (e) e.preventDefault();
+    if (!phone || phone.length < 10) {
+      error('Please enter a valid 10-digit mobile number.');
+      return;
+    }
+    setIsLoading(true);
+    try {
+      const res = await api.post('/auth/send-otp', { phone });
+      if (res.data.success) {
+        setOtpSent(true);
+        setCountdown(60);
+        setDemoOtpHint(res.data.demoOtp || '123456');
+        success(res.data.message || 'OTP dispatched to your mobile number.');
+      }
+    } catch (err) {
+      error(err.response?.data?.message || 'Failed to dispatch OTP.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleVerifyOtp = async (e) => {
+    e.preventDefault();
+    if (!otp || otp.length < 4) {
+      error('Please enter the verification code.');
+      return;
+    }
+    setIsLoading(true);
+    const res = await loginWithOtp(phone, otp);
+    setIsLoading(false);
+    if (res?.success) {
+      if (res.user.role === 'admin') {
+        navigate('/admin');
+      } else {
+        navigate(redirectUrl);
+      }
+    }
+  };
+
   const handleDemoFill = (role) => {
+    setAuthMode('email');
     if (role === 'admin') {
       setEmail('admin@leo.com');
       setPassword('Admin@12345');
@@ -49,74 +100,174 @@ export const LoginPage = () => {
             </div>
             <span className="text-xs uppercase tracking-[0.3em] text-velora-champagne font-medium">Welcome Back</span>
             <h1 className="font-editorial text-3xl font-normal text-velora-black">Sign In to LEO</h1>
-            <p className="text-xs font-light text-velora-muted">Access your order history and bespoke preferences.</p>
+            <p className="text-xs font-light text-velora-muted">Access your order history, wishlist, and concierge returns.</p>
           </div>
 
-          {/* Quick Demo Fill Buttons */}
-          <div className="p-3 bg-[#F0EDE6] border border-velora-border text-xs space-y-2">
-            <span className="text-[10px] uppercase tracking-widest text-velora-muted font-semibold block">Quick Demo Logins:</span>
-            <div className="flex gap-2">
-              <button
-                type="button"
-                onClick={() => handleDemoFill('customer')}
-                className="flex-1 py-1.5 bg-white border border-stone-300 text-[11px] font-medium hover:border-black transition-colors"
-              >
-                Client Demo
-              </button>
-              <button
-                type="button"
-                onClick={() => handleDemoFill('admin')}
-                className="flex-1 py-1.5 bg-stone-900 text-velora-champagne text-[11px] font-medium hover:bg-black transition-colors"
-              >
-                Admin Demo
-              </button>
-            </div>
-          </div>
-
-          <form onSubmit={handleSubmit} className="space-y-4 text-xs">
-            <div>
-              <label className="block text-stone-600 mb-1">Email Address *</label>
-              <div className="relative">
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="customer@leo.com"
-                  className="w-full bg-[#FAF9F5] border border-velora-border p-3 pl-10 text-xs focus:outline-none focus:border-velora-black"
-                  required
-                />
-                <Mail className="w-4 h-4 text-stone-400 absolute left-3.5 top-3.5" />
-              </div>
-            </div>
-
-            <div>
-              <div className="flex justify-between items-center mb-1">
-                <label className="block text-stone-600">Password *</label>
-                <Link to="/forgot-password" className="text-stone-500 hover:text-black underline text-[11px]">
-                  Forgot Password?
-                </Link>
-              </div>
-              <div className="relative">
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
-                  className="w-full bg-[#FAF9F5] border border-velora-border p-3 pl-10 text-xs focus:outline-none focus:border-velora-black"
-                  required
-                />
-                <Lock className="w-4 h-4 text-stone-400 absolute left-3.5 top-3.5" />
-              </div>
-            </div>
-
+          {/* Tab Switcher: Email vs Mobile OTP */}
+          <div className="flex border-b border-velora-border">
             <button
-              type="submit"
-              disabled={isLoading}
-              className="w-full bg-velora-black text-white py-4 text-xs uppercase tracking-[0.2em] font-medium hover:bg-black/85 transition-colors flex items-center justify-center space-x-2 disabled:opacity-50 shadow-md"
+              type="button"
+              onClick={() => setAuthMode('email')}
+              className={`flex-1 pb-3 text-xs font-medium tracking-wider uppercase transition-colors ${
+                authMode === 'email'
+                  ? 'border-b-2 border-black text-black font-semibold'
+                  : 'text-stone-400 hover:text-stone-600'
+              }`}
             >
-              {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <span>Sign In</span>}
+              Email & Password
             </button>
-          </form>
+            <button
+              type="button"
+              onClick={() => setAuthMode('otp')}
+              className={`flex-1 pb-3 text-xs font-medium tracking-wider uppercase transition-colors ${
+                authMode === 'otp'
+                  ? 'border-b-2 border-black text-black font-semibold'
+                  : 'text-stone-400 hover:text-stone-600'
+              }`}
+            >
+              Mobile OTP
+            </button>
+          </div>
+
+          {/* Quick Demo Fill Buttons (for email mode) */}
+          {authMode === 'email' && (
+            <div className="p-3 bg-[#F0EDE6] border border-velora-border text-xs space-y-2">
+              <span className="text-[10px] uppercase tracking-widest text-velora-muted font-semibold block">Quick Demo Logins:</span>
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  onClick={() => handleDemoFill('customer')}
+                  className="flex-1 py-1.5 bg-white border border-stone-300 text-[11px] font-medium hover:border-black transition-colors"
+                >
+                  Client Demo
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleDemoFill('admin')}
+                  className="flex-1 py-1.5 bg-stone-900 text-velora-champagne text-[11px] font-medium hover:bg-black transition-colors"
+                >
+                  Admin Demo
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* EMAIL LOGIN FORM */}
+          {authMode === 'email' && (
+            <form onSubmit={handleEmailSubmit} className="space-y-4 text-xs">
+              <div>
+                <label className="block text-stone-600 mb-1">Email Address *</label>
+                <div className="relative">
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="customer@leo.com"
+                    className="w-full bg-[#FAF9F5] border border-velora-border p-3 pl-10 text-xs focus:outline-none focus:border-velora-black"
+                    required
+                  />
+                  <Mail className="w-4 h-4 text-stone-400 absolute left-3.5 top-3.5" />
+                </div>
+              </div>
+
+              <div>
+                <div className="flex justify-between items-center mb-1">
+                  <label className="block text-stone-600">Password *</label>
+                  <Link to="/forgot-password" className="text-stone-500 hover:text-black underline text-[11px]">
+                    Forgot Password?
+                  </Link>
+                </div>
+                <div className="relative">
+                  <input
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="••••••••"
+                    className="w-full bg-[#FAF9F5] border border-velora-border p-3 pl-10 text-xs focus:outline-none focus:border-velora-black"
+                    required
+                  />
+                  <Lock className="w-4 h-4 text-stone-400 absolute left-3.5 top-3.5" />
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="w-full bg-velora-black text-white py-4 text-xs uppercase tracking-[0.2em] font-medium hover:bg-black/85 transition-colors flex items-center justify-center space-x-2 disabled:opacity-50 shadow-md"
+              >
+                {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <span>Sign In</span>}
+              </button>
+            </form>
+          )}
+
+          {/* MOBILE OTP LOGIN FORM */}
+          {authMode === 'otp' && (
+            <div className="space-y-4 text-xs">
+              <div>
+                <label className="block text-stone-600 mb-1">Mobile Number *</label>
+                <div className="flex gap-2">
+                  <div className="relative flex-1">
+                    <input
+                      type="tel"
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      placeholder="9876543210"
+                      maxLength={14}
+                      className="w-full bg-[#FAF9F5] border border-velora-border p-3 pl-10 text-xs focus:outline-none focus:border-velora-black"
+                      required
+                    />
+                    <Phone className="w-4 h-4 text-stone-400 absolute left-3.5 top-3.5" />
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleSendOtp}
+                    disabled={isLoading || !phone || phone.length < 10}
+                    className="px-4 py-3 bg-stone-800 text-white text-[11px] font-semibold tracking-wider uppercase hover:bg-black disabled:opacity-50"
+                  >
+                    {otpSent ? 'Resend' : 'Send OTP'}
+                  </button>
+                </div>
+              </div>
+
+              {otpSent && (
+                <form onSubmit={handleVerifyOtp} className="space-y-4">
+                  {demoOtpHint && (
+                    <div className="p-2.5 bg-amber-50 border border-amber-200 text-amber-900 text-[11px] flex items-center justify-between">
+                      <span>Demo Mode OTP Code: <strong>{demoOtpHint}</strong></span>
+                      <button
+                        type="button"
+                        onClick={() => setOtp(demoOtpHint)}
+                        className="underline font-medium hover:text-black"
+                      >
+                        Auto-fill
+                      </button>
+                    </div>
+                  )}
+
+                  <div>
+                    <label className="block text-stone-600 mb-1">Enter 6-Digit OTP *</label>
+                    <input
+                      type="text"
+                      value={otp}
+                      onChange={(e) => setOtp(e.target.value)}
+                      placeholder="123456"
+                      maxLength={6}
+                      className="w-full bg-[#FAF9F5] border border-velora-border p-3 text-center tracking-[0.5em] text-sm font-semibold focus:outline-none focus:border-velora-black"
+                      required
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={isLoading || otp.length < 4}
+                    className="w-full bg-velora-black text-white py-4 text-xs uppercase tracking-[0.2em] font-medium hover:bg-black/85 transition-colors flex items-center justify-center space-x-2 disabled:opacity-50 shadow-md"
+                  >
+                    {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <span>Verify OTP & Sign In</span>}
+                  </button>
+                </form>
+              )}
+            </div>
+          )}
 
           <div className="pt-4 border-t border-velora-border text-center text-xs font-light text-stone-600">
             <span>New to LEO? </span>
@@ -131,20 +282,69 @@ export const LoginPage = () => {
 };
 
 export const RegisterPage = () => {
+  const [authMode, setAuthMode] = useState('email'); // 'email' | 'otp'
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     password: '',
     phone: '',
   });
+
+  // Mobile OTP Registration state
+  const [otpPhone, setOtpPhone] = useState('');
+  const [otpName, setOtpName] = useState('');
+  const [otp, setOtp] = useState('');
+  const [otpSent, setOtpSent] = useState(false);
+  const [demoOtpHint, setDemoOtpHint] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { register } = useAuth();
+
+  const { register, loginWithOtp } = useAuth();
+  const { success, error } = useToast();
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const handleEmailSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     const res = await register(formData.name, formData.email, formData.password, formData.phone);
+    setIsLoading(false);
+    if (res?.success) {
+      navigate('/');
+    }
+  };
+
+  const handleSendOtp = async (e) => {
+    if (e) e.preventDefault();
+    if (!otpPhone || otpPhone.length < 10) {
+      error('Please enter a valid 10-digit mobile number.');
+      return;
+    }
+    if (!otpName.trim()) {
+      error('Please enter your full name.');
+      return;
+    }
+    setIsLoading(true);
+    try {
+      const res = await api.post('/auth/send-otp', { phone: otpPhone });
+      if (res.data.success) {
+        setOtpSent(true);
+        setDemoOtpHint(res.data.demoOtp || '123456');
+        success(res.data.message || 'OTP dispatched to your mobile number.');
+      }
+    } catch (err) {
+      error(err.response?.data?.message || 'Failed to dispatch OTP.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleVerifyOtp = async (e) => {
+    e.preventDefault();
+    if (!otp || otp.length < 4) {
+      error('Please enter the verification code.');
+      return;
+    }
+    setIsLoading(true);
+    const res = await loginWithOtp(otpPhone, otp, otpName);
     setIsLoading(false);
     if (res?.success) {
       navigate('/');
@@ -161,75 +361,188 @@ export const RegisterPage = () => {
             <p className="text-xs font-light text-velora-muted">Unlock exclusive releases and saved measurements.</p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4 text-xs">
-            <div>
-              <label className="block text-stone-600 mb-1">Full Name *</label>
-              <div className="relative">
-                <input
-                  type="text"
-                  value={formData.name}
-                  onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-                  placeholder="Elena Rostova"
-                  className="w-full bg-[#FAF9F5] border border-velora-border p-3 pl-10 text-xs focus:outline-none focus:border-velora-black"
-                  required
-                />
-                <User className="w-4 h-4 text-stone-400 absolute left-3.5 top-3.5" />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-stone-600 mb-1">Email Address *</label>
-              <div className="relative">
-                <input
-                  type="email"
-                  value={formData.email}
-                  onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
-                  placeholder="elena@example.com"
-                  className="w-full bg-[#FAF9F5] border border-velora-border p-3 pl-10 text-xs focus:outline-none focus:border-velora-black"
-                  required
-                />
-                <Mail className="w-4 h-4 text-stone-400 absolute left-3.5 top-3.5" />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-stone-600 mb-1">Phone Number (Optional)</label>
-              <div className="relative">
-                <input
-                  type="tel"
-                  value={formData.phone}
-                  onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
-                  placeholder="+91 98765 43210"
-                  className="w-full bg-[#FAF9F5] border border-velora-border p-3 pl-10 text-xs focus:outline-none focus:border-velora-black"
-                />
-                <Phone className="w-4 h-4 text-stone-400 absolute left-3.5 top-3.5" />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-stone-600 mb-1">Create Password * (Min. 6 chars)</label>
-              <div className="relative">
-                <input
-                  type="password"
-                  value={formData.password}
-                  onChange={(e) => setFormData(prev => ({ ...prev, password: e.target.value }))}
-                  placeholder="••••••••"
-                  minLength={6}
-                  className="w-full bg-[#FAF9F5] border border-velora-border p-3 pl-10 text-xs focus:outline-none focus:border-velora-black"
-                  required
-                />
-                <Lock className="w-4 h-4 text-stone-400 absolute left-3.5 top-3.5" />
-              </div>
-            </div>
-
+          {/* Tab Switcher: Standard vs Instant Mobile OTP */}
+          <div className="flex border-b border-velora-border">
             <button
-              type="submit"
-              disabled={isLoading}
-              className="w-full bg-velora-black text-white py-4 text-xs uppercase tracking-[0.2em] font-medium hover:bg-black/85 transition-colors flex items-center justify-center space-x-2 disabled:opacity-50 shadow-md"
+              type="button"
+              onClick={() => setAuthMode('email')}
+              className={`flex-1 pb-3 text-xs font-medium tracking-wider uppercase transition-colors ${
+                authMode === 'email'
+                  ? 'border-b-2 border-black text-black font-semibold'
+                  : 'text-stone-400 hover:text-stone-600'
+              }`}
             >
-              {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <span>Create Account</span>}
+              Email Sign Up
             </button>
-          </form>
+            <button
+              type="button"
+              onClick={() => setAuthMode('otp')}
+              className={`flex-1 pb-3 text-xs font-medium tracking-wider uppercase transition-colors ${
+                authMode === 'otp'
+                  ? 'border-b-2 border-black text-black font-semibold'
+                  : 'text-stone-400 hover:text-stone-600'
+              }`}
+            >
+              Mobile OTP Sign Up
+            </button>
+          </div>
+
+          {/* STANDARD EMAIL FORM */}
+          {authMode === 'email' && (
+            <form onSubmit={handleEmailSubmit} className="space-y-4 text-xs">
+              <div>
+                <label className="block text-stone-600 mb-1">Full Name *</label>
+                <div className="relative">
+                  <input
+                    type="text"
+                    value={formData.name}
+                    onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+                    placeholder="Elena Rostova"
+                    className="w-full bg-[#FAF9F5] border border-velora-border p-3 pl-10 text-xs focus:outline-none focus:border-velora-black"
+                    required
+                  />
+                  <User className="w-4 h-4 text-stone-400 absolute left-3.5 top-3.5" />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-stone-600 mb-1">Email Address *</label>
+                <div className="relative">
+                  <input
+                    type="email"
+                    value={formData.email}
+                    onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+                    placeholder="elena@example.com"
+                    className="w-full bg-[#FAF9F5] border border-velora-border p-3 pl-10 text-xs focus:outline-none focus:border-velora-black"
+                    required
+                  />
+                  <Mail className="w-4 h-4 text-stone-400 absolute left-3.5 top-3.5" />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-stone-600 mb-1">Phone Number (Optional)</label>
+                <div className="relative">
+                  <input
+                    type="tel"
+                    value={formData.phone}
+                    onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
+                    placeholder="+91 98765 43210"
+                    className="w-full bg-[#FAF9F5] border border-velora-border p-3 pl-10 text-xs focus:outline-none focus:border-velora-black"
+                  />
+                  <Phone className="w-4 h-4 text-stone-400 absolute left-3.5 top-3.5" />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-stone-600 mb-1">Create Password * (Min. 6 chars)</label>
+                <div className="relative">
+                  <input
+                    type="password"
+                    value={formData.password}
+                    onChange={(e) => setFormData(prev => ({ ...prev, password: e.target.value }))}
+                    placeholder="••••••••"
+                    minLength={6}
+                    className="w-full bg-[#FAF9F5] border border-velora-border p-3 pl-10 text-xs focus:outline-none focus:border-velora-black"
+                    required
+                  />
+                  <Lock className="w-4 h-4 text-stone-400 absolute left-3.5 top-3.5" />
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="w-full bg-velora-black text-white py-4 text-xs uppercase tracking-[0.2em] font-medium hover:bg-black/85 transition-colors flex items-center justify-center space-x-2 disabled:opacity-50 shadow-md"
+              >
+                {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <span>Create Account</span>}
+              </button>
+            </form>
+          )}
+
+          {/* MOBILE OTP REGISTRATION FORM */}
+          {authMode === 'otp' && (
+            <div className="space-y-4 text-xs">
+              <div>
+                <label className="block text-stone-600 mb-1">Full Name *</label>
+                <div className="relative">
+                  <input
+                    type="text"
+                    value={otpName}
+                    onChange={(e) => setOtpName(e.target.value)}
+                    placeholder="Alexander Wright"
+                    className="w-full bg-[#FAF9F5] border border-velora-border p-3 pl-10 text-xs focus:outline-none focus:border-velora-black"
+                    required
+                  />
+                  <User className="w-4 h-4 text-stone-400 absolute left-3.5 top-3.5" />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-stone-600 mb-1">Mobile Number *</label>
+                <div className="flex gap-2">
+                  <div className="relative flex-1">
+                    <input
+                      type="tel"
+                      value={otpPhone}
+                      onChange={(e) => setOtpPhone(e.target.value)}
+                      placeholder="9876543210"
+                      maxLength={14}
+                      className="w-full bg-[#FAF9F5] border border-velora-border p-3 pl-10 text-xs focus:outline-none focus:border-velora-black"
+                      required
+                    />
+                    <Phone className="w-4 h-4 text-stone-400 absolute left-3.5 top-3.5" />
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleSendOtp}
+                    disabled={isLoading || !otpPhone || otpPhone.length < 10 || !otpName.trim()}
+                    className="px-4 py-3 bg-stone-800 text-white text-[11px] font-semibold tracking-wider uppercase hover:bg-black disabled:opacity-50"
+                  >
+                    {otpSent ? 'Resend' : 'Send OTP'}
+                  </button>
+                </div>
+              </div>
+
+              {otpSent && (
+                <form onSubmit={handleVerifyOtp} className="space-y-4">
+                  {demoOtpHint && (
+                    <div className="p-2.5 bg-amber-50 border border-amber-200 text-amber-900 text-[11px] flex items-center justify-between">
+                      <span>Demo Mode OTP Code: <strong>{demoOtpHint}</strong></span>
+                      <button
+                        type="button"
+                        onClick={() => setOtp(demoOtpHint)}
+                        className="underline font-medium hover:text-black"
+                      >
+                        Auto-fill
+                      </button>
+                    </div>
+                  )}
+
+                  <div>
+                    <label className="block text-stone-600 mb-1">Enter 6-Digit OTP *</label>
+                    <input
+                      type="text"
+                      value={otp}
+                      onChange={(e) => setOtp(e.target.value)}
+                      placeholder="123456"
+                      maxLength={6}
+                      className="w-full bg-[#FAF9F5] border border-velora-border p-3 text-center tracking-[0.5em] text-sm font-semibold focus:outline-none focus:border-velora-black"
+                      required
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={isLoading || otp.length < 4}
+                    className="w-full bg-velora-black text-white py-4 text-xs uppercase tracking-[0.2em] font-medium hover:bg-black/85 transition-colors flex items-center justify-center space-x-2 disabled:opacity-50 shadow-md"
+                  >
+                    {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <span>Verify & Create Account</span>}
+                  </button>
+                </form>
+              )}
+            </div>
+          )}
 
           <div className="pt-4 border-t border-velora-border text-center text-xs font-light text-stone-600">
             <span>Already registered? </span>

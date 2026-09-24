@@ -29,7 +29,6 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: [true, 'Please provide a password'],
     minlength: 6,
     select: false,
   },
@@ -41,9 +40,22 @@ const userSchema = new mongoose.Schema({
   phone: {
     type: String,
     default: '',
+    trim: true,
+  },
+  mobileOtp: {
+    type: String,
+    select: false,
+  },
+  otpExpiresAt: {
+    type: Date,
+    select: false,
   },
   addresses: [addressSchema],
   wishlist: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Product',
+  }],
+  recentlyViewed: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Product',
   }],

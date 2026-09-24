@@ -81,10 +81,18 @@ const productSchema = new mongoose.Schema({
     type: String,
     default: '',
   },
+  brand: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Brand',
+  },
+  brandName: {
+    type: String,
+    default: 'LEO',
+  },
   gender: {
     type: String,
     enum: ['Men', 'Women', 'Unisex'],
-    default: 'Unisex',
+    default: 'Men',
   },
   images: [productImageSchema],
   sizes: [{
@@ -99,6 +107,18 @@ const productSchema = new mongoose.Schema({
   inStock: {
     type: Boolean,
     default: true,
+  },
+  status: {
+    type: String,
+    enum: ['Active', 'Draft', 'Coming Soon', 'Out of Stock', 'Hidden'],
+    default: 'Active',
+  },
+  launchDate: {
+    type: Date,
+  },
+  badge: {
+    type: String,
+    default: '',
   },
   material: {
     type: String,

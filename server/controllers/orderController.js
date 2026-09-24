@@ -365,3 +365,133 @@ export const updateOrderStatus = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
+// @desc    Customer Request 7-Day Return / Exchange
+// @route   POST /api/orders/:id/return
+// @access  Private
+export const requestOrderReturn = async (req, res) => {
+  try {
+    const { reason, description, type = 'Return' } = req.body;
+    const order = await Order.findOne({
+      _id: req.params.id,
+      user: req.user._id,
+    });
+
+    if (!order) {
+      return res.status(404).json({ success: false, message: 'Order not found' });
+    }
+
+    if (order.orderStatus !== 'Delivered') {
+      return res.status(400).json({ success: false, message: 'Returns can only be requested for delivered orders' });
+    }
+
+    // Check 7-day return window
+    if (order.deliveredAt) {
+      const daysSinceDelivery = (Date.now() - new Date(order.deliveredAt).getTime()) / (1000 * 60 * 60 * 24);
+      if (daysSinceDelivery > 7) {
+        return res.status(400).json({ success: false, message: 'The 7-day return eligibility window has expired for this order' });
+      }
+    }
+
+    order.returnRequest = {
+      isRequested: true,
+      requestedAt: new Date(),
+      reason: reason || 'Size/Fit Issue',
+      description: description || '',
+      type,
+      status: 'Pending Approval',
+      adminNote: '',
+      refundAmount: order.pricing.total,
+    };
+    order.orderStatus = 'Return Requested';
+    order.statusTimeline.push({
+      status: 'Return Requested',
+      timestamp: new Date(),
+      note: `Customer submitted a ${type} request: ${reason}`,
+    });
+
+    await order.save();
+
+    res.json({
+      success: true,
+      message: 'Return request submitted successfully. Concierge will review within 24 hours.',
+      data: order,
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// @desc    Admin Update Return Request Status
+// @route   PUT /api/admin/orders/:id/return
+// @access  Private/Admin
+export const updateOrderReturnStatus = async (req, res) => {
+  try {
+    const { status, adminNote, refundAmount } = req.body;
+    const order = await Order.findById(req.params.id);
+
+    if (!order) {
+      return res.status(404).json({ success: false, message: 'Order not found' });
+    }
+
+    if (!order.returnRequest) {
+      order.returnRequest = {};
+    }
+
+    order.returnRequest.status = status;
+    if (adminNote) order.returnRequest.adminNote = adminNote;
+    if (refundAmount !== undefined) order.returnRequest.refundAmount = refundAmount;
+
+    if (status === 'Approved') {
+      order.orderStatus = 'Return Requested';
+    } else if (status === 'Item Received') {
+      order.orderStatus = 'Returned';
+    } else if (status === 'Refund Completed') {
+      order.orderStatus = 'Refunded';
+      order.paymentInfo.status = 'Refunded';
+    }
+
+    order.statusTimeline.push({
+      status: order.orderStatus,
+      timestamp: new Date(),
+      note: `Return status updated to ${status}. ${adminNote || ''}`,
+    });
+
+    await order.save();
+
+    res.json({
+      success: true,
+      message: `Return request marked as ${status}`,
+      data: order,
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// @desc    Track order by orderNumber or ID (Public / Customer)
+// @route   GET /api/orders/track/:orderNumber
+// @access  Public
+export const trackOrderPublic = async (req, res) => {
+  try {
+    const { orderNumber } = req.params;
+    const order = await Order.findOne({
+      $or: [
+        { orderNumber: orderNumber.trim().toUpperCase() },
+        { _id: orderNumber.match(/^[0-9a-fA-F]{24}$/) ? orderNumber : null },
+      ],
+    }).select('orderNumber orderStatus statusTimeline shippingAddress courierName trackingNumber estimatedDeliveryDate deliveredAt orderItems pricing createdAt');
+
+    if (!order) {
+      return res.status(404).json({ success: false, message: 'No shipment found with this order tracking reference.' });
+    }
+
+    res.json({
+      success: true,
+      data: order,
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+

@@ -83,14 +83,40 @@ export const getDashboardStats = async (req, res) => {
       value: c.count,
     }));
 
+    const startOfToday = new Date();
+    startOfToday.setHours(0, 0, 0, 0);
+
+    const todayOrders = await Order.countDocuments({ createdAt: { $gte: startOfToday } });
+    const pendingReturns = await Order.countDocuments({
+      $or: [{ orderStatus: 'Return Requested' }, { 'returnRequest.status': 'Pending Approval' }],
+    });
+    const outOfStockCount = await Product.countDocuments({ totalStock: { $lte: 0 } });
+
+    // Review & Coupon models dynamically imported or counted
+    let pendingReviews = 0;
+    let activeCoupons = 0;
+    try {
+      const Review = (await import('../models/Review.js')).default;
+      const Coupon = (await import('../models/Coupon.js')).default;
+      pendingReviews = await Review.countDocuments({ isApproved: false });
+      activeCoupons = await Coupon.countDocuments({ isActive: true });
+    } catch (e) {
+      console.warn('Review/Coupon count fallback:', e.message);
+    }
+
     res.json({
       success: true,
       data: {
         kpis: {
           totalRevenue,
           totalOrders,
+          todayOrders,
           totalProducts,
           totalCustomers,
+          pendingReturns,
+          pendingReviews,
+          activeCoupons,
+          outOfStockCount,
           avgOrderValue,
           conversionRate: '3.8%',
         },

@@ -8,6 +8,7 @@ import {
 import {
   getAllOrders,
   updateOrderStatus,
+  updateOrderReturnStatus,
 } from '../controllers/orderController.js';
 import {
   getAllCoupons,
@@ -44,6 +45,7 @@ router.put('/customers/:id/role', updateCustomerRole);
 // Order Management
 router.get('/orders', getAllOrders);
 router.put('/orders/:id/status', updateOrderStatus);
+router.put('/orders/:id/return', updateOrderReturnStatus);
 
 // Coupon Management
 router.get('/coupons', getAllCoupons);

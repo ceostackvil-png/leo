@@ -10,6 +10,10 @@ import Order from './models/Order.js';
 import Review from './models/Review.js';
 import Coupon from './models/Coupon.js';
 import Banner from './models/Banner.js';
+import Flyer from './models/Flyer.js';
+import Brand from './models/Brand.js';
+import FAQ from './models/FAQ.js';
+import Setting from './models/Setting.js';
 
 dotenv.config();
 
@@ -26,6 +30,10 @@ export const seedDatabase = async () => {
     await Review.deleteMany();
     await Coupon.deleteMany();
     await Banner.deleteMany();
+    await Flyer.deleteMany();
+    await Brand.deleteMany();
+    await FAQ.deleteMany();
+    await Setting.deleteMany();
 
     console.log('[SEEDER] Seeding Users...');
     // Demo accounts
@@ -1513,46 +1521,158 @@ export const seedDatabase = async () => {
     ];
     await Coupon.insertMany(couponsData);
 
-    console.log('[SEEDER] Seeding Banners...');
+    console.log('[SEEDER] Seeding 5 Hero & Editorial Banners...');
     const bannersData = [
       {
         title: 'THE NEW STANDARD',
-        subtitle: 'Autumn / Winter 2026 Collection',
-        tag: 'EDITORIAL RELEASE',
-        image: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1600&q=95',
-        mobileImage: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1600&q=95',
+        subtitle: 'Architectural tailoring, double-faced Italian cashmere, and pure Mulberry silk.',
+        tag: "GENTLEMEN'S AW '26 RELEASE",
+        image: '/hero-menswear.jpg',
+        mobileImage: '/hero-menswear.jpg',
         ctaText: 'EXPLORE COLLECTION',
-        ctaLink: '/shop?collection=monolith-aw26',
+        ctaLink: '/shop',
         position: 'hero',
         order: 1,
         isActive: true,
       },
       {
-        title: 'CRAFTED FOR THE MOMENT',
-        subtitle: 'Uncompromising Italian tailoring and pure Mongolian cashmere.',
-        tag: 'ATELIER ESSENTIALS',
-        image: 'https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=1600&q=95',
-        mobileImage: 'https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=1600&q=95',
-        ctaText: 'DISCOVER ATELIER',
+        title: 'SOVEREIGN TAILORING',
+        subtitle: 'Double-breasted Biella wool blazers and bespoke black-tie dinner jackets.',
+        tag: 'BESPOKE ATELIER',
+        image: 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=2560&q=95',
+        mobileImage: 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=1600&q=95',
+        ctaText: 'SHOP TAILORING',
         ctaLink: '/shop?category=tailored-suits',
-        position: 'editorial',
+        position: 'hero',
         order: 2,
         isActive: true,
       },
       {
-        title: 'THE SILK EDIT',
-        subtitle: 'Fluid draping, 22-momme Mulberry silk, and bespoke craftsmanship.',
-        tag: 'PERMANENT ARCHIVE',
-        image: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1600&q=95',
-        mobileImage: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1600&q=95',
-        ctaText: 'VIEW LOOKBOOK',
-        ctaLink: '/shop?collection=the-silk-edit',
-        position: 'promo',
+        title: 'MONGOLIAN CASHMERE',
+        subtitle: 'Plush 4-ply Grade-A knitwear spun for high-altitude refinement.',
+        tag: 'WINTER CAPSULE',
+        image: 'https://images.unsplash.com/photo-1576995853123-5a10305d93c0?auto=format&fit=crop&w=2560&q=95',
+        mobileImage: 'https://images.unsplash.com/photo-1576995853123-5a10305d93c0?auto=format&fit=crop&w=1600&q=95',
+        ctaText: 'DISCOVER KNITWEAR',
+        ctaLink: '/shop?category=knitwear',
+        position: 'hero',
         order: 3,
+        isActive: true,
+      },
+      {
+        title: 'THE LEATHER EDITION',
+        subtitle: 'Full-grain French lambskin bombers and structured Italian trench coats.',
+        tag: 'LIMITED RUN',
+        image: 'https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?auto=format&fit=crop&w=2560&q=95',
+        mobileImage: 'https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?auto=format&fit=crop&w=1600&q=95',
+        ctaText: 'VIEW OUTERWEAR',
+        ctaLink: '/shop?category=outerwear',
+        position: 'hero',
+        order: 4,
+        isActive: true,
+      },
+      {
+        title: 'PERMANENT ARCHIVE',
+        subtitle: 'Heirloom silhouettes designed to transcend fleeting seasons.',
+        tag: 'THE ARCHIVE',
+        image: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=2560&q=95',
+        mobileImage: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1600&q=95',
+        ctaText: 'EXPLORE ARCHIVE',
+        ctaLink: '/shop?collection=minimalist-noir',
+        position: 'hero',
+        order: 5,
         isActive: true,
       },
     ];
     await Banner.insertMany(bannersData);
+
+    console.log('[SEEDER] Seeding Festival & Promotional Flyers...');
+    const flyersData = [
+      {
+        title: 'FESTIVAL OF ROYALTY — DIWALI ATELIER SALE',
+        description: 'Enjoy complimentary express dispatch and an exclusive ₹2,500 atelier privilege credit on bespoke tailoring and double-faced cashmere.',
+        image: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=2400&q=95',
+        link: '/shop?collection=the-silk-edit',
+        ctaText: 'Claim Festival Privilege',
+        badge: 'FESTIVE EDIT',
+        startDate: new Date(),
+        endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+        displayOrder: 1,
+        isActive: true,
+      },
+      {
+        title: 'NEW YEAR GALA PREPARATION',
+        description: 'Black-tie peak lapel tuxedos and pure silk smoking jackets crafted for midnight celebration.',
+        image: 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=2400&q=95',
+        link: '/shop?category=eveningwear-tuxedos',
+        ctaText: 'Explore Eveningwear',
+        badge: 'BLACK TIE',
+        startDate: new Date(),
+        endDate: new Date(Date.now() + 60 * 24 * 60 * 60 * 1000),
+        displayOrder: 2,
+        isActive: true,
+      },
+    ];
+    await Flyer.insertMany(flyersData);
+
+    console.log('[SEEDER] Seeding Brands...');
+    const brandsData = [
+      { name: 'LEO Sovereign', slug: 'leo-sovereign', description: 'Haute couture peak lapel black-tie garments and imperial velvets.', displayOrder: 1, isActive: true },
+      { name: 'LEO Sartorial', slug: 'leo-sartorial', description: 'Italian Biella tropical wool suiting and structured trousers.', displayOrder: 2, isActive: true },
+      { name: 'LEO Atelier', slug: 'leo-atelier', description: 'Mongolian 4-ply cashmere and Grade 6A pure Mulberry silk.', displayOrder: 3, isActive: true },
+      { name: 'LEO Archive', slug: 'leo-archive', description: 'Raw Okayama selvedge denim and heavyweight 280 GSM essentials.', displayOrder: 4, isActive: true },
+    ];
+    await Brand.insertMany(brandsData);
+
+    console.log('[SEEDER] Seeding Dynamic FAQs...');
+    const faqsData = [
+      {
+        question: 'How do I determine my bespoke tailoring size?',
+        answer: 'Our garments follow international bespoke sizing. You can refer to our interactive Size Guide on any product detail page for exact chest, waist, and sleeve measurements in centimeters and inches.',
+        category: 'Sizing & Fit',
+        displayOrder: 1,
+        isActive: true,
+      },
+      {
+        question: 'What is your 7-Day Complimentary Return & Exchange policy?',
+        answer: 'We offer a 7-day complimentary doorstep return and exchange window from the date of confirmed delivery. Garments must be unworn with all security ribbons and original atelier packaging intact.',
+        category: 'Returns & Exchange',
+        displayOrder: 2,
+        isActive: true,
+      },
+      {
+        question: 'What shipping carriers do you partner with?',
+        answer: 'All parcels are dispatched through BlueDart Express Luxury and DHL Express in tamper-evident sealed packaging with signature-required delivery and live SMS tracking.',
+        category: 'Shipping & Delivery',
+        displayOrder: 3,
+        isActive: true,
+      },
+      {
+        question: 'How do I apply promotional coupon codes?',
+        answer: 'You can enter and apply your coupon code in either your Shopping Bag or directly during the Order Summary step at Checkout. Discounts are recalculated instantly against eligible items.',
+        category: 'Orders & Payments',
+        displayOrder: 4,
+        isActive: true,
+      },
+      {
+        question: 'Where are LEO fabrics sourced?',
+        answer: 'We source exclusively from historic mills: Super 130s-150s virgin wool from Biella, Italy; 4-ply cashmere from Inner Mongolia; Grade 6A 22-momme Mulberry silk; and 14.5oz selvedge denim from Okayama, Japan.',
+        category: 'Materials & Craftsmanship',
+        displayOrder: 5,
+        isActive: true,
+      },
+      {
+        question: 'How can I reach the personal concierge team?',
+        answer: 'You can connect directly with our atelier stylists via WhatsApp concierge chat, email at concierge@leo.com, or phone at +91 98765 43210 (Monday - Saturday, 10 AM - 8 PM IST).',
+        category: 'Customer Support',
+        displayOrder: 6,
+        isActive: true,
+      },
+    ];
+    await FAQ.insertMany(faqsData);
+
+    console.log('[SEEDER] Seeding Store Settings & Policies...');
+    await Setting.create({ key: 'store_settings' });
 
     console.log('[SEEDER] Seeding Customer Orders...');
     const orderStatuses = ['Delivered', 'Delivered', 'Out for Delivery', 'Shipped', 'Packed', 'Confirmed', 'Placed'];

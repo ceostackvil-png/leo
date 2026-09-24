@@ -186,22 +186,48 @@ export const OrderDetailsPage = () => {
   const { id } = useParams();
   const [order, setOrder] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isReturnModalOpen, setIsReturnModalOpen] = useState(false);
+  const [returnReason, setReturnReason] = useState('Size/Fit Issue');
+  const [returnDesc, setReturnDesc] = useState('');
+  const [isSubmittingReturn, setIsSubmittingReturn] = useState(false);
+  const { success, error } = useToast();
+
+  const fetchOrder = async () => {
+    try {
+      const res = await api.get(`/orders/${id}`);
+      if (res.data.success) {
+        setOrder(res.data.data);
+      }
+    } catch (err) {
+      console.error('Failed to load order:', err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchOrder = async () => {
-      try {
-        const res = await api.get(`/orders/${id}`);
-        if (res.data.success) {
-          setOrder(res.data.data);
-        }
-      } catch (err) {
-        console.error('Failed to load order:', err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
     fetchOrder();
   }, [id]);
+
+  const handleReturnSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmittingReturn(true);
+    try {
+      const res = await api.post(`/orders/${id}/return`, {
+        reason: returnReason,
+        description: returnDesc,
+      });
+      if (res.data.success) {
+        success('Return request initiated successfully. Our atelier concierge will contact you.');
+        setIsReturnModalOpen(false);
+        fetchOrder();
+      }
+    } catch (err) {
+      error(err.response?.data?.message || 'Failed to submit return request.');
+    } finally {
+      setIsSubmittingReturn(false);
+    }
+  };
 
   if (isLoading) {
     return (
@@ -219,24 +245,90 @@ export const OrderDetailsPage = () => {
     );
   }
 
+  const isDelivered = order.orderStatus === 'Delivered';
+  const deliveredDate = order.statusTimeline?.find(t => t.status === 'Delivered')?.timestamp || order.updatedAt;
+  const daysSinceDelivery = (new Date() - new Date(deliveredDate)) / (1000 * 60 * 60 * 24);
+  const isReturnEligible = isDelivered && daysSinceDelivery <= 7 && !order.returnRequest?.requested;
+
+  const orderSteps = [
+    'Confirmed',
+    'Processing',
+    'Packed',
+    'Shipped',
+    'Out for Delivery',
+    'Delivered',
+  ];
+
+  const currentStepIdx = orderSteps.indexOf(order.orderStatus);
+
   return (
     <AccountLayout activeTab="My Orders">
       <div className="space-y-6">
-        <div className="flex items-center justify-between pb-4 border-b border-velora-border">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-velora-border gap-3">
           <div>
             <Link to="/account/orders" className="text-xs text-stone-500 hover:text-black underline block mb-1">
               ← Back to All Orders
             </Link>
             <h2 className="font-editorial text-2xl font-normal text-velora-black">Order #{order.orderNumber}</h2>
           </div>
-          <span className="px-3.5 py-1.5 bg-stone-900 text-velora-champagne text-xs uppercase tracking-widest font-semibold">
-            {order.orderStatus}
-          </span>
+          <div className="flex items-center space-x-3">
+            <span className="px-3.5 py-1.5 bg-stone-900 text-velora-champagne text-xs uppercase tracking-widest font-semibold">
+              {order.orderStatus}
+            </span>
+            {isReturnEligible && (
+              <button
+                onClick={() => setIsReturnModalOpen(true)}
+                className="px-4 py-1.5 bg-amber-800 text-white text-xs uppercase tracking-wider font-medium hover:bg-amber-900 transition-colors"
+              >
+                Request 7-Day Return
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Return Request Banner if active */}
+        {order.returnRequest?.requested && (
+          <div className="p-4 bg-amber-50 border border-amber-200 text-amber-950 text-xs space-y-1">
+            <div className="flex items-center justify-between">
+              <strong>Return Request Status: {order.returnRequest.status?.toUpperCase()}</strong>
+              <span className="text-[11px] text-amber-700">
+                Requested on {new Date(order.returnRequest.requestedAt).toLocaleDateString()}
+              </span>
+            </div>
+            <p>Reason: {order.returnRequest.reason}</p>
+            {order.returnRequest.description && <p className="text-stone-600">Note: {order.returnRequest.description}</p>}
+          </div>
+        )}
+
+        {/* Visual Progress Stepper */}
+        <div className="bg-white border border-velora-border p-6 shadow-sm space-y-4 text-xs">
+          <h4 className="font-editorial text-lg text-velora-black">Consignment Journey</h4>
+          <div className="grid grid-cols-2 sm:grid-cols-6 gap-2 pt-2">
+            {orderSteps.map((step, idx) => {
+              const isPastOrCurrent = currentStepIdx >= idx || (order.orderStatus === 'Delivered');
+              return (
+                <div key={step} className="flex flex-col items-center text-center space-y-2">
+                  <div
+                    className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-semibold ${
+                      isPastOrCurrent
+                        ? 'bg-black text-velora-champagne border border-velora-champagne/40'
+                        : 'bg-stone-100 text-stone-400 border border-stone-300'
+                    }`}
+                  >
+                    {idx + 1}
+                  </div>
+                  <span className={`text-[11px] uppercase tracking-wider ${isPastOrCurrent ? 'font-semibold text-black' : 'text-stone-400'}`}>
+                    {step}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
         </div>
 
         {/* Status Timeline */}
         <div className="bg-white border border-velora-border p-6 shadow-sm space-y-4 text-xs">
-          <h4 className="font-editorial text-lg text-velora-black">Tracking Timeline</h4>
+          <h4 className="font-editorial text-lg text-velora-black">Activity Log</h4>
           <div className="space-y-3">
             {order.statusTimeline?.map((t, i) => (
               <div key={i} className="flex space-x-3">
@@ -316,6 +408,65 @@ export const OrderDetailsPage = () => {
           </div>
         </div>
       </div>
+
+      {/* Return Request Modal */}
+      {isReturnModalOpen && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white max-w-md w-full p-6 md:p-8 space-y-4 text-xs shadow-2xl">
+            <h3 className="font-editorial text-2xl text-velora-black">Request 7-Day Return</h3>
+            <p className="text-stone-600 font-light">
+              Our concierge will arrange a doorstep pickup. Please select the primary reason for your return.
+            </p>
+
+            <form onSubmit={handleReturnSubmit} className="space-y-4">
+              <div>
+                <label className="block text-stone-700 font-medium mb-1">Reason for Return *</label>
+                <select
+                  value={returnReason}
+                  onChange={(e) => setReturnReason(e.target.value)}
+                  className="w-full bg-[#FAF9F5] border border-velora-border p-3 text-xs focus:outline-none"
+                  required
+                >
+                  <option value="Size/Fit Issue">Size/Fit Issue (Need Exchange)</option>
+                  <option value="Item Damaged or Defective">Item Damaged or Defective</option>
+                  <option value="Fabric / Quality Not as Expected">Fabric / Quality Not as Expected</option>
+                  <option value="Incorrect Item Dispatched">Incorrect Item Dispatched</option>
+                  <option value="Change of Mind">Change of Mind</option>
+                  <option value="Other">Other Reason</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-stone-700 font-medium mb-1">Additional Details (Optional)</label>
+                <textarea
+                  rows={3}
+                  value={returnDesc}
+                  onChange={(e) => setReturnDesc(e.target.value)}
+                  placeholder="Provide any specific comments or desired replacement size..."
+                  className="w-full bg-[#FAF9F5] border border-velora-border p-3 text-xs focus:outline-none"
+                />
+              </div>
+
+              <div className="flex space-x-3 pt-2">
+                <button
+                  type="submit"
+                  disabled={isSubmittingReturn}
+                  className="flex-1 py-3 bg-velora-black text-white uppercase tracking-wider font-semibold text-[11px] hover:bg-black/85 disabled:opacity-50"
+                >
+                  {isSubmittingReturn ? 'Submitting...' : 'Submit Request'}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setIsReturnModalOpen(false)}
+                  className="px-5 py-3 border border-stone-300 text-stone-700 uppercase tracking-wider text-[11px]"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </AccountLayout>
   );
 };
