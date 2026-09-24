@@ -225,7 +225,7 @@ export const AdminProductForm = () => {
                 type="text"
                 value={formData.title}
                 onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
-                placeholder="VELORA Double-Breasted Cashmere Overcoat"
+                placeholder="LEO Double-Breasted Cashmere Overcoat"
                 className="w-full bg-[#0E0E0E] border border-velora-borderDark p-3 text-white focus:outline-none focus:border-velora-champagne"
                 required
               />
@@ -301,9 +301,8 @@ export const AdminProductForm = () => {
                 onChange={(e) => setFormData(prev => ({ ...prev, gender: e.target.value }))}
                 className="w-full bg-[#0E0E0E] border border-velora-borderDark p-3 text-white focus:outline-none focus:border-velora-champagne"
               >
-                <option value="Unisex">Unisex</option>
-                <option value="Men">Men</option>
-                <option value="Women">Women</option>
+                <option value="Men">Men (Gentlemen's Menswear)</option>
+                <option value="Unisex">Unisex Couture</option>
               </select>
             </div>
           </div>

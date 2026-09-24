@@ -38,12 +38,13 @@ export const Navbar = ({ isSearchOpen, setIsSearchOpen }) => {
   }, [location.pathname]);
 
   const navLinks = [
-    { name: 'Women', href: '/shop?gender=Women' },
-    { name: 'Men', href: '/shop?gender=Men' },
-    { name: 'New Arrivals', href: '/shop?isNewArrival=true' },
-    { name: 'Collections', href: '/collections' },
+    { name: 'Tailoring', href: '/shop?category=tailored-suits' },
     { name: 'Outerwear', href: '/shop?category=outerwear' },
-    { name: 'The Archive', href: '/shop?collection=minimalist-noir' },
+    { name: 'Shirts', href: '/shop?category=tailored-shirts' },
+    { name: 'Knitwear', href: '/shop?category=knitwear' },
+    { name: 'Trousers', href: '/shop?category=trousers' },
+    { name: 'Collections', href: '/collections' },
+    { name: 'Archive', href: '/shop?collection=minimalist-noir' },
   ];
 
   const isLightHero = isHomePage && !isScrolled;
@@ -53,9 +54,9 @@ export const Navbar = ({ isSearchOpen, setIsSearchOpen }) => {
       <header
         className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${
           isScrolled
-            ? 'bg-[#FAF9F5]/90 backdrop-blur-md border-b border-velora-border/70 py-4 shadow-sm'
+            ? 'bg-[#FAF9F5]/95 backdrop-blur-md border-b border-velora-border/70 py-4 shadow-sm'
             : isHomePage
-            ? 'bg-gradient-to-b from-black/60 via-black/20 to-transparent text-white py-6'
+            ? 'bg-gradient-to-b from-black/70 via-black/30 to-transparent text-white py-5'
             : 'bg-[#FAF9F5] border-b border-velora-border py-4'
         }`}
       >
@@ -64,39 +65,48 @@ export const Navbar = ({ isSearchOpen, setIsSearchOpen }) => {
           <div className="flex items-center lg:hidden">
             <button
               onClick={() => setIsMobileMenuOpen(true)}
-              className="p-1 -ml-1 focus:outline-none"
+              className="p-1.5 -ml-1.5 focus:outline-none"
               aria-label="Open navigation menu"
             >
               <Menu className={`w-6 h-6 ${isLightHero ? 'text-white' : 'text-velora-black'}`} />
             </button>
           </div>
 
-          {/* Logo */}
-          <div className="flex items-center">
-            <Link to="/" className="group flex flex-col items-center">
-              <span className={`font-editorial text-2xl md:text-3xl font-normal tracking-[0.22em] uppercase transition-colors duration-300 ${
-                isLightHero ? 'text-white' : 'text-velora-black'
-              }`}>
-                VELORA
-              </span>
-              <span className={`text-[9px] tracking-[0.35em] uppercase font-light -mt-1 transition-opacity duration-300 ${
-                isLightHero ? 'text-white/70' : 'text-velora-muted'
-              }`}>
-                Atelier
-              </span>
+          {/* Logo (Left Zone) */}
+          <div className="flex items-center shrink-0 min-w-[140px]">
+            <Link to="/" className="group flex items-center space-x-3">
+              <img
+                src="/logo.png"
+                alt="LEO Crest"
+                className={`w-8 h-8 md:w-9 md:h-9 object-contain rounded-full transition-all duration-300 ${
+                  isLightHero ? 'ring-1 ring-white/40' : 'ring-1 ring-black/10'
+                }`}
+              />
+              <div className="flex flex-col">
+                <span className={`font-editorial text-2xl md:text-3xl font-normal tracking-[0.22em] uppercase transition-colors duration-300 ${
+                  isLightHero ? 'text-white' : 'text-velora-black'
+                }`}>
+                  LEO
+                </span>
+                <span className={`text-[8px] md:text-[9px] tracking-[0.38em] uppercase font-light -mt-1 transition-opacity duration-300 ${
+                  isLightHero ? 'text-white/70' : 'text-velora-muted'
+                }`}>
+                  Atelier
+                </span>
+              </div>
             </Link>
           </div>
 
-          {/* Desktop Center Links */}
-          <nav className="hidden lg:flex items-center space-x-9">
+          {/* Desktop Center Navigation Links */}
+          <nav className="hidden lg:flex items-center justify-center space-x-5 xl:space-x-8 px-4 flex-1">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
                 to={link.href}
-                className={`text-[12px] font-medium tracking-[0.18em] uppercase transition-all duration-300 luxury-underline ${
+                className={`text-[11px] xl:text-[12px] font-medium tracking-[0.2em] uppercase transition-all duration-300 luxury-underline whitespace-nowrap ${
                   isLightHero
                     ? 'text-white/90 hover:text-white'
-                    : 'text-velora-dark hover:text-velora-black'
+                    : 'text-stone-700 hover:text-velora-black'
                 }`}
               >
                 {link.name}
@@ -104,8 +114,8 @@ export const Navbar = ({ isSearchOpen, setIsSearchOpen }) => {
             ))}
           </nav>
 
-          {/* Right Action Icons */}
-          <div className="flex items-center space-x-5 md:space-x-7">
+          {/* Right Action Icons (Right Zone) */}
+          <div className="flex items-center justify-end shrink-0 min-w-[140px] space-x-4 md:space-x-6">
             {/* Search Trigger */}
             <button
               onClick={() => setIsSearchOpen(true)}
@@ -180,7 +190,7 @@ export const Navbar = ({ isSearchOpen, setIsSearchOpen }) => {
                         className="flex items-center space-x-2.5 px-4 py-2.5 hover:bg-white/5 text-velora-champagne transition-colors"
                       >
                         <ShieldCheck className="w-4 h-4" />
-                        <span className="tracking-wider uppercase font-semibold text-[11px]">Admin Atelier</span>
+                        <span className="tracking-wider uppercase font-semibold text-[11px]">LEO Admin Atelier</span>
                       </Link>
                     )}
 
@@ -257,7 +267,13 @@ export const Navbar = ({ isSearchOpen, setIsSearchOpen }) => {
             >
               <div>
                 <div className="flex items-center justify-between pb-8 border-b border-white/10">
-                  <span className="font-editorial text-2xl tracking-[0.2em]">VELORA</span>
+                  <div className="flex items-center space-x-3">
+                    <img src="/logo.png" alt="LEO Crest" className="w-8 h-8 object-contain rounded-full border border-white/30" />
+                    <div className="flex flex-col">
+                      <span className="font-editorial text-2xl tracking-[0.25em] text-white">LEO</span>
+                      <span className="text-[8px] tracking-[0.35em] uppercase text-white/50 -mt-1">ATELIER</span>
+                    </div>
+                  </div>
                   <button
                     onClick={() => setIsMobileMenuOpen(false)}
                     className="p-1 text-white/70 hover:text-white"

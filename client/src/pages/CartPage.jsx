@@ -188,7 +188,7 @@ export const CartPage = () => {
                     type="text"
                     value={couponCode}
                     onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
-                    placeholder="PROMO CODE (e.g. VELORA10)"
+                    placeholder="PROMO CODE (e.g. LEO10)"
                     className="bg-white border border-r-0 border-velora-border px-3 py-2.5 text-xs w-full focus:outline-none uppercase tracking-wider"
                   />
                   <button

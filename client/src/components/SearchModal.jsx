@@ -76,7 +76,10 @@ export const SearchModal = ({ isOpen, onClose }) => {
         >
           {/* Header */}
           <div className="max-w-7xl mx-auto w-full px-6 md:px-12 py-8 flex items-center justify-between border-b border-white/10">
-            <span className="font-editorial text-2xl tracking-[0.2em] uppercase">VELORA Search</span>
+            <div className="flex items-center space-x-3">
+              <img src="/logo.png" alt="LEO Crest" className="w-8 h-8 object-contain rounded-full border border-white/30" />
+              <span className="font-editorial text-2xl tracking-[0.25em] uppercase">LEO Atelier Search</span>
+            </div>
             <button
               onClick={onClose}
               className="p-2 text-white/70 hover:text-white transition-colors"

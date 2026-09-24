@@ -5,7 +5,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
 
 export const AdminLoginPage = () => {
-  const [email, setEmail] = useState('admin@velora.com');
+  const [email, setEmail] = useState('admin@leo.com');
   const [password, setPassword] = useState('Admin@12345');
   const [isLoading, setIsLoading] = useState(false);
   const { login } = useAuth();
@@ -25,13 +25,13 @@ export const AdminLoginPage = () => {
     <div className="min-h-screen bg-[#0A0A0A] text-[#F7F5F0] flex items-center justify-center p-6 font-sans">
       <div className="max-w-md w-full bg-[#141414] border border-velora-borderDark p-8 md:p-10 shadow-2xl space-y-6">
         <div className="text-center space-y-2">
-          <div className="w-12 h-12 bg-velora-champagne/10 border border-velora-champagne/30 text-velora-champagne rounded-full flex items-center justify-center mx-auto mb-2">
-            <ShieldCheck className="w-6 h-6" />
+          <div className="w-16 h-16 rounded-full border border-white/20 p-1 flex items-center justify-center mx-auto mb-3 shadow-lg">
+            <img src="/logo.png" alt="LEO Crest" className="w-full h-full object-contain rounded-full" />
           </div>
           <span className="text-[10px] uppercase tracking-[0.35em] text-velora-champagne font-semibold block">
             Authorized Personnel Only
           </span>
-          <h1 className="font-editorial text-3xl font-normal text-white">VELORA Master Atelier</h1>
+          <h1 className="font-editorial text-3xl font-normal text-white">LEO Master Atelier</h1>
           <p className="text-xs font-light text-white/50">Enter administrative credentials to access store controls.</p>
         </div>
 

@@ -60,10 +60,10 @@ export const AuthProvider = ({ children }) => {
       const res = await api.post('/auth/register', { name, email, password, phone });
       if (res.data.success) {
         const { token: newToken, ...userData } = res.data.data;
-        localStorage.setItem('velora_token', newToken);
+        localStorage.setItem('leo_token', newToken);
         setToken(newToken);
         setUser(userData);
-        success('Your VELORA Atelier account has been created.');
+        success('Your LEO Atelier account has been created.');
         return { success: true, user: userData };
       }
     } catch (err) {
@@ -74,10 +74,11 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
+    localStorage.removeItem('leo_token');
     localStorage.removeItem('velora_token');
     setToken(null);
     setUser(null);
-    success('You have signed out of VELORA Atelier.');
+    success('You have signed out of LEO Atelier.');
   };
 
   const updateProfile = async (profileData) => {

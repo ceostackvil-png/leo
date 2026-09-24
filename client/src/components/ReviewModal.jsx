@@ -35,7 +35,7 @@ export const ReviewModal = ({ product, isOpen, onClose, onReviewSubmitted }) => 
       });
 
       if (res.data.success) {
-        success('Your review has been submitted for VELORA Atelier.');
+        success('Your review has been submitted for LEO Atelier.');
         onReviewSubmitted && onReviewSubmitted(res.data.data);
         onClose();
       }

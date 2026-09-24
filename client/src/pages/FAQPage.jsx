@@ -6,8 +6,8 @@ export const FAQPage = () => {
 
   const faqs = [
     {
-      q: 'What fabric standards are utilized in VELORA garments?',
-      a: 'VELORA exclusively sources grade 6A 22-momme pure Mulberry silk, 4-ply Grade-A Inner Mongolian cashmere, Super 150s English worsted wool, and heavy French flax linen. All materials are ethically certified and woven without chemical harshness.',
+      q: 'What fabric standards are utilized in LEO garments?',
+      a: 'LEO exclusively sources grade 6A 22-momme pure Mulberry silk, 4-ply Grade-A Inner Mongolian cashmere, Super 150s English worsted wool, and heavy French flax linen. All materials are ethically certified and woven without chemical harshness.',
     },
     {
       q: 'How does complimentary delivery and courier tracking work?',

@@ -133,7 +133,7 @@ export const AdminCouponsPage = () => {
                     type="text"
                     value={formData.code}
                     onChange={(e) => setFormData(prev => ({ ...prev, code: e.target.value.toUpperCase() }))}
-                    placeholder="VELORA15"
+                    placeholder="LEO15"
                     className="w-full bg-[#0E0E0E] border border-velora-borderDark p-3 text-white uppercase font-mono"
                     required
                   />

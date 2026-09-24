@@ -1,7 +1,7 @@
 {
-  "name": "velora-fashion",
+  "name": "leo-fashion",
   "version": "1.0.0",
-  "description": "VELORA — Premium Luxury Fashion E-Commerce Platform",
+  "description": "LEO — Defined by Power & Precision | Luxury Fashion House",
   "private": true,
   "scripts": {
     "dev": "concurrently \"npm run server\" \"npm run client\"",

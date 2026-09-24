@@ -49,7 +49,7 @@ export const PrivacyPolicyPage = () => {
         <div className="bg-white p-6 md:p-8 border border-velora-border space-y-4">
           <h3 className="font-editorial text-2xl text-velora-black font-normal">Client Confidentiality</h3>
           <p>
-            VELORA Atelier upholds the strictest standards of data confidentiality. We collect personal identifying details (name, delivery address, phone number, and payment references) solely for order fulfillment and bespoke concierge communications.
+            LEO Atelier upholds the strictest standards of data confidentiality. We collect personal identifying details (name, delivery address, phone number, and payment references) solely for order fulfillment and bespoke concierge communications.
           </p>
           <p>
             We never sell, lease, or distribute private client profiles to third-party marketing brokers. Financial credentials are encrypted with 256-bit SSL protocols and processed via PCI-DSS Level 1 certified gateways.
@@ -74,7 +74,7 @@ export const TermsPage = () => {
         <div className="bg-white p-6 md:p-8 border border-velora-border space-y-4">
           <h3 className="font-editorial text-2xl text-velora-black font-normal">Terms of Engagement</h3>
           <p>
-            By accessing the VELORA platform, you agree to our standard terms of service. All editorial imagery, typography compositions, product descriptions, and designs are the exclusive intellectual property of VELORA Atelier.
+            By accessing the LEO platform, you agree to our standard terms of service. All editorial imagery, typography compositions, product descriptions, and designs are the exclusive intellectual property of LEO House of Fashion.
           </p>
           <p>
             Prices are listed in Indian Rupees (INR) and are inclusive of statutory GST. We reserve the right to limit order quantities on limited-edition archival releases.

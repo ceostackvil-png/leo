@@ -1,8 +1,8 @@
-# VELORA — Luxury Modern Clothing & Fashion Atelier
+# LEO — Luxury Modern Clothing & Fashion Atelier
 
-> *"Defined by the Details."*
+> *"Defined by Power & Precision."*
 
-VELORA is a production-grade, full-stack luxury fashion e-commerce web application crafted with high-end editorial aesthetics, architectural tailoring, pure Mulberry silk, and Italian double-faced cashmere presentations.
+LEO is a production-grade, full-stack luxury fashion e-commerce web application crafted with high-end editorial aesthetics, architectural tailoring, pure Mulberry silk, and Italian double-faced cashmere presentations.
 
 ---
 
@@ -63,7 +63,7 @@ VELORA is a production-grade, full-stack luxury fashion e-commerce web applicati
   - Related pairings and Recently Viewed local history carousel.
 - **Slide-Over Cart Drawer & Full Bag**:
   - Dynamic free delivery progress bar (Threshold: ₹2,999).
-  - Promo code validation (`VELORA10`, `LUXE20`, `FIRST500`, `VIP25`).
+  - Promo code validation (`LEO10`, `LUXE20`, `FIRST500`, `VIP25`).
   - Item quantity modifiers, live GST calculation, and animated badges.
 - **Distraction-Free Multi-Step Checkout**:
   - Step 1: Contact details & saved address selector.
@@ -111,11 +111,11 @@ VELORA is a production-grade, full-stack luxury fashion e-commerce web applicati
 
 | Role | Email | Password | Access Path |
 |---|---|---|---|
-| **Administrator** | `admin@velora.com` | `Admin@12345` | `/admin/login` or `/admin` |
-| **VIP Customer** | `customer@velora.com` | `Customer@12345` | `/login` or `/account/orders` |
+| **Administrator** | `admin@leo.com` | `Admin@12345` | `/admin/login` or `/admin` |
+| **VIP Customer** | `customer@leo.com` | `Customer@12345` | `/login` or `/account/orders` |
 
 ### Available Sample Coupons:
-- `VELORA10` — 10% privilege discount on orders above ₹4,999
+- `LEO10` — 10% privilege discount on orders above ₹4,999
 - `LUXE20` — 20% release discount on orders above ₹9,999
 - `FIRST500` — Flat ₹500 welcome discount on orders above ₹2,999
 - `VIP25` — 25% VIP Atelier discount on orders above ₹15,000
@@ -138,10 +138,10 @@ Create a `.env` file in the `/server` directory (or use default values):
 ```env
 PORT=5001
 NODE_ENV=development
-MONGODB_URI=mongodb://127.0.0.1:27017/velora
-JWT_SECRET=velora_jwt_luxury_secret_key_2026_super_secure
-RAZORPAY_KEY_ID=rzp_test_velora_luxury
-RAZORPAY_KEY_SECRET=velora_luxury_secret_mock_key
+MONGODB_URI=mongodb://127.0.0.1:27017/leo
+JWT_SECRET=leo_jwt_luxury_secret_key_2026_super_secure
+RAZORPAY_KEY_ID=rzp_test_leo_luxury
+RAZORPAY_KEY_SECRET=leo_luxury_secret_mock_key
 ```
 
 ### 3. Seed Database (32 Luxury Garments, 8 Categories, 5 Collections, 20 Orders)
@@ -283,4 +283,4 @@ fashion/
 ---
 
 ## 📜 License
-© 2026 VELORA Atelier. All Rights Reserved. Crafted for high-altitude elegance.
+© 2026 LEO Atelier. All Rights Reserved. Crafted for high-altitude elegance.

@@ -56,7 +56,7 @@ export const SizeGuideModal = ({ isOpen, onClose }) => {
             Bespoke Sizing & Measurements
           </h2>
           <p className="text-xs font-light text-velora-muted mt-2">
-            VELORA garments are cut with modern architectural proportions. For an oversized fit, choose your standard size; for a closer silhouette, size down.
+            LEO garments are cut with modern architectural proportions. For an oversized fit, choose your standard size; for a closer silhouette, size down.
           </p>
 
           {/* Unit Toggle */}

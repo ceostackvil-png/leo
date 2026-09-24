@@ -66,11 +66,14 @@ export const AdminLayout = ({ children, title, subtitle }) => {
         <div>
           {/* Logo & Brand Header */}
           <div className="p-6 border-b border-velora-borderDark flex items-center justify-between">
-            <Link to="/admin" className="flex flex-col">
-              <span className="font-editorial text-2xl tracking-[0.2em] uppercase text-white">VELORA</span>
-              <span className="text-[9px] uppercase tracking-[0.35em] text-velora-champagne font-medium">
-                Admin Atelier
-              </span>
+            <Link to="/admin" className="flex items-center space-x-3">
+              <img src="/logo.png" alt="LEO Crest" className="w-8 h-8 object-contain rounded-full border border-white/20 shadow-md" />
+              <div className="flex flex-col">
+                <span className="font-editorial text-2xl tracking-[0.25em] uppercase text-white">LEO</span>
+                <span className="text-[8px] uppercase tracking-[0.35em] text-velora-champagne font-medium">
+                  Admin Atelier
+                </span>
+              </div>
             </Link>
             <button
               onClick={() => setIsSidebarOpen(false)}

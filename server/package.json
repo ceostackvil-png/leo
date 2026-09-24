@@ -1,7 +1,7 @@
 {
-  "name": "velora-server",
+  "name": "leo-server",
   "version": "1.0.0",
-  "description": "Backend API for VELORA Luxury Fashion Platform",
+  "description": "Backend API for LEO Luxury Fashion Platform",
   "main": "server.js",
   "type": "module",
   "scripts": {

@@ -347,7 +347,7 @@ export const ProductDetailsPage = () => {
               </div>
               <div className="flex items-center space-x-2">
                 <Sparkles className="w-4 h-4 text-velora-champagne shrink-0" />
-                <span>Delivered in signature VELORA matte black presentation box</span>
+                <span>Delivered in signature LEO matte black presentation box</span>
               </div>
             </div>
 

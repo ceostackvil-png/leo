@@ -54,7 +54,7 @@ export const TrackOrderPage = () => {
             Track Your Consignment
           </h1>
           <p className="text-xs font-light text-velora-muted max-w-md mx-auto leading-relaxed">
-            Enter your bespoke VELORA order number (e.g. VEL-91000) to view real-time atelier dispatch and delivery updates.
+            Enter your bespoke LEO order number (e.g. LEO-91000) to view real-time atelier dispatch and delivery updates.
           </p>
         </div>
 
@@ -67,7 +67,7 @@ export const TrackOrderPage = () => {
                 type="text"
                 value={orderNumber}
                 onChange={(e) => setOrderNumber(e.target.value.toUpperCase())}
-                placeholder="VEL-91000"
+                placeholder="LEO-91000"
                 className="w-full bg-[#FAF9F5] border border-velora-border p-3 text-xs uppercase font-medium focus:outline-none focus:border-velora-black"
                 required
               />

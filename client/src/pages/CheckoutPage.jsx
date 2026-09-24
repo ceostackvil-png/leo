@@ -216,24 +216,86 @@ export const CheckoutPage = () => {
 
       if (createRes.data.success) {
         const createdOrder = createRes.data.data;
-        clearCart();
-        success('Your order has been placed with VELORA Atelier.');
-        navigate(`/order-success/${createdOrder._id}`, { state: { order: createdOrder } });
+
+        if (paymentMethod === 'Razorpay') {
+          const orderRes = await api.post('/payment/create-order', {
+            amount: total,
+            currency: 'INR',
+            receipt: `rcpt_${Date.now()}`,
+          });
+
+          if (orderRes.data.success) {
+            const { orderId, isMock } = orderRes.data;
+
+            if (isMock || !window.Razorpay) {
+              clearCart();
+              navigate(`/order-success/${createdOrder._id}`);
+            } else {
+              const keyRes = await api.get('/payment/key');
+              const razorpayKey = keyRes.data.key;
+
+              const options = {
+                key: razorpayKey,
+                amount: total * 100,
+                currency: 'INR',
+                name: 'LEO Atelier',
+                description: 'Luxury Sartorial Consignment',
+                image: '/logo.png',
+                order_id: orderId,
+                handler: async (response) => {
+                  try {
+                    const verifyRes = await api.post('/payments/razorpay-verify', {
+                      razorpay_order_id: response.razorpay_order_id,
+                      razorpay_payment_id: response.razorpay_payment_id,
+                      razorpay_signature: response.razorpay_signature,
+                      orderId: createdOrder._id,
+                    });
+
+                    if (verifyRes.data.success) {
+                      clearCart();
+                      navigate(`/order-success/${createdOrder._id}`);
+                    }
+                  } catch (err) {
+                    error(err.response?.data?.message || 'Payment verification failed.');
+                  }
+                },
+                prefill: {
+                  name: contactInfo.name,
+                  email: contactInfo.email,
+                  contact: contactInfo.phone,
+                },
+                theme: {
+                  color: '#0A0A0A',
+                },
+              };
+
+              const rzp = new window.Razorpay(options);
+              rzp.open();
+            }
+          }
+        } else {
+          // Cash on Delivery
+          clearCart();
+          success('Your order has been placed with LEO Atelier.');
+          navigate(`/order-success/${createdOrder._id}`);
+        }
       }
     } catch (err) {
-      console.error('Order placement error:', err);
-      error(err.response?.data?.message || err.message || 'Payment processing failed.');
+      error(err.response?.data?.message || 'Checkout failed. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="bg-[#FAF9F5] pt-28 pb-24 font-sans min-h-screen">
+    <div className="bg-[#FAF9F5] pt-24 pb-24 font-sans min-h-screen">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
-        {/* Checkout Header */}
+        {/* Simple Checkout Header */}
         <div className="py-6 border-b border-velora-border flex items-center justify-between">
-          <Link to="/" className="font-editorial text-2xl tracking-[0.2em] uppercase">VELORA</Link>
+          <Link to="/" className="flex items-center space-x-3">
+            <img src="/logo.png" alt="LEO Crest" className="w-7 h-7 object-contain rounded-full" />
+            <span className="font-editorial text-2xl tracking-[0.25em] uppercase">LEO</span>
+          </Link>
           <div className="flex items-center space-x-2 text-xs text-velora-muted font-light">
             <Lock className="w-3.5 h-3.5 text-velora-champagne" />
             <span>256-Bit SSL Encrypted Checkout</span>

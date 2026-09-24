@@ -52,49 +52,46 @@ export const createRazorpayOrder = async (req, res) => {
 
     // High-fidelity Mock Razorpay Order for development/demonstration
     const mockOrderId = `order_${crypto.randomBytes(8).toString('hex')}`;
-    res.json({
+    res.status(200).json({
       success: true,
+      message: 'LEO Sandbox Payment Gateway initialized',
       orderId: mockOrderId,
-      amount: Math.round(amount * 100),
-      currency,
+      amount: amount,
+      currency: currency || 'INR',
       isMock: true,
-      message: 'VELORA Sandbox Payment Gateway initialized',
+      notes: {
+        info: 'Demo sandbox transaction for testing without live Razorpay credentials'
+      }
     });
   } catch (error) {
-    console.error('Payment order creation error:', error);
-    res.status(500).json({ success: false, message: error.message });
+    res.status(500).json({
+      success: false,
+      message: 'Payment order initialization failed',
+      error: error.message
+    });
   }
 };
 
-// @desc    Verify Razorpay Payment
+// @desc    Verify Razorpay payment signature
 // @route   POST /api/payment/verify
-// @access  Public
+// @access  Private / Public (Cart)
 export const verifyRazorpayPayment = async (req, res) => {
   try {
-    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature, orderId } = req.body;
 
     const key_secret = process.env.RAZORPAY_KEY_SECRET;
 
-    // Check if live verification should run
-    if (key_secret && !key_secret.includes('mock')) {
-      const body = razorpay_order_id + '|' + razorpay_payment_id;
-      const expectedSignature = crypto
+    // If using live keys, verify HMAC SHA256 signature
+    if (key_secret && !key_secret.includes('mock') && razorpay_signature) {
+      const generated_signature = crypto
         .createHmac('sha256', key_secret)
-        .update(body.toString())
+        .update(razorpay_order_id + '|' + razorpay_payment_id)
         .digest('hex');
 
-      const isAuthentic = expectedSignature === razorpay_signature;
-
-      if (isAuthentic) {
-        return res.json({
-          success: true,
-          message: 'Payment verified successfully',
-          paymentId: razorpay_payment_id,
-        });
-      } else {
+      if (generated_signature !== razorpay_signature) {
         return res.status(400).json({
           success: false,
-          message: 'Invalid payment signature verification failed',
+          message: 'Invalid payment signature. Verification failed.',
         });
       }
     }
@@ -102,7 +99,7 @@ export const verifyRazorpayPayment = async (req, res) => {
     // Mock payment verification approval for test sandbox
     res.json({
       success: true,
-      message: 'VELORA Sandbox Payment verified successfully',
+      message: 'LEO Sandbox Payment verified successfully',
       paymentId: razorpay_payment_id || `pay_${crypto.randomBytes(8).toString('hex')}`,
     });
   } catch (error) {

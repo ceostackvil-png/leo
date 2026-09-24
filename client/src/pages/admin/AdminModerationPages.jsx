@@ -272,11 +272,11 @@ export const AdminAnalyticsPage = () => {
 export const AdminSettingsPage = () => {
   const { success } = useToast();
   const [settings, setSettings] = useState({
-    brandName: 'VELORA Atelier',
-    tagline: 'Defined by the Details.',
+    brandName: 'LEO Atelier',
+    tagline: 'Defined by Power & Precision.',
     currency: 'INR (₹)',
     freeShippingThreshold: 2999,
-    supportEmail: 'concierge@velora.com',
+    supportEmail: 'concierge@leo-atelier.com',
     supportPhone: '+91 98765 43210',
     gstPercentage: 12,
   });

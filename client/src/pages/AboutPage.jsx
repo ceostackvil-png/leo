@@ -8,20 +8,23 @@ export const AboutPage = () => {
       <div className="max-w-5xl mx-auto px-6 md:px-12 space-y-20">
         {/* Header Hero */}
         <div className="text-center space-y-3">
-          <span className="text-xs uppercase tracking-[0.35em] text-velora-champagne font-medium">The House of VELORA</span>
+          <div className="w-16 h-16 rounded-full border border-black/10 p-1 flex items-center justify-center mx-auto shadow-sm">
+            <img src="/logo.png" alt="LEO Crest" className="w-full h-full object-contain rounded-full" />
+          </div>
+          <span className="text-xs uppercase tracking-[0.35em] text-velora-champagne font-medium">The House of LEO</span>
           <h1 className="font-editorial text-4xl sm:text-6xl font-normal text-velora-black">
-            Defined by the Details
+            Defined by Power & Precision
           </h1>
           <p className="text-sm font-light text-stone-600 max-w-xl mx-auto leading-relaxed pt-2">
-            A sanctuary of quiet luxury, architectural silhouettes, and supreme materiality for the modern international wardrobe.
+            A sanctuary of sovereign luxury, architectural silhouettes, and supreme materiality for the modern international wardrobe.
           </p>
         </div>
 
         {/* Hero Image */}
         <div className="aspect-[16/9] bg-stone-300 overflow-hidden shadow-2xl">
           <img
-            src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=2000&q=90"
-            alt="VELORA Atelier"
+            src="https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=2560&q=95"
+            alt="LEO Bespoke Tailoring Atelier"
             className="w-full h-full object-cover"
           />
         </div>
@@ -29,12 +32,12 @@ export const AboutPage = () => {
         {/* Philosophy Sections */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 text-xs font-light text-stone-700 leading-relaxed">
           <div className="space-y-4">
-            <h3 className="font-editorial text-2xl text-velora-black font-normal">Quiet Confidence</h3>
+            <h3 className="font-editorial text-2xl text-velora-black font-normal">Sovereign Restraint</h3>
             <p>
-              In an era overwhelmed by disposable trends and aggressive branding, VELORA returns to the foundational essence of sartorial excellence: proportional balance, tactile indulgence, and uncompromising construction.
+              Embodied by the crest of the lion, LEO returns to the foundational essence of sartorial excellence: proportional balance, tactile indulgence, and uncompromising construction.
             </p>
             <p>
-              We design garments for individuals who express authority through restraint. Our pieces do not demand attention—they command it through immaculate lines and exquisite fabrics.
+              We design garments for individuals who express authority through quiet poise. Our pieces do not demand attention—they command it through immaculate lines and exquisite fabrics.
             </p>
           </div>
 

@@ -7,6 +7,22 @@ export default {
   theme: {
     extend: {
       colors: {
+        leo: {
+          black: '#0A0A0A',
+          charcoal: '#181818',
+          dark: '#141414',
+          card: '#1F1F1F',
+          border: '#E8E5DF',
+          borderDark: '#2C2C2C',
+          cream: '#FAF9F5',
+          warmWhite: '#F7F5F0',
+          sand: '#EAE6DF',
+          taupe: '#C5B9AC',
+          champagne: '#C5A880',
+          champagneLight: '#E8DCB8',
+          muted: '#767676',
+          mutedLight: '#A3A3A3',
+        },
         velora: {
           black: '#0A0A0A',
           charcoal: '#181818',

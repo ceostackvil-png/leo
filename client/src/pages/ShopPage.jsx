@@ -239,7 +239,7 @@ export const ShopPage = () => {
             <div className="space-y-3">
               <h3 className="uppercase tracking-[0.2em] font-semibold text-velora-black text-[11px]">Department</h3>
               <div className="space-y-2">
-                {['Women', 'Men', 'Unisex'].map((g) => (
+                {['Men', 'Unisex'].map((g) => (
                   <button
                     key={g}
                     onClick={() => updateFilter('gender', selectedGender === g ? '' : g)}
@@ -247,7 +247,7 @@ export const ShopPage = () => {
                       selectedGender === g ? 'text-velora-black font-semibold' : 'text-stone-600'
                     }`}
                   >
-                    <span>{g}</span>
+                    <span>{g === 'Men' ? "Gentlemen's Menswear" : 'Unisex Couture'}</span>
                     {selectedGender === g && <Check className="w-3.5 h-3.5 text-velora-champagne" />}
                   </button>
                 ))}
@@ -368,7 +368,7 @@ export const ShopPage = () => {
               <div className="text-center py-20 bg-white border border-velora-border p-8 space-y-4">
                 <p className="font-editorial text-2xl text-velora-black">No pieces match your current criteria</p>
                 <p className="text-xs text-velora-muted font-light max-w-sm mx-auto">
-                  Try adjusting or clearing your filters to discover other garments from the VELORA collection.
+                  Try adjusting or clearing your filters to discover other garments from the LEO collection.
                 </p>
                 <button
                   onClick={clearAllFilters}
@@ -427,13 +427,13 @@ export const ShopPage = () => {
                 <div>
                   <h4 className="font-semibold text-velora-black uppercase tracking-wider mb-2">Department</h4>
                   <div className="flex flex-wrap gap-2">
-                    {['Women', 'Men', 'Unisex'].map((g) => (
+                    {['Men', 'Unisex'].map((g) => (
                       <button
                         key={g}
                         onClick={() => updateFilter('gender', selectedGender === g ? '' : g)}
                         className={`px-3 py-1.5 border ${selectedGender === g ? 'bg-velora-black text-white' : 'bg-white'}`}
                       >
-                        {g}
+                        {g === 'Men' ? "Gentlemen's Menswear" : 'Unisex'}
                       </button>
                     ))}
                   </div>

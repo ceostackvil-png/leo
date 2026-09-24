@@ -76,11 +76,12 @@ app.use('/api/upload', uploadRoutes);
 
 // Health Check
 app.get('/api/health', (req, res) => {
-  res.json({
-    status: 'online',
-    brand: 'VELORA Atelier',
-    version: '1.0.0',
+  res.status(200).json({
+    status: 'ok',
     timestamp: new Date().toISOString(),
+    brand: 'LEO Atelier',
+    version: '1.0.0',
+    mode: process.env.NODE_ENV || 'development',
   });
 });
 
@@ -88,8 +89,8 @@ app.get('/api/health', (req, res) => {
 app.use(notFound);
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 5001;
+const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-  console.log(`[VELORA SERVER] Atelier API server running on port ${PORT} in ${process.env.NODE_ENV || 'development'} mode`);
+  console.log(`[LEO SERVER] Atelier API server running on port ${PORT} in ${process.env.NODE_ENV || 'development'} mode`);
 });

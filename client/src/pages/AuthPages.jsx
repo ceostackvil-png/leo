@@ -31,10 +31,10 @@ export const LoginPage = () => {
 
   const handleDemoFill = (role) => {
     if (role === 'admin') {
-      setEmail('admin@velora.com');
+      setEmail('admin@leo.com');
       setPassword('Admin@12345');
     } else {
-      setEmail('customer@velora.com');
+      setEmail('customer@leo.com');
       setPassword('Customer@12345');
     }
   };
@@ -43,10 +43,13 @@ export const LoginPage = () => {
     <div className="bg-[#FAF9F5] pt-36 pb-24 font-sans min-h-screen flex items-center justify-center">
       <div className="max-w-md w-full mx-auto px-6">
         <div className="bg-white border border-velora-border p-8 md:p-10 shadow-sm space-y-6">
-          <div className="text-center space-y-1">
+          <div className="text-center space-y-2">
+            <div className="w-14 h-14 rounded-full border border-black/10 p-1 flex items-center justify-center mx-auto shadow-sm">
+              <img src="/logo.png" alt="LEO Crest" className="w-full h-full object-contain rounded-full" />
+            </div>
             <span className="text-xs uppercase tracking-[0.3em] text-velora-champagne font-medium">Welcome Back</span>
-            <h1 className="font-editorial text-3xl font-normal text-velora-black">Sign In to Atelier</h1>
-            <p className="text-xs font-light text-velora-muted">Access your order history and saved preferences.</p>
+            <h1 className="font-editorial text-3xl font-normal text-velora-black">Sign In to LEO</h1>
+            <p className="text-xs font-light text-velora-muted">Access your order history and bespoke preferences.</p>
           </div>
 
           {/* Quick Demo Fill Buttons */}
@@ -78,7 +81,7 @@ export const LoginPage = () => {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="elena.rostova@velora.com"
+                  placeholder="customer@leo.com"
                   className="w-full bg-[#FAF9F5] border border-velora-border p-3 pl-10 text-xs focus:outline-none focus:border-velora-black"
                   required
                 />
@@ -116,7 +119,7 @@ export const LoginPage = () => {
           </form>
 
           <div className="pt-4 border-t border-velora-border text-center text-xs font-light text-stone-600">
-            <span>New to VELORA? </span>
+            <span>New to LEO? </span>
             <Link to="/register" className="text-velora-black font-semibold underline hover:text-velora-champagne">
               Create Client Profile
             </Link>
@@ -292,7 +295,7 @@ export const ForgotPasswordPage = () => {
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="customer@velora.com"
+                    placeholder="customer@leo.com"
                     className="w-full bg-[#FAF9F5] border border-velora-border p-3 pl-10 text-xs focus:outline-none focus:border-velora-black"
                     required
                   />

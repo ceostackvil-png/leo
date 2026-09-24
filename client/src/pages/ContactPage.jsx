@@ -19,7 +19,7 @@ export const ContactPage = () => {
       return;
     }
     setIsSent(true);
-    success('Your inquiry has been relayed to the VELORA Client Concierge.');
+    success('Your inquiry has been relayed to the LEO Client Concierge.');
     setFormData({ name: '', email: '', subject: 'Bespoke Sizing & Styling Advice', message: '' });
   };
 
@@ -30,7 +30,7 @@ export const ContactPage = () => {
         <div className="text-center space-y-2">
           <span className="text-xs uppercase tracking-[0.3em] text-velora-champagne font-medium">Personal Assistance</span>
           <h1 className="font-editorial text-4xl sm:text-5xl font-normal text-velora-black">
-            Client Concierge & Boutiques
+            LEO Concierge & Boutiques
           </h1>
           <p className="text-xs font-light text-velora-muted max-w-md mx-auto leading-relaxed">
             Our private stylists and concierge advisors are available to assist with private sizing, bespoke alterations, or private viewings.
@@ -46,7 +46,7 @@ export const ContactPage = () => {
               <div className="p-6 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs space-y-2 text-center">
                 <CheckCircle2 className="w-8 h-8 text-emerald-600 mx-auto" />
                 <p className="font-semibold text-sm">Thank You for Reaching Out</p>
-                <p className="font-light">A private VELORA concierge specialist will reply to your email within 4 business hours.</p>
+                <p className="font-light">A private LEO concierge specialist will reply to your email within 4 business hours.</p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4 text-xs">
@@ -116,7 +116,7 @@ export const ContactPage = () => {
           {/* Boutiques & Atelier Details */}
           <div className="lg:col-span-5 space-y-6 text-xs font-light text-stone-600">
             <div className="bg-white p-6 md:p-8 border border-velora-border space-y-4">
-              <h4 className="font-editorial text-xl text-velora-black font-normal">VELORA Central Atelier</h4>
+              <h4 className="font-editorial text-xl text-velora-black font-normal">LEO Central Atelier</h4>
               <div className="space-y-3 pt-2">
                 <div className="flex items-start space-x-3">
                   <MapPin className="w-4 h-4 text-velora-champagne shrink-0 mt-0.5" />
@@ -133,7 +133,7 @@ export const ContactPage = () => {
 
                 <div className="flex items-center space-x-3">
                   <Mail className="w-4 h-4 text-velora-champagne shrink-0" />
-                  <span>concierge@velora.com</span>
+                  <span>concierge@leo-atelier.com</span>
                 </div>
 
                 <div className="flex items-center space-x-3">

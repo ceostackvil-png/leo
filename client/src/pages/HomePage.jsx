@@ -51,11 +51,11 @@ export const HomePage = () => {
   };
 
   const instagramShots = [
-    { image: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=80', handle: '@velora.atelier' },
-    { image: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=800&q=80', handle: '@velora.atelier' },
-    { image: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=800&q=80', handle: '@velora.atelier' },
-    { image: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=800&q=80', handle: '@velora.atelier' },
-    { image: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=800&q=80', handle: '@velora.atelier' },
+    { image: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1600&q=95', handle: '@leo.menswear' },
+    { image: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=1600&q=95', handle: '@leo.menswear' },
+    { image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=1600&q=95', handle: '@leo.menswear' },
+    { image: 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=1600&q=95', handle: '@leo.menswear' },
+    { image: 'https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?auto=format&fit=crop&w=1600&q=95', handle: '@leo.menswear' },
   ];
 
   return (
@@ -70,22 +70,31 @@ export const HomePage = () => {
           className="absolute inset-0 w-full h-[115%] scale-105"
         >
           <img
-            src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=2200&q=90"
-            alt="VELORA Autumn / Winter 2026 Collection"
-            className="w-full h-full object-cover object-center brightness-75 transition-transform duration-1000"
+            src="/hero-menswear.jpg"
+            alt="LEO Sovereign Haute Couture Menswear Atelier"
+            className="w-full h-full object-cover object-center brightness-90 contrast-105 transition-transform duration-1000"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/50" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-black/60" />
         </motion.div>
 
         {/* Hero Content Overlay */}
         <div className="relative z-10 max-w-5xl mx-auto px-6 text-center text-white flex flex-col items-center">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.7 }}
+            className="w-16 h-16 md:w-20 md:h-20 rounded-full border border-white/30 p-1 flex items-center justify-center mb-5 backdrop-blur-sm shadow-2xl"
+          >
+            <img src="/logo.png" alt="LEO Crest" className="w-full h-full object-contain rounded-full" />
+          </motion.div>
+
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-xs md:text-sm uppercase tracking-[0.35em] text-velora-champagne font-medium mb-4"
           >
-            Autumn / Winter 2026 Atelier Release
+            Gentlemen's Autumn / Winter 2026 Atelier Release
           </motion.p>
 
           <motion.h1
@@ -103,7 +112,7 @@ export const HomePage = () => {
             transition={{ duration: 0.8, delay: 0.6 }}
             className="mt-6 text-sm md:text-base font-light text-white/80 max-w-xl mx-auto tracking-wide leading-relaxed"
           >
-            Architectural tailoring, double-faced Italian cashmere, and pure Mulberry silk. Defined by the details.
+            Architectural tailoring, double-faced Italian cashmere, and pure Mulberry silk. Defined by power & precision.
           </motion.p>
 
           {/* CTA Buttons */}
@@ -114,16 +123,16 @@ export const HomePage = () => {
             className="mt-10 flex flex-col sm:flex-row items-center gap-4 sm:gap-6"
           >
             <Link
-              to="/shop?gender=Men"
-              className="w-48 py-4 bg-white text-velora-black text-xs font-semibold tracking-[0.22em] uppercase hover:bg-velora-champagne hover:text-white transition-all duration-300 shadow-2xl"
+              to="/shop"
+              className="w-52 py-4 bg-white text-velora-black text-xs font-semibold tracking-[0.22em] uppercase hover:bg-velora-champagne hover:text-white transition-all duration-300 shadow-2xl"
             >
-              Shop Men
+              Explore Collection
             </Link>
             <Link
-              to="/shop?gender=Women"
-              className="w-48 py-4 bg-transparent border border-white text-white text-xs font-semibold tracking-[0.22em] uppercase hover:bg-white hover:text-velora-black transition-all duration-300 backdrop-blur-sm"
+              to="/shop?category=tailored-suits"
+              className="w-52 py-4 bg-transparent border border-white text-white text-xs font-semibold tracking-[0.22em] uppercase hover:bg-white hover:text-velora-black transition-all duration-300 backdrop-blur-sm"
             >
-              Shop Women
+              Bespoke Tailoring
             </Link>
           </motion.div>
         </div>
@@ -170,15 +179,15 @@ export const HomePage = () => {
           <div className="lg:col-span-7 relative">
             <div className="aspect-[4/5] bg-stone-200 overflow-hidden shadow-2xl">
               <img
-                src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=1600&q=85"
-                alt="Autumn Winter 2026 Lookbook"
+                src="https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&w=2400&q=95"
+                alt="Autumn Winter 2026 Menswear Atelier Lookbook"
                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
               />
             </div>
             <div className="hidden sm:block absolute -bottom-8 -right-8 w-48 h-64 bg-stone-300 overflow-hidden shadow-xl border-4 border-[#FAF9F5]">
               <img
-                src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=800&q=85"
-                alt="Detail close-up"
+                src="https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=1200&q=95"
+                alt="Bespoke Sartorial Detail"
                 className="w-full h-full object-cover"
               />
             </div>
@@ -295,7 +304,7 @@ export const HomePage = () => {
       {/* ==================================================== */}
       <section className="relative h-[85vh] w-full flex items-center justify-center overflow-hidden bg-black">
         <img
-          src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=2200&q=90"
+          src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=2560&q=95"
           alt="Crafted for the moment"
           className="absolute inset-0 w-full h-full object-cover object-center brightness-75"
         />
@@ -377,10 +386,10 @@ export const HomePage = () => {
               “WE BELIEVE CLOTHING SHOULD SAY SOMETHING BEFORE YOU DO.”
             </h2>
             <p className="text-sm font-light text-white/60 leading-relaxed">
-              VELORA was founded on the conviction that true luxury does not shout with gaudy logos. It manifests in the weight of double-faced Italian cashmere, the whisper of pure Mulberry silk across the collarbone, and the impeccable drape of tailored trousers.
+              LEO was founded on the conviction that true luxury does not shout with gaudy logos. It manifests in the weight of double-faced Italian cashmere, the whisper of pure Mulberry silk across the collarbone, and the impeccable drape of tailored trousers.
             </p>
             <p className="text-sm font-light text-white/60 leading-relaxed">
-              Every garment is created in limited atelier runs to eliminate excess and guarantee uncompromising craftsmanship.
+              Every garment is created in limited atelier runs to eliminate excess and guarantee sovereign craftsmanship.
             </p>
             <div className="pt-4">
               <Link
@@ -395,7 +404,7 @@ export const HomePage = () => {
 
           <div className="lg:col-span-6 aspect-[4/5] bg-stone-900 overflow-hidden shadow-2xl">
             <img
-              src="https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=1600&q=85"
+              src="https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=2400&q=95"
               alt="Artisanal tailoring"
               className="w-full h-full object-cover brightness-90 hover:scale-105 transition-transform duration-700"
             />
@@ -408,10 +417,10 @@ export const HomePage = () => {
       {/* ==================================================== */}
       <section className="py-20 max-w-7xl mx-auto px-6 md:px-12">
         <div className="text-center max-w-xl mx-auto mb-12 space-y-2">
-          <span className="text-xs uppercase tracking-[0.3em] text-velora-champagne font-medium">#VELORAtelier</span>
+          <span className="text-xs uppercase tracking-[0.3em] text-velora-champagne font-medium">#LEOAtelier</span>
           <h2 className="font-editorial text-3xl font-normal text-velora-black">As Seen Around the Globe</h2>
           <p className="text-xs text-velora-muted font-light">
-            Tag @velora.atelier on Instagram to be featured in our permanent digital editorial.
+            Tag @leo.fashion on Instagram to be featured in our permanent digital editorial.
           </p>
         </div>
 

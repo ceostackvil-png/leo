@@ -62,13 +62,13 @@ export const OrderSuccessPage = () => {
             Thank You for Your Order
           </h1>
           <p className="text-xs font-light text-stone-600 max-w-lg mx-auto leading-relaxed">
-            Your consignment has been received by VELORA Atelier. We are preparing your pieces with bespoke care in our signature gift box.
+            Your consignment has been received by LEO Atelier. We are preparing your pieces with bespoke care in our signature gift box.
           </p>
 
           <div className="pt-4 flex flex-wrap items-center justify-center gap-4 text-xs font-medium">
             <div className="bg-[#FAF9F5] px-4 py-2 border border-velora-border">
               <span className="text-stone-500 font-light mr-1">Order Ref:</span>
-              <strong className="text-velora-black tracking-wider uppercase">{order?.orderNumber || 'VEL-XXXXXX'}</strong>
+              <strong className="text-velora-black tracking-wider uppercase">{order?.orderNumber || 'LEO-XXXXXX'}</strong>
             </div>
             <div className="bg-[#FAF9F5] px-4 py-2 border border-velora-border">
               <span className="text-stone-500 font-light mr-1">Estimated Delivery:</span>

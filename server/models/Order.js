@@ -133,7 +133,7 @@ orderSchema.pre('save', function (next) {
     this.statusTimeline = [{
       status: this.orderStatus || 'Placed',
       timestamp: new Date(),
-      note: 'Order has been placed successfully and received by VELORA Atelier.',
+      note: 'Order has been placed successfully and received by LEO Atelier.',
     }];
   }
   next();
