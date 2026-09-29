@@ -458,6 +458,10 @@ export const addRecentlyViewed = async (req, res) => {
       data: user.recentlyViewed,
     });
   } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
 // @desc    Firebase Phone Auth Sync / Login
 // @route   POST /api/auth/firebase-login
 // @access  Public
