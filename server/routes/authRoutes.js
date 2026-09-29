@@ -11,6 +11,7 @@ import {
   resetPassword,
   sendMobileOtp,
   verifyMobileOtp,
+  firebasePhoneLogin,
   getRecentlyViewed,
   addRecentlyViewed,
 } from '../controllers/authController.js';
@@ -22,6 +23,7 @@ router.post('/register', registerUser);
 router.post('/login', loginUser);
 router.post('/send-otp', sendMobileOtp);
 router.post('/verify-otp', verifyMobileOtp);
+router.post('/firebase-login', firebasePhoneLogin);
 router.post('/forgot-password', forgotPassword);
 router.post('/reset-password/:token', resetPassword);
 

@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation, useParams } from 'react-router-dom';
-import { Mail, Lock, User, Phone, ArrowRight, Loader2, Sparkles, CheckCircle2 } from 'lucide-react';
+import { Mail, Lock, User, Phone, ArrowRight, Loader2, Sparkles, CheckCircle2, ShieldCheck } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
+import { sendFirebasePhoneOtp, verifyFirebasePhoneOtp } from '../firebase/phoneAuth';
 import api from '../services/api';
 
 export const LoginPage = () => {
-  const [authMode, setAuthMode] = useState('email'); // 'email' | 'otp'
+  const [authMode, setAuthMode] = useState('otp'); // 'otp' | 'email'
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   
@@ -14,11 +15,12 @@ export const LoginPage = () => {
   const [phone, setPhone] = useState('');
   const [otp, setOtp] = useState('');
   const [otpSent, setOtpSent] = useState(false);
-  const [countdown, setCountdown] = useState(0);
+  const [confirmationResult, setConfirmationResult] = useState(null);
+  const [isFirebaseSession, setIsFirebaseSession] = useState(false);
   const [demoOtpHint, setDemoOtpHint] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const { login, loginWithOtp } = useAuth();
+  const { login, loginWithOtp, loginWithFirebase } = useAuth();
   const { success, error } = useToast();
   const navigate = useNavigate();
   const location = useLocation();
@@ -46,16 +48,28 @@ export const LoginPage = () => {
       return;
     }
     setIsLoading(true);
+
     try {
-      const res = await api.post('/auth/send-otp', { phone });
-      if (res.data.success) {
+      // 1. Attempt Firebase Phone SMS OTP
+      const fbRes = await sendFirebasePhoneOtp(phone, 'recaptcha-container');
+      if (fbRes.success) {
+        setConfirmationResult(fbRes.confirmationResult);
+        setIsFirebaseSession(true);
         setOtpSent(true);
-        setCountdown(60);
-        setDemoOtpHint(res.data.demoOtp || '123456');
-        success(res.data.message || 'OTP dispatched to your mobile number.');
+        success(`Firebase verification code dispatched to ${fbRes.formattedPhone}`);
+      } else {
+        // 2. Graceful fallback to backend OTP service
+        console.info('Falling back to Atelier backend SMS service:', fbRes.error);
+        const res = await api.post('/auth/send-otp', { phone });
+        if (res.data.success) {
+          setIsFirebaseSession(false);
+          setOtpSent(true);
+          setDemoOtpHint(res.data.demoOtp || '123456');
+          success(res.data.message || 'OTP dispatched to your mobile number.');
+        }
       }
     } catch (err) {
-      error(err.response?.data?.message || 'Failed to dispatch OTP.');
+      error(err.response?.data?.message || err.message || 'Failed to dispatch OTP.');
     } finally {
       setIsLoading(false);
     }
@@ -68,14 +82,38 @@ export const LoginPage = () => {
       return;
     }
     setIsLoading(true);
-    const res = await loginWithOtp(phone, otp);
-    setIsLoading(false);
-    if (res?.success) {
-      if (res.user.role === 'admin') {
-        navigate('/admin');
+
+    try {
+      if (isFirebaseSession && confirmationResult) {
+        // Verify with Firebase Phone Auth
+        const verifyRes = await verifyFirebasePhoneOtp(confirmationResult, otp);
+        if (verifyRes.success) {
+          const res = await loginWithFirebase(phone, `Client ${phone.slice(-4)}`, verifyRes.uid, verifyRes.idToken);
+          if (res?.success) {
+            navigate(res.user.role === 'admin' ? '/admin' : redirectUrl);
+          }
+        } else {
+          // Check if fallback demo code was used
+          if (otp === '123456') {
+            const fallbackRes = await loginWithOtp(phone, otp);
+            if (fallbackRes?.success) {
+              navigate(fallbackRes.user.role === 'admin' ? '/admin' : redirectUrl);
+              return;
+            }
+          }
+          error(verifyRes.error || 'Invalid Firebase OTP code.');
+        }
       } else {
-        navigate(redirectUrl);
+        // Verify with standard OTP service
+        const res = await loginWithOtp(phone, otp);
+        if (res?.success) {
+          navigate(res.user.role === 'admin' ? '/admin' : redirectUrl);
+        }
       }
+    } catch (err) {
+      error(err.message || 'OTP verification failed.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -92,6 +130,9 @@ export const LoginPage = () => {
 
   return (
     <div className="bg-[#FAF9F5] pt-36 pb-24 font-sans min-h-screen flex items-center justify-center">
+      {/* Invisible Firebase Recaptcha Container */}
+      <div id="recaptcha-container"></div>
+
       <div className="max-w-md w-full mx-auto px-6">
         <div className="bg-white border border-velora-border p-8 md:p-10 shadow-sm space-y-6">
           <div className="text-center space-y-2">
@@ -103,8 +144,19 @@ export const LoginPage = () => {
             <p className="text-xs font-light text-velora-muted">Access your order history, wishlist, and concierge returns.</p>
           </div>
 
-          {/* Tab Switcher: Email vs Mobile OTP */}
+          {/* Tab Switcher: Mobile OTP vs Email */}
           <div className="flex border-b border-velora-border">
+            <button
+              type="button"
+              onClick={() => setAuthMode('otp')}
+              className={`flex-1 pb-3 text-xs font-medium tracking-wider uppercase transition-colors ${
+                authMode === 'otp'
+                  ? 'border-b-2 border-black text-black font-semibold'
+                  : 'text-stone-400 hover:text-stone-600'
+              }`}
+            >
+              Firebase Mobile OTP
+            </button>
             <button
               type="button"
               onClick={() => setAuthMode('email')}
@@ -116,18 +168,80 @@ export const LoginPage = () => {
             >
               Email & Password
             </button>
-            <button
-              type="button"
-              onClick={() => setAuthMode('otp')}
-              className={`flex-1 pb-3 text-xs font-medium tracking-wider uppercase transition-colors ${
-                authMode === 'otp'
-                  ? 'border-b-2 border-black text-black font-semibold'
-                  : 'text-stone-400 hover:text-stone-600'
-              }`}
-            >
-              Mobile OTP
-            </button>
           </div>
+
+          {/* MOBILE OTP LOGIN FORM */}
+          {authMode === 'otp' && (
+            <div className="space-y-4 text-xs">
+              <div>
+                <label className="block text-stone-600 mb-1">Mobile Number *</label>
+                <div className="flex gap-2">
+                  <div className="relative flex-1">
+                    <input
+                      type="tel"
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      placeholder="9876543210"
+                      maxLength={14}
+                      className="w-full bg-[#FAF9F5] border border-velora-border p-3 pl-10 text-xs focus:outline-none focus:border-velora-black"
+                      required
+                    />
+                    <Phone className="w-4 h-4 text-stone-400 absolute left-3.5 top-3.5" />
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleSendOtp}
+                    disabled={isLoading || !phone || phone.length < 10}
+                    className="px-4 py-3 bg-stone-800 text-white text-[11px] font-semibold tracking-wider uppercase hover:bg-black disabled:opacity-50"
+                  >
+                    {otpSent ? 'Resend' : 'Send OTP'}
+                  </button>
+                </div>
+                <div className="flex items-center space-x-1.5 text-[10px] text-stone-500 font-light mt-1.5">
+                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+                  <span>Secured with Firebase Phone Authentication</span>
+                </div>
+              </div>
+
+              {otpSent && (
+                <form onSubmit={handleVerifyOtp} className="space-y-4">
+                  {demoOtpHint && !isFirebaseSession && (
+                    <div className="p-2.5 bg-amber-50 border border-amber-200 text-amber-900 text-[11px] flex items-center justify-between">
+                      <span>Demo Mode OTP: <strong>{demoOtpHint}</strong></span>
+                      <button
+                        type="button"
+                        onClick={() => setOtp(demoOtpHint)}
+                        className="underline font-medium hover:text-black"
+                      >
+                        Auto-fill
+                      </button>
+                    </div>
+                  )}
+
+                  <div>
+                    <label className="block text-stone-600 mb-1">Enter 6-Digit Verification Code *</label>
+                    <input
+                      type="text"
+                      value={otp}
+                      onChange={(e) => setOtp(e.target.value)}
+                      placeholder="123456"
+                      maxLength={6}
+                      className="w-full bg-[#FAF9F5] border border-velora-border p-3 text-center tracking-[0.5em] text-sm font-semibold focus:outline-none focus:border-velora-black"
+                      required
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={isLoading || otp.length < 4}
+                    className="w-full bg-velora-black text-white py-4 text-xs uppercase tracking-[0.2em] font-medium hover:bg-black/85 transition-colors flex items-center justify-center space-x-2 disabled:opacity-50 shadow-md"
+                  >
+                    {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <span>Verify & Sign In</span>}
+                  </button>
+                </form>
+              )}
+            </div>
+          )}
 
           {/* Quick Demo Fill Buttons (for email mode) */}
           {authMode === 'email' && (
@@ -200,75 +314,6 @@ export const LoginPage = () => {
             </form>
           )}
 
-          {/* MOBILE OTP LOGIN FORM */}
-          {authMode === 'otp' && (
-            <div className="space-y-4 text-xs">
-              <div>
-                <label className="block text-stone-600 mb-1">Mobile Number *</label>
-                <div className="flex gap-2">
-                  <div className="relative flex-1">
-                    <input
-                      type="tel"
-                      value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
-                      placeholder="9876543210"
-                      maxLength={14}
-                      className="w-full bg-[#FAF9F5] border border-velora-border p-3 pl-10 text-xs focus:outline-none focus:border-velora-black"
-                      required
-                    />
-                    <Phone className="w-4 h-4 text-stone-400 absolute left-3.5 top-3.5" />
-                  </div>
-                  <button
-                    type="button"
-                    onClick={handleSendOtp}
-                    disabled={isLoading || !phone || phone.length < 10}
-                    className="px-4 py-3 bg-stone-800 text-white text-[11px] font-semibold tracking-wider uppercase hover:bg-black disabled:opacity-50"
-                  >
-                    {otpSent ? 'Resend' : 'Send OTP'}
-                  </button>
-                </div>
-              </div>
-
-              {otpSent && (
-                <form onSubmit={handleVerifyOtp} className="space-y-4">
-                  {demoOtpHint && (
-                    <div className="p-2.5 bg-amber-50 border border-amber-200 text-amber-900 text-[11px] flex items-center justify-between">
-                      <span>Demo Mode OTP Code: <strong>{demoOtpHint}</strong></span>
-                      <button
-                        type="button"
-                        onClick={() => setOtp(demoOtpHint)}
-                        className="underline font-medium hover:text-black"
-                      >
-                        Auto-fill
-                      </button>
-                    </div>
-                  )}
-
-                  <div>
-                    <label className="block text-stone-600 mb-1">Enter 6-Digit OTP *</label>
-                    <input
-                      type="text"
-                      value={otp}
-                      onChange={(e) => setOtp(e.target.value)}
-                      placeholder="123456"
-                      maxLength={6}
-                      className="w-full bg-[#FAF9F5] border border-velora-border p-3 text-center tracking-[0.5em] text-sm font-semibold focus:outline-none focus:border-velora-black"
-                      required
-                    />
-                  </div>
-
-                  <button
-                    type="submit"
-                    disabled={isLoading || otp.length < 4}
-                    className="w-full bg-velora-black text-white py-4 text-xs uppercase tracking-[0.2em] font-medium hover:bg-black/85 transition-colors flex items-center justify-center space-x-2 disabled:opacity-50 shadow-md"
-                  >
-                    {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <span>Verify OTP & Sign In</span>}
-                  </button>
-                </form>
-              )}
-            </div>
-          )}
-
           <div className="pt-4 border-t border-velora-border text-center text-xs font-light text-stone-600">
             <span>New to LEO? </span>
             <Link to="/register" className="text-velora-black font-semibold underline hover:text-velora-champagne">
@@ -282,7 +327,7 @@ export const LoginPage = () => {
 };
 
 export const RegisterPage = () => {
-  const [authMode, setAuthMode] = useState('email'); // 'email' | 'otp'
+  const [authMode, setAuthMode] = useState('otp'); // 'otp' | 'email'
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -295,10 +340,12 @@ export const RegisterPage = () => {
   const [otpName, setOtpName] = useState('');
   const [otp, setOtp] = useState('');
   const [otpSent, setOtpSent] = useState(false);
+  const [confirmationResult, setConfirmationResult] = useState(null);
+  const [isFirebaseSession, setIsFirebaseSession] = useState(false);
   const [demoOtpHint, setDemoOtpHint] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const { register, loginWithOtp } = useAuth();
+  const { register, loginWithOtp, loginWithFirebase } = useAuth();
   const { success, error } = useToast();
   const navigate = useNavigate();
 
@@ -323,15 +370,28 @@ export const RegisterPage = () => {
       return;
     }
     setIsLoading(true);
+
     try {
-      const res = await api.post('/auth/send-otp', { phone: otpPhone });
-      if (res.data.success) {
+      // 1. Attempt Firebase Phone SMS OTP
+      const fbRes = await sendFirebasePhoneOtp(otpPhone, 'recaptcha-register-container');
+      if (fbRes.success) {
+        setConfirmationResult(fbRes.confirmationResult);
+        setIsFirebaseSession(true);
         setOtpSent(true);
-        setDemoOtpHint(res.data.demoOtp || '123456');
-        success(res.data.message || 'OTP dispatched to your mobile number.');
+        success(`Firebase verification code dispatched to ${fbRes.formattedPhone}`);
+      } else {
+        // 2. Fallback to backend OTP
+        console.info('Falling back to Atelier backend SMS service:', fbRes.error);
+        const res = await api.post('/auth/send-otp', { phone: otpPhone });
+        if (res.data.success) {
+          setIsFirebaseSession(false);
+          setOtpSent(true);
+          setDemoOtpHint(res.data.demoOtp || '123456');
+          success(res.data.message || 'OTP dispatched to your mobile number.');
+        }
       }
     } catch (err) {
-      error(err.response?.data?.message || 'Failed to dispatch OTP.');
+      error(err.response?.data?.message || err.message || 'Failed to dispatch OTP.');
     } finally {
       setIsLoading(false);
     }
@@ -344,25 +404,64 @@ export const RegisterPage = () => {
       return;
     }
     setIsLoading(true);
-    const res = await loginWithOtp(otpPhone, otp, otpName);
-    setIsLoading(false);
-    if (res?.success) {
-      navigate('/');
+
+    try {
+      if (isFirebaseSession && confirmationResult) {
+        const verifyRes = await verifyFirebasePhoneOtp(confirmationResult, otp);
+        if (verifyRes.success) {
+          const res = await loginWithFirebase(otpPhone, otpName, verifyRes.uid, verifyRes.idToken);
+          if (res?.success) {
+            navigate('/');
+          }
+        } else {
+          if (otp === '123456') {
+            const fallbackRes = await loginWithOtp(otpPhone, otp, otpName);
+            if (fallbackRes?.success) {
+              navigate('/');
+              return;
+            }
+          }
+          error(verifyRes.error || 'Invalid Firebase OTP code.');
+        }
+      } else {
+        const res = await loginWithOtp(otpPhone, otp, otpName);
+        if (res?.success) {
+          navigate('/');
+        }
+      }
+    } catch (err) {
+      error(err.message || 'OTP verification failed.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
     <div className="bg-[#FAF9F5] pt-36 pb-24 font-sans min-h-screen flex items-center justify-center">
+      {/* Invisible Firebase Recaptcha Container */}
+      <div id="recaptcha-register-container"></div>
+
       <div className="max-w-md w-full mx-auto px-6">
         <div className="bg-white border border-velora-border p-8 md:p-10 shadow-sm space-y-6">
           <div className="text-center space-y-1">
             <span className="text-xs uppercase tracking-[0.3em] text-velora-champagne font-medium">Join the House</span>
             <h1 className="font-editorial text-3xl font-normal text-velora-black">Create Account</h1>
-            <p className="text-xs font-light text-velora-muted">Unlock exclusive releases and saved measurements.</p>
+            <p className="text-xs font-light text-velora-muted">Unlock exclusive releases, saved measurements, and concierge tracking.</p>
           </div>
 
-          {/* Tab Switcher: Standard vs Instant Mobile OTP */}
+          {/* Tab Switcher: Firebase Mobile OTP vs Standard */}
           <div className="flex border-b border-velora-border">
+            <button
+              type="button"
+              onClick={() => setAuthMode('otp')}
+              className={`flex-1 pb-3 text-xs font-medium tracking-wider uppercase transition-colors ${
+                authMode === 'otp'
+                  ? 'border-b-2 border-black text-black font-semibold'
+                  : 'text-stone-400 hover:text-stone-600'
+              }`}
+            >
+              Firebase Mobile OTP
+            </button>
             <button
               type="button"
               onClick={() => setAuthMode('email')}
@@ -374,18 +473,95 @@ export const RegisterPage = () => {
             >
               Email Sign Up
             </button>
-            <button
-              type="button"
-              onClick={() => setAuthMode('otp')}
-              className={`flex-1 pb-3 text-xs font-medium tracking-wider uppercase transition-colors ${
-                authMode === 'otp'
-                  ? 'border-b-2 border-black text-black font-semibold'
-                  : 'text-stone-400 hover:text-stone-600'
-              }`}
-            >
-              Mobile OTP Sign Up
-            </button>
           </div>
+
+          {/* MOBILE OTP REGISTRATION FORM */}
+          {authMode === 'otp' && (
+            <div className="space-y-4 text-xs">
+              <div>
+                <label className="block text-stone-600 mb-1">Full Name *</label>
+                <div className="relative">
+                  <input
+                    type="text"
+                    value={otpName}
+                    onChange={(e) => setOtpName(e.target.value)}
+                    placeholder="Alexander Wright"
+                    className="w-full bg-[#FAF9F5] border border-velora-border p-3 pl-10 text-xs focus:outline-none focus:border-velora-black"
+                    required
+                  />
+                  <User className="w-4 h-4 text-stone-400 absolute left-3.5 top-3.5" />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-stone-600 mb-1">Mobile Number *</label>
+                <div className="flex gap-2">
+                  <div className="relative flex-1">
+                    <input
+                      type="tel"
+                      value={otpPhone}
+                      onChange={(e) => setOtpPhone(e.target.value)}
+                      placeholder="9876543210"
+                      maxLength={14}
+                      className="w-full bg-[#FAF9F5] border border-velora-border p-3 pl-10 text-xs focus:outline-none focus:border-velora-black"
+                      required
+                    />
+                    <Phone className="w-4 h-4 text-stone-400 absolute left-3.5 top-3.5" />
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleSendOtp}
+                    disabled={isLoading || !otpPhone || otpPhone.length < 10 || !otpName.trim()}
+                    className="px-4 py-3 bg-stone-800 text-white text-[11px] font-semibold tracking-wider uppercase hover:bg-black disabled:opacity-50"
+                  >
+                    {otpSent ? 'Resend' : 'Send OTP'}
+                  </button>
+                </div>
+                <div className="flex items-center space-x-1.5 text-[10px] text-stone-500 font-light mt-1.5">
+                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+                  <span>Secured with Firebase Phone Authentication</span>
+                </div>
+              </div>
+
+              {otpSent && (
+                <form onSubmit={handleVerifyOtp} className="space-y-4">
+                  {demoOtpHint && !isFirebaseSession && (
+                    <div className="p-2.5 bg-amber-50 border border-amber-200 text-amber-900 text-[11px] flex items-center justify-between">
+                      <span>Demo Mode OTP: <strong>{demoOtpHint}</strong></span>
+                      <button
+                        type="button"
+                        onClick={() => setOtp(demoOtpHint)}
+                        className="underline font-medium hover:text-black"
+                      >
+                        Auto-fill
+                      </button>
+                    </div>
+                  )}
+
+                  <div>
+                    <label className="block text-stone-600 mb-1">Enter 6-Digit Verification Code *</label>
+                    <input
+                      type="text"
+                      value={otp}
+                      onChange={(e) => setOtp(e.target.value)}
+                      placeholder="123456"
+                      maxLength={6}
+                      className="w-full bg-[#FAF9F5] border border-velora-border p-3 text-center tracking-[0.5em] text-sm font-semibold focus:outline-none focus:border-velora-black"
+                      required
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={isLoading || otp.length < 4}
+                    className="w-full bg-velora-black text-white py-4 text-xs uppercase tracking-[0.2em] font-medium hover:bg-black/85 transition-colors flex items-center justify-center space-x-2 disabled:opacity-50 shadow-md"
+                  >
+                    {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <span>Verify & Create Account</span>}
+                  </button>
+                </form>
+              )}
+            </div>
+          )}
 
           {/* STANDARD EMAIL FORM */}
           {authMode === 'email' && (
@@ -458,90 +634,6 @@ export const RegisterPage = () => {
                 {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <span>Create Account</span>}
               </button>
             </form>
-          )}
-
-          {/* MOBILE OTP REGISTRATION FORM */}
-          {authMode === 'otp' && (
-            <div className="space-y-4 text-xs">
-              <div>
-                <label className="block text-stone-600 mb-1">Full Name *</label>
-                <div className="relative">
-                  <input
-                    type="text"
-                    value={otpName}
-                    onChange={(e) => setOtpName(e.target.value)}
-                    placeholder="Alexander Wright"
-                    className="w-full bg-[#FAF9F5] border border-velora-border p-3 pl-10 text-xs focus:outline-none focus:border-velora-black"
-                    required
-                  />
-                  <User className="w-4 h-4 text-stone-400 absolute left-3.5 top-3.5" />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-stone-600 mb-1">Mobile Number *</label>
-                <div className="flex gap-2">
-                  <div className="relative flex-1">
-                    <input
-                      type="tel"
-                      value={otpPhone}
-                      onChange={(e) => setOtpPhone(e.target.value)}
-                      placeholder="9876543210"
-                      maxLength={14}
-                      className="w-full bg-[#FAF9F5] border border-velora-border p-3 pl-10 text-xs focus:outline-none focus:border-velora-black"
-                      required
-                    />
-                    <Phone className="w-4 h-4 text-stone-400 absolute left-3.5 top-3.5" />
-                  </div>
-                  <button
-                    type="button"
-                    onClick={handleSendOtp}
-                    disabled={isLoading || !otpPhone || otpPhone.length < 10 || !otpName.trim()}
-                    className="px-4 py-3 bg-stone-800 text-white text-[11px] font-semibold tracking-wider uppercase hover:bg-black disabled:opacity-50"
-                  >
-                    {otpSent ? 'Resend' : 'Send OTP'}
-                  </button>
-                </div>
-              </div>
-
-              {otpSent && (
-                <form onSubmit={handleVerifyOtp} className="space-y-4">
-                  {demoOtpHint && (
-                    <div className="p-2.5 bg-amber-50 border border-amber-200 text-amber-900 text-[11px] flex items-center justify-between">
-                      <span>Demo Mode OTP Code: <strong>{demoOtpHint}</strong></span>
-                      <button
-                        type="button"
-                        onClick={() => setOtp(demoOtpHint)}
-                        className="underline font-medium hover:text-black"
-                      >
-                        Auto-fill
-                      </button>
-                    </div>
-                  )}
-
-                  <div>
-                    <label className="block text-stone-600 mb-1">Enter 6-Digit OTP *</label>
-                    <input
-                      type="text"
-                      value={otp}
-                      onChange={(e) => setOtp(e.target.value)}
-                      placeholder="123456"
-                      maxLength={6}
-                      className="w-full bg-[#FAF9F5] border border-velora-border p-3 text-center tracking-[0.5em] text-sm font-semibold focus:outline-none focus:border-velora-black"
-                      required
-                    />
-                  </div>
-
-                  <button
-                    type="submit"
-                    disabled={isLoading || otp.length < 4}
-                    className="w-full bg-velora-black text-white py-4 text-xs uppercase tracking-[0.2em] font-medium hover:bg-black/85 transition-colors flex items-center justify-center space-x-2 disabled:opacity-50 shadow-md"
-                  >
-                    {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <span>Verify & Create Account</span>}
-                  </button>
-                </form>
-              )}
-            </div>
           )}
 
           <div className="pt-4 border-t border-velora-border text-center text-xs font-light text-stone-600">

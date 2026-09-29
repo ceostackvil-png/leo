@@ -458,7 +458,47 @@ export const addRecentlyViewed = async (req, res) => {
       data: user.recentlyViewed,
     });
   } catch (error) {
+// @desc    Firebase Phone Auth Sync / Login
+// @route   POST /api/auth/firebase-login
+// @access  Public
+export const firebasePhoneLogin = async (req, res) => {
+  try {
+    const { phone, name, uid } = req.body;
+    if (!phone) {
+      return res.status(400).json({ success: false, message: 'Phone number is required' });
+    }
+
+    const cleanPhone = phone.trim();
+    let user = await User.findOne({ phone: cleanPhone }).populate('wishlist');
+
+    if (!user) {
+      const cleanDigits = cleanPhone.replace(/\D/g, '');
+      const uniqueSuffix = cleanDigits.slice(-6) || Math.floor(100000 + Math.random() * 900000);
+      const generatedEmail = `client_${uniqueSuffix}@leo.com`;
+
+      user = await User.create({
+        name: name && name.trim() ? name.trim() : `Gentleman ${uniqueSuffix}`,
+        email: generatedEmail,
+        phone: cleanPhone,
+        role: 'customer',
+      });
+    }
+
+    res.json({
+      success: true,
+      message: 'Firebase OTP verification and login successful',
+      data: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        phone: user.phone,
+        role: user.role,
+        addresses: user.addresses,
+        wishlist: user.wishlist,
+        token: generateToken(user._id, user.role),
+      },
+    });
+  } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
 };
-

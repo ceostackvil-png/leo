@@ -92,6 +92,25 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const loginWithFirebase = async (phone, name, uid, idToken) => {
+    try {
+      const res = await api.post('/auth/firebase-login', { phone, name, uid, idToken });
+      if (res.data.success) {
+        const { token: newToken, ...userData } = res.data.data;
+        localStorage.setItem('velora_token', newToken);
+        localStorage.setItem('leo_token', newToken);
+        setToken(newToken);
+        setUser(userData);
+        success(`Welcome, ${userData.name}`);
+        return { success: true, user: userData };
+      }
+    } catch (err) {
+      const msg = err.response?.data?.message || 'Firebase login failed.';
+      error(msg);
+      return { success: false, message: msg };
+    }
+  };
+
   const logout = () => {
     localStorage.removeItem('leo_token');
     localStorage.removeItem('velora_token');
@@ -155,6 +174,7 @@ export const AuthProvider = ({ children }) => {
         isAdmin: user?.role === 'admin',
         login,
         loginWithOtp,
+        loginWithFirebase,
         register,
         logout,
         updateProfile,

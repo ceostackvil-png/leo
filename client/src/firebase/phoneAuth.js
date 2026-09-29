@@ -1,0 +1,115 @@
+import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
+import { auth } from './config';
+
+/**
+ * Initialize or retrieve RecaptchaVerifier on the specified HTML container element
+ * @param {string} containerId - DOM ID of the container element
+ * @returns {RecaptchaVerifier}
+ */
+export const setupRecaptcha = (containerId = 'recaptcha-container') => {
+  if (typeof window === 'undefined') return null;
+
+  // Clear previous verifier instance if existing
+  if (window.recaptchaVerifier) {
+    try {
+      window.recaptchaVerifier.clear();
+    } catch (e) {
+      console.warn('Clearing previous RecaptchaVerifier:', e);
+    }
+  }
+
+  window.recaptchaVerifier = new RecaptchaVerifier(auth, containerId, {
+    size: 'invisible',
+    callback: () => {
+      console.log('Firebase Recaptcha resolved successfully.');
+    },
+    'expired-callback': () => {
+      console.warn('Firebase Recaptcha expired. Re-verification required.');
+    },
+  });
+
+  return window.recaptchaVerifier;
+};
+
+/**
+ * Format mobile phone to international E.164 format (+91 for India by default if missing)
+ * @param {string} rawPhone 
+ * @returns {string}
+ */
+export const formatPhoneNumber = (rawPhone) => {
+  const cleaned = rawPhone.replace(/[^\d+]/g, '');
+  if (cleaned.startsWith('+')) {
+    return cleaned;
+  }
+  if (cleaned.length === 10) {
+    return `+91${cleaned}`;
+  }
+  if (cleaned.length === 12 && cleaned.startsWith('91')) {
+    return `+${cleaned}`;
+  }
+  return `+91${cleaned}`;
+};
+
+/**
+ * Send Firebase SMS OTP to phone number using RecaptchaVerifier
+ * @param {string} phone 
+ * @param {string} containerId 
+ * @returns {Promise<{success: boolean, confirmationResult?: any, error?: string, isFallback?: boolean}>}
+ */
+export const sendFirebasePhoneOtp = async (phone, containerId = 'recaptcha-container') => {
+  try {
+    const formattedPhone = formatPhoneNumber(phone);
+    const verifier = setupRecaptcha(containerId);
+    
+    const confirmationResult = await signInWithPhoneNumber(auth, formattedPhone, verifier);
+    window.confirmationResult = confirmationResult;
+
+    return {
+      success: true,
+      confirmationResult,
+      formattedPhone,
+      message: `Firebase OTP code dispatched to ${formattedPhone}`,
+    };
+  } catch (err) {
+    console.warn('Firebase Phone Auth send error:', err);
+    return {
+      success: false,
+      error: err.message || 'Firebase OTP delivery failed.',
+      code: err.code,
+    };
+  }
+};
+
+/**
+ * Verify received SMS OTP with Firebase confirmationResult
+ * @param {any} confirmationResult 
+ * @param {string} otpCode 
+ * @returns {Promise<{success: boolean, user?: any, idToken?: string, error?: string}>}
+ */
+export const verifyFirebasePhoneOtp = async (confirmationResult, otpCode) => {
+  try {
+    const activeConfirmation = confirmationResult || window.confirmationResult;
+    if (!activeConfirmation) {
+      throw new Error('No active OTP session found. Please request a new verification code.');
+    }
+
+    const userCredential = await activeConfirmation.confirm(otpCode);
+    const user = userCredential.user;
+    const idToken = await user.getIdToken();
+
+    return {
+      success: true,
+      user,
+      idToken,
+      phoneNumber: user.phoneNumber,
+      uid: user.uid,
+    };
+  } catch (err) {
+    console.error('Firebase OTP verify error:', err);
+    return {
+      success: false,
+      error: err.message || 'Invalid or expired OTP verification code.',
+      code: err.code,
+    };
+  }
+};
