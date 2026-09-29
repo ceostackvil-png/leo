@@ -1,4 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import { signOut } from 'firebase/auth';
+import { auth } from '../firebase/config';
 import api from '../services/api';
 import { useToast } from './ToastContext';
 
@@ -111,7 +113,12 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const logout = () => {
+  const logout = async () => {
+    try {
+      await signOut(auth);
+    } catch (e) {
+      console.warn('Firebase signOut error:', e);
+    }
     localStorage.removeItem('leo_token');
     localStorage.removeItem('velora_token');
     setToken(null);
