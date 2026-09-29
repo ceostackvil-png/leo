@@ -84,7 +84,9 @@ export const sendFirebasePhoneOtp = async (phone, containerId = 'recaptcha-conta
   } catch (err) {
     console.warn('Firebase Phone Auth send error:', err);
     let userFriendlyMsg = err.message || 'Firebase OTP delivery failed.';
-    if (err.code === 'auth/operation-not-allowed') {
+    if (err.code === 'auth/billing-not-enabled') {
+      userFriendlyMsg = 'Firebase requires Blaze Plan for real SMS dispatch, OR add your number under "Phone numbers for testing" in Firebase Console for free.';
+    } else if (err.code === 'auth/operation-not-allowed') {
       userFriendlyMsg = 'SMS Region Policy is not enabled in Firebase Console. Please enable India (+91) under Authentication > Settings > SMS Region Policy, or add your number under "Phone numbers for testing".';
     } else if (err.code === 'auth/too-many-requests') {
       userFriendlyMsg = 'Too many OTP requests sent. Please try again in a few minutes.';
