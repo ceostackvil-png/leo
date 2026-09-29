@@ -58,14 +58,19 @@ export const LoginPage = () => {
         setOtpSent(true);
         success(`Firebase verification code dispatched to ${fbRes.formattedPhone}`);
       } else {
-        // 2. Graceful fallback to backend OTP service
-        console.info('Falling back to Atelier backend SMS service:', fbRes.error);
+        console.warn('Firebase Phone Auth response:', fbRes.error);
+        if (fbRes.code === 'auth/operation-not-allowed') {
+          error('SMS delivery blocked: Please enable India (+91) in Firebase Console > Authentication > Settings > SMS Region Policy');
+        } else {
+          error(fbRes.error || 'Failed to dispatch Firebase OTP.');
+        }
+
+        // Also offer local fallback session for testing
         const res = await api.post('/auth/send-otp', { phone });
         if (res.data.success) {
           setIsFirebaseSession(false);
           setOtpSent(true);
           setDemoOtpHint(res.data.demoOtp || '123456');
-          success(res.data.message || 'OTP dispatched to your mobile number.');
         }
       }
     } catch (err) {

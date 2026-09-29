@@ -83,9 +83,20 @@ export const sendFirebasePhoneOtp = async (phone, containerId = 'recaptcha-conta
     };
   } catch (err) {
     console.warn('Firebase Phone Auth send error:', err);
+    let userFriendlyMsg = err.message || 'Firebase OTP delivery failed.';
+    if (err.code === 'auth/operation-not-allowed') {
+      userFriendlyMsg = 'SMS Region Policy is not enabled in Firebase Console. Please enable India (+91) under Authentication > Settings > SMS Region Policy, or add your number under "Phone numbers for testing".';
+    } else if (err.code === 'auth/too-many-requests') {
+      userFriendlyMsg = 'Too many OTP requests sent. Please try again in a few minutes.';
+    } else if (err.code === 'auth/invalid-phone-number') {
+      userFriendlyMsg = 'Invalid phone number format. Please provide a valid mobile number with country code.';
+    } else if (err.code === 'auth/captcha-check-failed') {
+      userFriendlyMsg = 'reCAPTCHA verification failed. Please refresh and try again.';
+    }
+
     return {
       success: false,
-      error: err.message || 'Firebase OTP delivery failed.',
+      error: userFriendlyMsg,
       code: err.code,
     };
   }
