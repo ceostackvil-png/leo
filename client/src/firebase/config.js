@@ -2,12 +2,13 @@ import { initializeApp, getApps, getApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || 'AIzaSyDemoKeyForLeoMenswearAtelier2026',
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || 'leo-fashion-atelier.firebaseapp.com',
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || 'leo-fashion-atelier',
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || 'leo-fashion-atelier.appspot.com',
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || '102938475612',
-  appId: import.meta.env.VITE_FIREBASE_APP_ID || '1:102938475612:web:9a8b7c6d5e4f3a2b1c',
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || 'AIzaSyBe3S1oUqnSvr7CY1RgDntJEhuRIJlAAyE',
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || 'leofashion-8a80c.firebaseapp.com',
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || 'leofashion-8a80c',
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || 'leofashion-8a80c.firebasestorage.app',
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || '307031957749',
+  appId: import.meta.env.VITE_FIREBASE_APP_ID || '1:307031957749:web:1e695a4989a1ff9a43e5bc',
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID || 'G-G43E29J7RP',
 };
 
 // Initialize Firebase safely
