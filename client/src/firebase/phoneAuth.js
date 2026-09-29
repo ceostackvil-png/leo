@@ -9,6 +9,12 @@ import { auth } from './config';
 export const setupRecaptcha = (containerId = 'recaptcha-container') => {
   if (typeof window === 'undefined') return null;
 
+  const container = document.getElementById(containerId);
+  if (!container) {
+    console.warn(`Recaptcha container #${containerId} not found in DOM.`);
+    return null;
+  }
+
   // Clear previous verifier instance if existing
   if (window.recaptchaVerifier) {
     try {
@@ -16,19 +22,24 @@ export const setupRecaptcha = (containerId = 'recaptcha-container') => {
     } catch (e) {
       console.warn('Clearing previous RecaptchaVerifier:', e);
     }
+    window.recaptchaVerifier = null;
   }
 
-  window.recaptchaVerifier = new RecaptchaVerifier(auth, containerId, {
-    size: 'invisible',
-    callback: () => {
-      console.log('Firebase Recaptcha resolved successfully.');
-    },
-    'expired-callback': () => {
-      console.warn('Firebase Recaptcha expired. Re-verification required.');
-    },
-  });
-
-  return window.recaptchaVerifier;
+  try {
+    window.recaptchaVerifier = new RecaptchaVerifier(auth, containerId, {
+      size: 'invisible',
+      callback: () => {
+        console.log('Firebase Recaptcha resolved successfully.');
+      },
+      'expired-callback': () => {
+        console.warn('Firebase Recaptcha expired. Re-verification required.');
+      },
+    });
+    return window.recaptchaVerifier;
+  } catch (err) {
+    console.error('Failed to initialize RecaptchaVerifier:', err);
+    return null;
+  }
 };
 
 /**
