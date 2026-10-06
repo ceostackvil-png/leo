@@ -1,74 +1,82 @@
 [
   {
-    "_id": "cat_outerwear",
-    "name": "Outerwear",
-    "slug": "outerwear",
-    "description": "Architectural coats, tailored wool overcoats, and structured leather jackets.",
-    "image": "https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&w=1600&q=95",
-    "bannerImage": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1600&q=95",
-    "displayOrder": 1
+    "_id": "cat_t-shirts",
+    "name": "T-Shirts",
+    "slug": "t-shirts",
+    "description": "Round Neck, Full Sleeve, Turtle Neck, and Mercerized Polos engineered from heavyweight Supima cotton.",
+    "image": "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=1600&q=95",
+    "bannerImage": "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=1600&q=95",
+    "displayOrder": 1,
+    "subcategories": ["Round Neck", "Full Sleeve", "Turtle Neck", "Polo", "Oversized"]
   },
   {
-    "_id": "cat_tailored-shirts",
-    "name": "Tailored Shirts",
-    "slug": "tailored-shirts",
-    "description": "Crisp poplin, breathable Italian linen, and silk-blend formal shirts.",
+    "_id": "cat_denim",
+    "name": "Denim",
+    "slug": "denim",
+    "description": "Heavyweight Japanese selvedge denim jackets in Indigo Blue and Olive Green, paired with structured jeans.",
+    "image": "https://images.unsplash.com/photo-1576995853123-5a10305d93c0?auto=format&fit=crop&w=1600&q=95",
+    "bannerImage": "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=1600&q=95",
+    "displayOrder": 2,
+    "subcategories": ["Jackets", "Jeans"]
+  },
+  {
+    "_id": "cat_winter-edition",
+    "name": "Winter Edition",
+    "slug": "winter-edition",
+    "description": "Heavyweight 450gsm hoodies, plush sweatshirts, brushed winter shirts, and insulated jackets.",
+    "image": "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=1600&q=95",
+    "bannerImage": "https://images.unsplash.com/photo-1516762689617-e1cffcef479d?auto=format&fit=crop&w=1600&q=95",
+    "displayOrder": 3,
+    "subcategories": ["Hoodies", "Sweatshirts", "Shirts", "Jackets"]
+  },
+  {
+    "_id": "cat_linen",
+    "name": "Linen",
+    "slug": "linen",
+    "description": "Pure Normandy flax linen shirts in crisp formal cuts and relaxed band-collar casual drapes.",
     "image": "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=1600&q=95",
     "bannerImage": "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=1600&q=95",
-    "displayOrder": 2
+    "displayOrder": 4,
+    "subcategories": ["Formal", "Casual"]
+  },
+  {
+    "_id": "cat_leather-accessories",
+    "name": "Leather & Accessories",
+    "slug": "leather-accessories",
+    "description": "Full-grain calfskin belts, bifold wallets, Chelsea boots, and artisanal leather carryalls.",
+    "image": "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=1600&q=95",
+    "bannerImage": "https://images.unsplash.com/photo-1509319117193-57bab727e09d?auto=format&fit=crop&w=1600&q=95",
+    "displayOrder": 5,
+    "subcategories": ["Belts", "Wallets", "Shoes", "Bags"]
+  },
+  {
+    "_id": "cat_travelling-collection",
+    "name": "Travelling Collection",
+    "slug": "travelling-collection",
+    "description": "Refined transit essentials, wrinkle-resistant overshirts, ergonomic joggers, and airport hoodies.",
+    "image": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1600&q=95",
+    "bannerImage": "https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1600&q=95",
+    "displayOrder": 6,
+    "subcategories": ["Travel Hoodies", "Transit Joggers", "Packable Jackets", "Travel Duffels"]
+  },
+  {
+    "_id": "cat_outerwear",
+    "name": "Stitching & Coats",
+    "slug": "outerwear",
+    "description": "Architectural overcoats, sovereign bespoke tailoring, and precision hand-stitched outerwear.",
+    "image": "https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&w=1600&q=95",
+    "bannerImage": "https://images.unsplash.com/photo-1593030761757-71fae45fa0e7?auto=format&fit=crop&w=1600&q=95",
+    "displayOrder": 7,
+    "subcategories": ["Overcoats", "Tuxedos", "Blazers"]
   },
   {
     "_id": "cat_trousers",
     "name": "Trousers",
     "slug": "trousers",
-    "description": "Pleated wide-leg trousers, relaxed wool slacks, and structured chinos.",
+    "description": "Double-pleated wide-leg trousers, relaxed wool slacks, and structured formal pants.",
     "image": "https://images.unsplash.com/photo-1506630448388-4e683c67ddb0?auto=format&fit=crop&w=1600&q=95",
     "bannerImage": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1600&q=95",
-    "displayOrder": 3
-  },
-  {
-    "_id": "cat_knitwear",
-    "name": "Knitwear",
-    "slug": "knitwear",
-    "description": "Mongolian cashmere, merino wool rollnecks, and textured heavy knits.",
-    "image": "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=1600&q=95",
-    "bannerImage": "https://images.unsplash.com/photo-1516762689617-e1cffcef479d?auto=format&fit=crop&w=1600&q=95",
-    "displayOrder": 4
-  },
-  {
-    "_id": "cat_eveningwear-tuxedos",
-    "name": "Eveningwear & Tuxedos",
-    "slug": "eveningwear-tuxedos",
-    "description": "Sovereign velvet dinner jackets, black-tie peak lapel tuxedos, and tailored smoking robes.",
-    "image": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1600&q=95",
-    "bannerImage": "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=1600&q=95",
-    "displayOrder": 5
-  },
-  {
-    "_id": "cat_t-shirts-polos",
-    "name": "T-Shirts & Polos",
-    "slug": "t-shirts-polos",
-    "description": "Heavyweight organic cotton tees, mercerized knit polos, and raw-cut basics.",
-    "image": "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=1600&q=95",
-    "bannerImage": "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&w=1600&q=95",
-    "displayOrder": 6
-  },
-  {
-    "_id": "cat_accessories",
-    "name": "Accessories",
-    "slug": "accessories",
-    "description": "Full-grain calfskin belts, cashmere scarves, minimalist leather totes, and eyewear.",
-    "image": "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=1600&q=95",
-    "bannerImage": "https://images.unsplash.com/photo-1509319117193-57bab727e09d?auto=format&fit=crop&w=1600&q=95",
-    "displayOrder": 7
-  },
-  {
-    "_id": "cat_tailored-suits",
-    "name": "Tailored Suits",
-    "slug": "tailored-suits",
-    "description": "Double-breasted Italian wool blazers, unstructured jackets, and matching trousers.",
-    "image": "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=1600&q=95",
-    "bannerImage": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1600&q=95",
-    "displayOrder": 8
+    "displayOrder": 8,
+    "subcategories": ["Pleated Trousers", "Slacks", "Chinos"]
   }
 ]

@@ -37,14 +37,92 @@ export const Navbar = ({ isSearchOpen, setIsSearchOpen }) => {
     setIsUserMenuOpen(false);
   }, [location.pathname]);
 
-  const navLinks = [
-    { name: 'Tailoring', href: '/shop?category=tailored-suits' },
-    { name: 'Outerwear', href: '/shop?category=outerwear' },
-    { name: 'Shirts', href: '/shop?category=tailored-shirts' },
-    { name: 'Knitwear', href: '/shop?category=knitwear' },
-    { name: 'Trousers', href: '/shop?category=trousers' },
-    { name: 'Collections', href: '/collections' },
-    { name: 'Archive', href: '/shop?collection=minimalist-noir' },
+  const [activeDropdown, setActiveDropdown] = useState(null);
+
+  const navCategories = [
+    {
+      name: 'T-Shirts',
+      href: '/shop?category=t-shirts',
+      subcategories: [
+        { name: 'All T-Shirts', href: '/shop?category=t-shirts' },
+        { name: 'Round Neck Tees', href: '/shop?category=t-shirts&subCategory=Round Neck' },
+        { name: 'Full Sleeve Tees', href: '/shop?category=t-shirts&subCategory=Full Sleeve' },
+        { name: 'Turtle Neck Knit Tees', href: '/shop?category=t-shirts&subCategory=Turtle Neck' },
+        { name: 'Mercerized Polos', href: '/shop?category=t-shirts&subCategory=Polo' },
+        { name: 'Oversized Boxy Tees', href: '/shop?category=t-shirts&subCategory=Oversized' },
+      ],
+      tagline: '280gsm Supima & Mercerized Cotton'
+    },
+    {
+      name: 'Denim',
+      href: '/shop?category=denim',
+      subcategories: [
+        { name: 'All Denim', href: '/shop?category=denim' },
+        { name: 'Classic Indigo Denim Jacket', href: '/shop?category=denim&subCategory=Jackets' },
+        { name: 'Olive Green Denim Jacket', href: '/shop?category=denim&subCategory=Jackets' },
+        { name: 'Japanese Selvedge Jeans', href: '/shop?category=denim&subCategory=Jeans' },
+        { name: 'Relaxed Wide-Leg Denim', href: '/shop?category=denim&subCategory=Jeans' },
+      ],
+      tagline: '14.5oz Kaihara Japanese Selvedge'
+    },
+    {
+      name: 'Winter Edition',
+      href: '/shop?category=winter-edition',
+      subcategories: [
+        { name: 'All Winter Edition', href: '/shop?category=winter-edition' },
+        { name: '450gsm Heavyweight Hoodies', href: '/shop?category=winter-edition&subCategory=Hoodies' },
+        { name: 'Cashmere-Blend Sweatshirts', href: '/shop?category=winter-edition&subCategory=Sweatshirts' },
+        { name: 'Quilted Winter Shirts', href: '/shop?category=winter-edition&subCategory=Shirts' },
+        { name: 'Insulated Outerwear & Parkas', href: '/shop?category=winter-edition&subCategory=Jackets' },
+      ],
+      tagline: 'Grade-A Cashmere & Loopback Fleece'
+    },
+    {
+      name: 'Linen',
+      href: '/shop?category=linen',
+      subcategories: [
+        { name: 'All Linen', href: '/shop?category=linen' },
+        { name: 'Italian Formal Linen Shirts', href: '/shop?category=linen&subCategory=Formal' },
+        { name: 'Casual Band-Collar Linen Shirts', href: '/shop?category=linen&subCategory=Casual' },
+        { name: 'Pleated Linen Trousers', href: '/shop?category=trousers' },
+      ],
+      tagline: 'Pure Normandy Pre-Washed Flax'
+    },
+    {
+      name: 'Leather',
+      href: '/shop?category=leather-accessories',
+      subcategories: [
+        { name: 'All Leather', href: '/shop?category=leather-accessories' },
+        { name: 'Full-Grain Calfskin Belts', href: '/shop?category=leather-accessories&subCategory=Belts' },
+        { name: 'Minimalist Bifold Wallets', href: '/shop?category=leather-accessories&subCategory=Wallets' },
+        { name: 'Goodyear-Welted Chelsea Boots', href: '/shop?category=leather-accessories&subCategory=Shoes' },
+        { name: 'Weekender Duffel Bags', href: '/shop?category=leather-accessories&subCategory=Bags' },
+      ],
+      tagline: 'Vegetable-Tanned Florentine Leather'
+    },
+    {
+      name: 'Travelling',
+      href: '/shop?category=travelling-collection',
+      subcategories: [
+        { name: 'All Travelling Gear', href: '/shop?category=travelling-collection' },
+        { name: 'Airport Transit Hoodies', href: '/shop?category=travelling-collection&subCategory=Travel Hoodies' },
+        { name: 'Commuter Transit Joggers', href: '/shop?category=travelling-collection&subCategory=Transit Joggers' },
+        { name: 'Packable Travel Jackets', href: '/shop?category=travelling-collection&subCategory=Packable Jackets' },
+      ],
+      tagline: 'Engineered for First-Class Transit'
+    },
+    {
+      name: 'Collections',
+      href: '/collections',
+      subcategories: [
+        { name: 'All Lookbooks', href: '/collections' },
+        { name: 'The King Essentials', href: '/shop?collection=the-king-essentials' },
+        { name: 'The Denim Edition', href: '/shop?collection=denim-edition' },
+        { name: 'Pure Linen Atelier', href: '/shop?collection=linen-atelier' },
+        { name: 'Sovereign Stitching', href: '/shop?collection=sovereign-stitching' },
+      ],
+      tagline: 'Curated Seasonal Lookbooks'
+    }
   ];
 
   const isLightHero = isHomePage && !isScrolled;
@@ -52,11 +130,11 @@ export const Navbar = ({ isSearchOpen, setIsSearchOpen }) => {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${
+        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
           isScrolled
-            ? 'bg-[#FAF9F5]/95 backdrop-blur-md border-b border-velora-border/70 py-3 shadow-sm'
+            ? 'bg-[#FAF9F5]/98 backdrop-blur-md border-b border-velora-border/70 py-3 shadow-sm'
             : isHomePage
-            ? 'bg-gradient-to-b from-black/70 via-black/30 to-transparent text-white py-3.5'
+            ? 'bg-gradient-to-b from-black/75 via-black/35 to-transparent text-white py-3.5'
             : 'bg-[#FAF9F5] border-b border-velora-border py-3'
         }`}
       >
@@ -72,49 +150,92 @@ export const Navbar = ({ isSearchOpen, setIsSearchOpen }) => {
             </button>
           </div>
 
-          {/* Logo (Left Zone) */}
+          {/* Logo (Left Zone) — ALTER The King */}
           <div className="flex items-center shrink-0 min-w-[130px]">
-            <Link to="/" className="group flex items-center space-x-3">
+            <Link to="/" className="group flex items-center space-x-2.5">
               <img
                 src="/logo.png"
-                alt="LEO Crest"
+                alt="ALTER The King Crest"
                 className={`w-8 h-8 md:w-8.5 md:h-8.5 object-contain rounded-full transition-all duration-300 ${
                   isLightHero ? 'ring-1 ring-white/40' : 'ring-1 ring-black/10'
                 }`}
               />
               <div className="flex flex-col">
-                <span className={`font-editorial text-xl md:text-2xl font-normal tracking-[0.22em] uppercase transition-colors duration-300 ${
+                <span className={`font-editorial text-xl md:text-2xl font-normal tracking-[0.2em] uppercase transition-colors duration-300 ${
                   isLightHero ? 'text-white' : 'text-velora-black'
                 }`}>
-                  LEO
+                  ALTER
                 </span>
-                <span className={`text-[7.5px] md:text-[8.5px] tracking-[0.38em] uppercase font-light -mt-1 transition-opacity duration-300 ${
-                  isLightHero ? 'text-white/70' : 'text-velora-muted'
+                <span className={`text-[7px] md:text-[8px] tracking-[0.35em] uppercase font-medium -mt-1 transition-opacity duration-300 ${
+                  isLightHero ? 'text-velora-champagne' : 'text-stone-600'
                 }`}>
-                  Atelier
+                  The King
                 </span>
               </div>
             </Link>
           </div>
 
-          {/* Desktop Center Navigation Links */}
-          <nav className="hidden lg:flex items-center justify-center space-x-5 xl:space-x-8 px-4 flex-1">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                to={link.href}
-                className={`text-[10.5px] xl:text-[11.5px] font-medium tracking-[0.2em] uppercase transition-all duration-300 luxury-underline whitespace-nowrap ${
-                  isLightHero
-                    ? 'text-white/90 hover:text-white'
-                    : 'text-stone-700 hover:text-velora-black'
-                }`}
+          {/* Desktop Center Navigation with Nobero-style Dropdown Mega Menu */}
+          <nav className="hidden lg:flex items-center justify-center space-x-4 xl:space-x-6 px-4 flex-1">
+            {navCategories.map((cat) => (
+              <div
+                key={cat.name}
+                className="relative py-2"
+                onMouseEnter={() => setActiveDropdown(cat.name)}
+                onMouseLeave={() => setActiveDropdown(null)}
               >
-                {link.name}
-              </Link>
+                <Link
+                  to={cat.href}
+                  className={`text-[10px] xl:text-[11px] font-semibold tracking-[0.18em] uppercase transition-all duration-200 flex items-center space-x-1 py-1 ${
+                    isLightHero
+                      ? 'text-white/90 hover:text-white'
+                      : 'text-stone-800 hover:text-black'
+                  }`}
+                >
+                  <span>{cat.name}</span>
+                  <ChevronDown className="w-3 h-3 opacity-60 transition-transform group-hover:rotate-180" />
+                </Link>
+
+                {/* Dropdown Menu */}
+                <AnimatePresence>
+                  {activeDropdown === cat.name && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 8, scale: 0.98 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 4, scale: 0.98 }}
+                      transition={{ duration: 0.18 }}
+                      className="absolute left-1/2 -translate-x-1/2 top-full pt-2 w-64 z-50 pointer-events-auto"
+                    >
+                      <div className="bg-[#0A0A0A] text-[#F7F5F0] border border-white/10 shadow-[0_12px_40px_rgba(0,0,0,0.4)] p-4 space-y-2 rounded-sm">
+                        <div className="pb-2 border-b border-white/10">
+                          <span className="text-[9px] uppercase tracking-[0.25em] text-velora-champagne font-semibold block">
+                            {cat.name}
+                          </span>
+                          <span className="text-[10px] text-white/50 font-light block">
+                            {cat.tagline}
+                          </span>
+                        </div>
+                        <div className="flex flex-col space-y-1.5 pt-1">
+                          {cat.subcategories.map((sub) => (
+                            <Link
+                              key={sub.name}
+                              to={sub.href}
+                              onClick={() => setActiveDropdown(null)}
+                              className="text-xs font-light text-white/80 hover:text-velora-champagne hover:translate-x-1 transition-all py-1"
+                            >
+                              {sub.name}
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             ))}
           </nav>
 
-          {/* Right Action Icons (Right Zone) */}
+          {/* Right Action Icons */}
           <div className="flex items-center justify-end shrink-0 min-w-[120px] space-x-3.5 md:space-x-5">
             {/* Search Trigger */}
             <button
@@ -148,23 +269,23 @@ export const Navbar = ({ isSearchOpen, setIsSearchOpen }) => {
               {isAuthenticated ? (
                 <button
                   onClick={() => setIsUserMenuOpen(prev => !prev)}
-                  className={`flex items-center space-x-1.5 p-1.5 transition-colors duration-300 ${
+                  className={`flex items-center space-x-1 p-1 transition-colors duration-300 ${
                     isLightHero ? 'text-white/90 hover:text-white' : 'text-velora-dark hover:text-velora-black'
                   }`}
                   aria-label="User profile"
                 >
-                  <UserIcon className="w-5 h-5 stroke-[1.5]" />
-                  <ChevronDown className="w-3.5 h-3.5" />
+                  <UserIcon className="w-4.5 h-4.5 stroke-[1.5]" />
+                  <ChevronDown className="w-3 h-3" />
                 </button>
               ) : (
                 <Link
                   to="/login"
-                  className={`p-1.5 transition-colors duration-300 ${
+                  className={`p-1 transition-colors duration-300 ${
                     isLightHero ? 'text-white/90 hover:text-white' : 'text-velora-dark hover:text-velora-black'
                   }`}
                   aria-label="Sign in"
                 >
-                  <UserIcon className="w-5 h-5 stroke-[1.5]" />
+                  <UserIcon className="w-4.5 h-4.5 stroke-[1.5]" />
                 </Link>
               )}
 
@@ -190,7 +311,7 @@ export const Navbar = ({ isSearchOpen, setIsSearchOpen }) => {
                         className="flex items-center space-x-2.5 px-4 py-2.5 hover:bg-white/5 text-velora-champagne transition-colors"
                       >
                         <ShieldCheck className="w-4 h-4" />
-                        <span className="tracking-wider uppercase font-semibold text-[11px]">LEO Admin Atelier</span>
+                        <span className="tracking-wider uppercase font-semibold text-[11px]">ALTER Admin Atelier</span>
                       </Link>
                     )}
 
@@ -228,18 +349,18 @@ export const Navbar = ({ isSearchOpen, setIsSearchOpen }) => {
             {/* Cart Bag */}
             <button
               onClick={openCart}
-              className={`relative p-1.5 flex items-center transition-colors duration-300 ${
+              className={`relative p-1 flex items-center transition-colors duration-300 ${
                 isLightHero ? 'text-white hover:text-white' : 'text-velora-black hover:opacity-80'
               }`}
               aria-label="Shopping bag"
             >
-              <ShoppingBag className="w-5 h-5 stroke-[1.5]" />
+              <ShoppingBag className="w-4.5 h-4.5 stroke-[1.5]" />
               {totalItemCount > 0 && (
                 <motion.span
                   key={totalItemCount}
                   initial={{ scale: 0.6 }}
                   animate={{ scale: 1 }}
-                  className="absolute -top-1 -right-1 bg-velora-black text-white text-[9px] font-bold rounded-full w-4 h-4 flex items-center justify-center border border-white/40"
+                  className="absolute -top-1 -right-1 bg-velora-black text-white text-[8px] font-bold rounded-full w-3.5 h-3.5 flex items-center justify-center border border-white/40"
                 >
                   {totalItemCount}
                 </motion.span>
@@ -263,60 +384,75 @@ export const Navbar = ({ isSearchOpen, setIsSearchOpen }) => {
               animate={{ x: 0 }}
               exit={{ x: '-100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="w-4/5 max-w-sm h-full bg-[#0A0A0A] text-[#F7F5F0] p-8 flex flex-col justify-between shadow-2xl overflow-y-auto"
+              className="w-4/5 max-w-sm h-full bg-[#0A0A0A] text-[#F7F5F0] p-6 flex flex-col justify-between shadow-2xl overflow-y-auto"
             >
               <div>
-                <div className="flex items-center justify-between pb-8 border-b border-white/10">
-                  <div className="flex items-center space-x-3">
-                    <img src="/logo.png" alt="LEO Crest" className="w-8 h-8 object-contain rounded-full border border-white/30" />
+                <div className="flex items-center justify-between pb-6 border-b border-white/10">
+                  <div className="flex items-center space-x-2.5">
+                    <img src="/logo.png" alt="ALTER Crest" className="w-7 h-7 object-contain rounded-full border border-white/30" />
                     <div className="flex flex-col">
-                      <span className="font-editorial text-2xl tracking-[0.25em] text-white">LEO</span>
-                      <span className="text-[8px] tracking-[0.35em] uppercase text-white/50 -mt-1">ATELIER</span>
+                      <span className="font-editorial text-xl tracking-[0.2em] text-white">ALTER</span>
+                      <span className="text-[7px] tracking-[0.35em] uppercase text-velora-champagne font-medium -mt-1">THE KING</span>
                     </div>
                   </div>
                   <button
                     onClick={() => setIsMobileMenuOpen(false)}
                     className="p-1 text-white/70 hover:text-white"
                   >
-                    <X className="w-6 h-6" />
+                    <X className="w-5 h-5" />
                   </button>
                 </div>
 
-                <div className="mt-8 flex flex-col space-y-6">
-                  {navLinks.map((link) => (
-                    <Link
-                      key={link.name}
-                      to={link.href}
-                      className="text-lg font-editorial tracking-wider text-white/90 hover:text-velora-champagne transition-colors"
-                    >
-                      {link.name}
-                    </Link>
+                <div className="mt-6 flex flex-col space-y-4">
+                  {navCategories.map((cat) => (
+                    <div key={cat.name} className="border-b border-white/5 pb-3">
+                      <Link
+                        to={cat.href}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="text-base font-editorial tracking-wider text-white hover:text-velora-champagne transition-colors block"
+                      >
+                        {cat.name}
+                      </Link>
+                      <div className="grid grid-cols-2 gap-2 mt-2 pl-2">
+                        {cat.subcategories.slice(1, 5).map((sub) => (
+                          <Link
+                            key={sub.name}
+                            to={sub.href}
+                            onClick={() => setIsMobileMenuOpen(false)}
+                            className="text-[11px] text-white/50 hover:text-white transition-colors"
+                          >
+                            {sub.name}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
                   ))}
-                  <div className="pt-4 border-t border-white/10 flex flex-col space-y-4">
-                    <Link to="/track-order" className="text-sm font-light text-white/70 tracking-widest uppercase">
+
+                  <div className="pt-2 flex flex-col space-y-3 text-xs font-light text-white/70">
+                    <Link to="/track-order" onClick={() => setIsMobileMenuOpen(false)} className="tracking-widest uppercase">
                       Track Order
                     </Link>
-                    <Link to="/about" className="text-sm font-light text-white/70 tracking-widest uppercase">
+                    <Link to="/about" onClick={() => setIsMobileMenuOpen(false)} className="tracking-widest uppercase">
                       Brand Philosophy
                     </Link>
-                    <Link to="/contact" className="text-sm font-light text-white/70 tracking-widest uppercase">
-                      Concierge
+                    <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)} className="tracking-widest uppercase">
+                      Concierge Support
                     </Link>
                   </div>
                 </div>
               </div>
 
-              <div className="pt-8 border-t border-white/10 text-xs font-light text-white/50">
+              <div className="pt-6 border-t border-white/10 text-xs font-light text-white/50">
                 {isAuthenticated ? (
                   <div className="flex items-center justify-between">
                     <span>Signed in as {user?.name}</span>
                     <button onClick={logout} className="text-red-400">Logout</button>
                   </div>
                 ) : (
-                  <div className="flex items-center space-x-4">
-                    <Link to="/login" className="text-velora-champagne uppercase tracking-widest font-medium">Sign In</Link>
+                  <div className="flex items-center space-x-3">
+                    <Link to="/login" onClick={() => setIsMobileMenuOpen(false)} className="text-velora-champagne uppercase tracking-widest font-medium">Sign In</Link>
                     <span>/</span>
-                    <Link to="/register" className="text-white uppercase tracking-widest font-medium">Create Account</Link>
+                    <Link to="/register" onClick={() => setIsMobileMenuOpen(false)} className="text-white uppercase tracking-widest font-medium">Create Account</Link>
                   </div>
                 )}
               </div>
