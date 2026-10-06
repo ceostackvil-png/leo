@@ -25,6 +25,8 @@ import { SizeGuideModal } from '../components/SizeGuideModal';
 import { ReviewModal } from '../components/ReviewModal';
 import { ProductDetailSkeleton } from '../components/SkeletonLoader';
 
+import { getProductBySlug, queryProducts } from '../data/localDataStore';
+
 export const ProductDetailsPage = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
@@ -32,14 +34,17 @@ export const ProductDetailsPage = () => {
   const { isInWishlist, toggleWishlist } = useWishlist();
   const { success } = useToast();
 
-  const [product, setProduct] = useState(null);
-  const [relatedProducts, setRelatedProducts] = useState([]);
+  const initialProd = getProductBySlug(slug);
+  const [product, setProduct] = useState(() => initialProd);
+  const [relatedProducts, setRelatedProducts] = useState(() =>
+    queryProducts({ category: initialProd?.category, limit: 4 }).data
+  );
   const [reviews, setReviews] = useState([]);
   const [selectedImageIdx, setSelectedImageIdx] = useState(0);
-  const [selectedSize, setSelectedSize] = useState('');
-  const [selectedColor, setSelectedColor] = useState('');
+  const [selectedSize, setSelectedSize] = useState(() => initialProd?.sizes?.[0] || 'M');
+  const [selectedColor, setSelectedColor] = useState(() => initialProd?.colors?.[0]?.name || 'Noir');
   const [quantity, setQuantity] = useState(1);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(!initialProd);
 
   // Accordion Toggles
   const [openAccordions, setOpenAccordions] = useState({

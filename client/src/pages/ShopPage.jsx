@@ -5,13 +5,20 @@ import api from '../services/api';
 import { ProductCard } from '../components/ProductCard';
 import { ProductCardSkeleton } from '../components/SkeletonLoader';
 
+import {
+  queryProducts,
+  categories as initialCategories,
+  collections as initialCollections,
+} from '../data/localDataStore';
+
 export const ShopPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [collections, setCollections] = useState([]);
-  const [pagination, setPagination] = useState({ page: 1, totalPages: 1, totalItems: 0 });
-  const [isLoading, setIsLoading] = useState(true);
+  const initialQueryResult = queryProducts({ limit: 12 });
+  const [products, setProducts] = useState(() => initialQueryResult.data);
+  const [categories, setCategories] = useState(() => initialCategories);
+  const [collections, setCollections] = useState(() => initialCollections);
+  const [pagination, setPagination] = useState(() => initialQueryResult.pagination);
+  const [isLoading, setIsLoading] = useState(false);
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
   const [gridCols, setGridCols] = useState(4); // 2, 3, or 4
 

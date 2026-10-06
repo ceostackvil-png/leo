@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import api from '../services/api';
+import { collections as initialCollections } from '../data/localDataStore';
 
 export const CollectionsPage = () => {
-  const [collections, setCollections] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [collections, setCollections] = useState(() => initialCollections);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchCollections = async () => {

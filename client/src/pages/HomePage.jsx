@@ -13,13 +13,19 @@ import { FestivalFlyerSection } from '../components/FestivalFlyerSection';
 import { RecentlyViewedSection } from '../components/RecentlyViewedSection';
 import { NeedHelpSection } from '../components/NeedHelpSection';
 
+import {
+  queryProducts,
+  categories as initialCategories,
+  banners as initialBanners,
+} from '../data/localDataStore';
+
 export const HomePage = () => {
-  const [featuredProducts, setFeaturedProducts] = useState([]);
-  const [bestSellers, setBestSellers] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [banners, setBanners] = useState([]);
+  const [featuredProducts, setFeaturedProducts] = useState(() => queryProducts({ isFeatured: true, limit: 8 }).data);
+  const [bestSellers, setBestSellers] = useState(() => queryProducts({ isBestSeller: true, limit: 8 }).data);
+  const [categories, setCategories] = useState(() => initialCategories);
+  const [banners, setBanners] = useState(() => initialBanners);
   const [cmsSettings, setCmsSettings] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const carouselRef = useRef(null);
 
   useEffect(() => {

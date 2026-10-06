@@ -28,13 +28,22 @@ api.interceptors.request.use(
 );
 
 // Helper to resolve static mock response
-const handleStaticFallback = (url = '', method = 'get') => {
-  const cleanUrl = url.replace(/^(\/api|\/)/, '');
-  const [pathname, queryString] = cleanUrl.split('?');
+const handleStaticFallback = (rawUrl = '', method = 'get') => {
+  if (!rawUrl) return null;
+  let url = rawUrl;
+  try {
+    if (url.startsWith('http://') || url.startsWith('https://')) {
+      const parsed = new URL(url);
+      url = parsed.pathname + parsed.search;
+    }
+  } catch (e) {}
+
+  url = url.replace(/^\/?(api\/)?/, '');
+  const [pathname, queryString] = url.split('?');
   const params = Object.fromEntries(new URLSearchParams(queryString || ''));
 
   // /products or /products?...
-  if (pathname === 'products') {
+  if (pathname === 'products' || pathname.startsWith('products?')) {
     const result = queryProducts(params);
     return { data: result, status: 200, statusText: 'OK', config: {}, headers: {} };
   }
@@ -87,7 +96,7 @@ const handleStaticFallback = (url = '', method = 'get') => {
     };
   }
 
-  // /cms/settings
+  // /cms/settings or /cms
   if (pathname.startsWith('cms')) {
     return {
       data: {
@@ -99,14 +108,13 @@ const handleStaticFallback = (url = '', method = 'get') => {
             heroSlider: true,
             bestSellers: true,
             categories: true,
-            monolithLookbook: true,
-            silkEditFeature: true,
-            bengaluruBespoke: true,
-            cashmereStory: true,
-            craftsmanship: true,
-            values: true,
+            signatureCollection: true,
+            specialOffers: true,
+            comingSoon: true,
+            festivalFlyers: true,
+            recentlyViewed: true,
+            needHelp: true,
             instagramFeed: true,
-            newsletter: true,
           },
         },
       },
@@ -120,23 +128,25 @@ const handleStaticFallback = (url = '', method = 'get') => {
   return null;
 };
 
-// Response interceptor for error fallback to JSON data
+// Response interceptor for error and SPA rewrite fallback to JSON data
 api.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    // If backend network fails or 404/500/timeout occurs on Vercel static deployment
+  (response) => {
+    // If Vercel SPA rewrite returned index.html string for an API endpoint
     if (
-      !error.response ||
-      error.response.status === 404 ||
-      error.response.status === 500 ||
-      error.response.status === 502 ||
-      error.code === 'ERR_NETWORK' ||
-      error.code === 'ECONNABORTED'
+      typeof response.data === 'string' &&
+      (response.data.includes('<!DOCTYPE html>') || response.data.includes('<html'))
     ) {
-      const fallback = handleStaticFallback(error.config?.url, error.config?.method);
+      const fallback = handleStaticFallback(response.config?.url, response.config?.method);
       if (fallback) {
-        return Promise.resolve(fallback);
+        return fallback;
       }
+    }
+    return response;
+  },
+  (error) => {
+    const fallback = handleStaticFallback(error.config?.url, error.config?.method);
+    if (fallback) {
+      return Promise.resolve(fallback);
     }
     return Promise.reject(error);
   }
