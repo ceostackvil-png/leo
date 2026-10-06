@@ -11,32 +11,34 @@
   }
 
   body {
-    background-color: #FAF9F5;
-    color: #141414;
+    background-color: #FFFFFF;
+    color: #111827;
     font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    font-family: 'Plus Jakarta Sans', Inter, -apple-system, BlinkMacSystemFont, sans-serif;
   }
 
-  /* Editorial Headings */
+  /* Editorial & Heading styles */
   h1, h2, h3, .font-editorial {
-    font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
-    letter-spacing: -0.01em;
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.02em;
   }
 }
 
-/* Custom Luxury Scrollbar */
+/* Custom Clean Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #FAF9F5;
+  background: #F1F5F9;
 }
 ::-webkit-scrollbar-thumb {
-  background: #C5B9AC;
-  border-radius: 0px;
+  background: #CBD5E1;
+  border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #0A0A0A;
+  background: #94A3B8;
 }
 
 /* Luxury Skeleton Shimmer */

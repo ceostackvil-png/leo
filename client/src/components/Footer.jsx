@@ -21,108 +21,106 @@ export const Footer = () => {
   };
 
   return (
-    <footer className="bg-[#0A0A0A] text-[#F7F5F0] pt-20 pb-12 border-t border-white/10 font-sans">
-      <div className="max-w-7xl mx-auto px-6 md:px-12">
+    <footer className="bg-slate-900 text-white pt-16 pb-12 font-sans border-t border-slate-800">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         {/* Top Newsletter & Statement Row */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 pb-16 border-b border-white/10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 pb-12 border-b border-slate-800">
           <div className="lg:col-span-6 space-y-4">
-            <div className="flex items-center space-x-4">
-              <img
-                src="/logo.png"
-                alt="ALTER The King Crest"
-                className="w-12 h-12 object-contain rounded-full border border-white/20 shadow-lg"
-              />
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 rounded-full bg-amber-500 text-slate-950 p-1 flex items-center justify-center font-black">
+                👑
+              </div>
               <div className="flex flex-col">
-                <span className="font-editorial text-3xl md:text-4xl font-normal tracking-[0.25em] uppercase">
-                  ALTER
+                <span className="font-extrabold text-2xl tracking-tight uppercase">
+                  ALTER <span className="text-amber-400">THE KING</span>
                 </span>
-                <span className="text-[10px] uppercase tracking-[0.4em] text-velora-champagne font-medium">
-                  The King
+                <span className="text-[10px] uppercase tracking-widest text-gray-400 font-bold">
+                  Sovereign D2C Menswear Atelier
                 </span>
               </div>
             </div>
-            <p className="text-sm font-light text-white/60 max-w-md leading-relaxed pt-2">
-              An atelier dedicated to structural precision, sovereign denim, pure French linen, and Mongolian cashmere. Timeless architectural silhouettes for the sovereign and discerning eye.
+            <p className="text-xs sm:text-sm text-gray-300 max-w-md leading-relaxed">
+              Everyday luxury engineered with 280gsm Supima cotton, 14.5oz Japanese selvedge denim, pure French flax linen, and 450gsm loopback transit fleece.
             </p>
           </div>
 
-          <div className="lg:col-span-6 space-y-4">
-            <p className="text-xs uppercase tracking-[0.25em] text-white font-medium">
-              Join the ALTER Inner Circle
+          <div className="lg:col-span-6 space-y-3 bg-slate-800/60 p-6 rounded-2xl border border-slate-700/60">
+            <p className="text-sm font-bold text-white uppercase tracking-wider">
+              🎁 Subscribe & Get ₹300 Off
             </p>
-            <p className="text-xs text-white/60 font-light">
-              Receive private lookbook previews, editorial releases, and invitations to private trunk shows.
+            <p className="text-xs text-gray-300">
+              Be the first to hear about new drop alerts, secret warehouse sales, and VIP combo discounts.
             </p>
-            <form onSubmit={handleSubscribe} className="flex max-w-md">
+            <form onSubmit={handleSubscribe} className="flex gap-2 pt-2">
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email address..."
-                className="bg-transparent border-b border-white/30 text-white placeholder:text-white/40 text-xs py-3 px-1 w-full focus:outline-none focus:border-velora-champagne transition-colors"
+                className="bg-slate-900 border border-slate-700 rounded-full text-white placeholder-gray-500 text-xs py-2.5 px-4 w-full focus:outline-none focus:border-amber-400 transition-colors"
                 required
               />
               <button
                 type="submit"
-                className="border-b border-white/30 px-4 py-3 hover:border-velora-champagne hover:text-velora-champagne transition-colors flex items-center text-xs tracking-widest uppercase font-medium"
+                className="px-6 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs uppercase tracking-wider rounded-full transition-all shrink-0 shadow-md"
               >
-                {isSubscribed ? <Check className="w-4 h-4 text-velora-champagne" /> : <ArrowRight className="w-4 h-4" />}
+                {isSubscribed ? <Check className="w-4 h-4" /> : 'Subscribe'}
               </button>
             </form>
           </div>
         </div>
 
         {/* Links Navigation Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-10 py-16 text-xs font-light tracking-wide">
-          <div className="space-y-4">
-            <p className="uppercase tracking-[0.25em] font-medium text-white text-[11px]">Collections</p>
-            <ul className="space-y-2.5 text-white/60">
-              <li><Link to="/shop?category=t-shirts" className="hover:text-white transition-colors">T-Shirts Collection</Link></li>
-              <li><Link to="/shop?category=denim" className="hover:text-white transition-colors">The Denim Edition</Link></li>
-              <li><Link to="/shop?category=winter-edition" className="hover:text-white transition-colors">Winter Edition Hoodies</Link></li>
-              <li><Link to="/shop?category=linen" className="hover:text-white transition-colors">Pure Linen Atelier</Link></li>
-              <li><Link to="/shop?category=leather-accessories" className="hover:text-white transition-colors">Leather Collection</Link></li>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 py-12 text-xs">
+          <div className="space-y-3">
+            <p className="uppercase font-black text-amber-400 tracking-wider text-[11px]">Popular Categories</p>
+            <ul className="space-y-2 text-gray-300 font-medium">
+              <li><Link to="/shop?category=t-shirts" className="hover:text-amber-400 transition-colors">Heavyweight T-Shirts</Link></li>
+              <li><Link to="/shop?category=denim" className="hover:text-amber-400 transition-colors">Selvedge Denim Jackets</Link></li>
+              <li><Link to="/shop?category=winter-edition" className="hover:text-amber-400 transition-colors">450gsm Winter Hoodies</Link></li>
+              <li><Link to="/shop?category=linen" className="hover:text-amber-400 transition-colors">Pure French Linen Shirts</Link></li>
+              <li><Link to="/shop?category=leather-accessories" className="hover:text-amber-400 transition-colors">Leather Belts & Boots</Link></li>
             </ul>
           </div>
 
-          <div className="space-y-4">
-            <p className="uppercase tracking-[0.25em] font-medium text-white text-[11px]">Client Concierge</p>
-            <ul className="space-y-2.5 text-white/60">
-              <li><Link to="/track-order" className="hover:text-white transition-colors">Track Your Consignment</Link></li>
-              <li><Link to="/shipping-returns" className="hover:text-white transition-colors">Complimentary Delivery & Returns</Link></li>
-              <li><Link to="/faq" className="hover:text-white transition-colors">Bespoke Size Guide & FAQ</Link></li>
-              <li><Link to="/contact" className="hover:text-white transition-colors">Client Services Concierge</Link></li>
-              <li><Link to="/account/orders" className="hover:text-white transition-colors">My Client Account</Link></li>
+          <div className="space-y-3">
+            <p className="uppercase font-black text-amber-400 tracking-wider text-[11px]">Customer Support</p>
+            <ul className="space-y-2 text-gray-300 font-medium">
+              <li><Link to="/track-order" className="hover:text-amber-400 transition-colors">Track Your Order</Link></li>
+              <li><Link to="/shipping-returns" className="hover:text-amber-400 transition-colors">Shipping & 7-Day Returns</Link></li>
+              <li><Link to="/faq" className="hover:text-amber-400 transition-colors">Size Guide & FAQ</Link></li>
+              <li><Link to="/contact" className="hover:text-amber-400 transition-colors">WhatsApp & Concierge</Link></li>
+              <li><Link to="/account/orders" className="hover:text-amber-400 transition-colors">My Client Account</Link></li>
             </ul>
           </div>
 
-          <div className="space-y-4">
-            <p className="uppercase tracking-[0.25em] font-medium text-white text-[11px]">The House</p>
-            <ul className="space-y-2.5 text-white/60">
-              <li><Link to="/about" className="hover:text-white transition-colors">The House of ALTER</Link></li>
-              <li><Link to="/about" className="hover:text-white transition-colors">Material Sourcing Integrity</Link></li>
-              <li><Link to="/about" className="hover:text-white transition-colors">Sovereign Stitching</Link></li>
-              <li><Link to="/contact" className="hover:text-white transition-colors">Atelier Locations</Link></li>
+          <div className="space-y-3">
+            <p className="uppercase font-black text-amber-400 tracking-wider text-[11px]">About Alter</p>
+            <ul className="space-y-2 text-gray-300 font-medium">
+              <li><Link to="/about" className="hover:text-amber-400 transition-colors">The House of ALTER</Link></li>
+              <li><Link to="/about" className="hover:text-amber-400 transition-colors">Fabric Quality Standards</Link></li>
+              <li><Link to="/about" className="hover:text-amber-400 transition-colors">Sovereign Craftsmanship</Link></li>
+              <li><Link to="/contact" className="hover:text-amber-400 transition-colors">Store Locations</Link></li>
             </ul>
           </div>
 
-          <div className="space-y-4">
-            <p className="uppercase tracking-[0.25em] font-medium text-white text-[11px]">Governance</p>
-            <ul className="space-y-2.5 text-white/60">
-              <li><Link to="/privacy" className="hover:text-white transition-colors">Privacy Governance</Link></li>
-              <li><Link to="/terms" className="hover:text-white transition-colors">Terms of Service</Link></li>
-              <li><Link to="/login/admin" className="hover:text-velora-champagne transition-colors">ALTER Admin Portal</Link></li>
+          <div className="space-y-3">
+            <p className="uppercase font-black text-amber-400 tracking-wider text-[11px]">Policies & Admin</p>
+            <ul className="space-y-2 text-gray-300 font-medium">
+              <li><Link to="/privacy" className="hover:text-amber-400 transition-colors">Privacy Policy</Link></li>
+              <li><Link to="/terms" className="hover:text-amber-400 transition-colors">Terms of Service</Link></li>
+              <li><Link to="/login/admin" className="hover:text-amber-400 transition-colors font-bold text-amber-400">👑 ALTER Admin Portal</Link></li>
             </ul>
           </div>
         </div>
 
-        {/* Bottom Details */}
-        <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between text-[11px] font-light text-white/40 space-y-4 md:space-y-0">
-          <p>© 2026 ALTER — The King. All Rights Reserved. Sovereign menswear atelier.</p>
-          <div className="flex items-center space-x-6">
-            <span>India / INR (₹)</span>
-            <span className="w-1 h-1 bg-white/20 rounded-full"></span>
-            <span className="text-white/60 hover:text-white transition-colors cursor-pointer">English (UK)</span>
+        {/* Payment Methods & Bottom Bar */}
+        <div className="pt-8 border-t border-slate-800 flex flex-col md:flex-row items-center justify-between text-xs text-gray-400 space-y-4 md:space-y-0">
+          <p>© 2026 ALTER — The King. All Rights Reserved. Crafted with pride in India.</p>
+          <div className="flex items-center space-x-3 text-[11px] font-bold text-gray-300">
+            <span className="px-2 py-1 bg-slate-800 rounded">UPI / GPay</span>
+            <span className="px-2 py-1 bg-slate-800 rounded">Cards & Netbanking</span>
+            <span className="px-2 py-1 bg-slate-800 rounded">Cash on Delivery</span>
           </div>
         </div>
       </div>
