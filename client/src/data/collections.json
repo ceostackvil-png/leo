@@ -1,0 +1,52 @@
+[
+  {
+    "_id": "col_monolith-aw26",
+    "name": "Autumn / Winter 2026 — Monolith",
+    "slug": "monolith-aw26",
+    "tagline": "Architectural silhouettes inspired by brutalist geometry and quiet luxury.",
+    "description": "The Monolith collection explores heavy wools, razor-sharp shoulder lines, and monolithic monochrome layering tailored for modern gentlemen.",
+    "heroImage": "https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&w=1600&q=95",
+    "season": "Autumn / Winter 2026",
+    "isFeatured": true
+  },
+  {
+    "_id": "col_aura-ss26",
+    "name": "Spring / Summer 2026 — Aura",
+    "slug": "aura-ss26",
+    "tagline": "Weightless silhouettes in unbleached silk and breathable Mediterranean linen.",
+    "description": "Fluidity meets restraint. The Aura collection embraces airy drape, neutral sand tones, and relaxed daytime elegance for men.",
+    "heroImage": "https://images.unsplash.com/photo-1506630448388-4e683c67ddb0?auto=format&fit=crop&w=1600&q=95",
+    "season": "Spring / Summer 2026",
+    "isFeatured": true
+  },
+  {
+    "_id": "col_minimalist-noir",
+    "name": "Minimalist Noir",
+    "slug": "minimalist-noir",
+    "tagline": "Pure black textures, matte wool, and polished obsidian accents.",
+    "description": "An exploration of depth through varying textures of pure midnight black: leather, cashmere, silk satin, and heavy gabardine.",
+    "heroImage": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1600&q=95",
+    "season": "Permanent Archive",
+    "isFeatured": true
+  },
+  {
+    "_id": "col_the-silk-edit",
+    "name": "The Silk Edit",
+    "slug": "the-silk-edit",
+    "tagline": "100% Mulberry silk shirts, neckwear foulards, and draped evening layers.",
+    "description": "Handcrafted with grade 6A pure Mulberry silk for an incomparable tactile sheen and effortless movement.",
+    "heroImage": "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=1600&q=95",
+    "season": "Permanent Archive",
+    "isFeatured": false
+  },
+  {
+    "_id": "col_cashmere-atelier",
+    "name": "Cashmere Atelier",
+    "slug": "cashmere-atelier",
+    "tagline": "Grade-A Inner Mongolian cashmere knitwear of supreme softness.",
+    "description": "Ultra-fine 2-ply and 4-ply cashmere sweaters, cardigans, and beanies ethically harvested and finished in Italy.",
+    "heroImage": "https://images.unsplash.com/photo-1576995853123-5a10305d93c0?auto=format&fit=crop&w=1600&q=95",
+    "season": "Permanent Archive",
+    "isFeatured": true
+  }
+]

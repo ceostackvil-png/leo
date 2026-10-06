@@ -1,0 +1,74 @@
+[
+  {
+    "_id": "cat_outerwear",
+    "name": "Outerwear",
+    "slug": "outerwear",
+    "description": "Architectural coats, tailored wool overcoats, and structured leather jackets.",
+    "image": "https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&w=1600&q=95",
+    "bannerImage": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1600&q=95",
+    "displayOrder": 1
+  },
+  {
+    "_id": "cat_tailored-shirts",
+    "name": "Tailored Shirts",
+    "slug": "tailored-shirts",
+    "description": "Crisp poplin, breathable Italian linen, and silk-blend formal shirts.",
+    "image": "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=1600&q=95",
+    "bannerImage": "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=1600&q=95",
+    "displayOrder": 2
+  },
+  {
+    "_id": "cat_trousers",
+    "name": "Trousers",
+    "slug": "trousers",
+    "description": "Pleated wide-leg trousers, relaxed wool slacks, and structured chinos.",
+    "image": "https://images.unsplash.com/photo-1506630448388-4e683c67ddb0?auto=format&fit=crop&w=1600&q=95",
+    "bannerImage": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1600&q=95",
+    "displayOrder": 3
+  },
+  {
+    "_id": "cat_knitwear",
+    "name": "Knitwear",
+    "slug": "knitwear",
+    "description": "Mongolian cashmere, merino wool rollnecks, and textured heavy knits.",
+    "image": "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=1600&q=95",
+    "bannerImage": "https://images.unsplash.com/photo-1516762689617-e1cffcef479d?auto=format&fit=crop&w=1600&q=95",
+    "displayOrder": 4
+  },
+  {
+    "_id": "cat_eveningwear-tuxedos",
+    "name": "Eveningwear & Tuxedos",
+    "slug": "eveningwear-tuxedos",
+    "description": "Sovereign velvet dinner jackets, black-tie peak lapel tuxedos, and tailored smoking robes.",
+    "image": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1600&q=95",
+    "bannerImage": "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=1600&q=95",
+    "displayOrder": 5
+  },
+  {
+    "_id": "cat_t-shirts-polos",
+    "name": "T-Shirts & Polos",
+    "slug": "t-shirts-polos",
+    "description": "Heavyweight organic cotton tees, mercerized knit polos, and raw-cut basics.",
+    "image": "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=1600&q=95",
+    "bannerImage": "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&w=1600&q=95",
+    "displayOrder": 6
+  },
+  {
+    "_id": "cat_accessories",
+    "name": "Accessories",
+    "slug": "accessories",
+    "description": "Full-grain calfskin belts, cashmere scarves, minimalist leather totes, and eyewear.",
+    "image": "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=1600&q=95",
+    "bannerImage": "https://images.unsplash.com/photo-1509319117193-57bab727e09d?auto=format&fit=crop&w=1600&q=95",
+    "displayOrder": 7
+  },
+  {
+    "_id": "cat_tailored-suits",
+    "name": "Tailored Suits",
+    "slug": "tailored-suits",
+    "description": "Double-breasted Italian wool blazers, unstructured jackets, and matching trousers.",
+    "image": "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=1600&q=95",
+    "bannerImage": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1600&q=95",
+    "displayOrder": 8
+  }
+]
