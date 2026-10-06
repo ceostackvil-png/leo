@@ -54,10 +54,10 @@ export const Navbar = ({ isSearchOpen, setIsSearchOpen }) => {
       <header
         className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${
           isScrolled
-            ? 'bg-[#FAF9F5]/95 backdrop-blur-md border-b border-velora-border/70 py-4 shadow-sm'
+            ? 'bg-[#FAF9F5]/95 backdrop-blur-md border-b border-velora-border/70 py-3 shadow-sm'
             : isHomePage
-            ? 'bg-gradient-to-b from-black/70 via-black/30 to-transparent text-white py-5'
-            : 'bg-[#FAF9F5] border-b border-velora-border py-4'
+            ? 'bg-gradient-to-b from-black/70 via-black/30 to-transparent text-white py-3.5'
+            : 'bg-[#FAF9F5] border-b border-velora-border py-3'
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between">
@@ -68,27 +68,27 @@ export const Navbar = ({ isSearchOpen, setIsSearchOpen }) => {
               className="p-1.5 -ml-1.5 focus:outline-none"
               aria-label="Open navigation menu"
             >
-              <Menu className={`w-6 h-6 ${isLightHero ? 'text-white' : 'text-velora-black'}`} />
+              <Menu className={`w-5.5 h-5.5 ${isLightHero ? 'text-white' : 'text-velora-black'}`} />
             </button>
           </div>
 
           {/* Logo (Left Zone) */}
-          <div className="flex items-center shrink-0 min-w-[140px]">
+          <div className="flex items-center shrink-0 min-w-[130px]">
             <Link to="/" className="group flex items-center space-x-3">
               <img
                 src="/logo.png"
                 alt="LEO Crest"
-                className={`w-8 h-8 md:w-9 md:h-9 object-contain rounded-full transition-all duration-300 ${
+                className={`w-8 h-8 md:w-8.5 md:h-8.5 object-contain rounded-full transition-all duration-300 ${
                   isLightHero ? 'ring-1 ring-white/40' : 'ring-1 ring-black/10'
                 }`}
               />
               <div className="flex flex-col">
-                <span className={`font-editorial text-2xl md:text-3xl font-normal tracking-[0.22em] uppercase transition-colors duration-300 ${
+                <span className={`font-editorial text-xl md:text-2xl font-normal tracking-[0.22em] uppercase transition-colors duration-300 ${
                   isLightHero ? 'text-white' : 'text-velora-black'
                 }`}>
                   LEO
                 </span>
-                <span className={`text-[8px] md:text-[9px] tracking-[0.38em] uppercase font-light -mt-1 transition-opacity duration-300 ${
+                <span className={`text-[7.5px] md:text-[8.5px] tracking-[0.38em] uppercase font-light -mt-1 transition-opacity duration-300 ${
                   isLightHero ? 'text-white/70' : 'text-velora-muted'
                 }`}>
                   Atelier
@@ -103,7 +103,7 @@ export const Navbar = ({ isSearchOpen, setIsSearchOpen }) => {
               <Link
                 key={link.name}
                 to={link.href}
-                className={`text-[11px] xl:text-[12px] font-medium tracking-[0.2em] uppercase transition-all duration-300 luxury-underline whitespace-nowrap ${
+                className={`text-[10.5px] xl:text-[11.5px] font-medium tracking-[0.2em] uppercase transition-all duration-300 luxury-underline whitespace-nowrap ${
                   isLightHero
                     ? 'text-white/90 hover:text-white'
                     : 'text-stone-700 hover:text-velora-black'
@@ -115,29 +115,29 @@ export const Navbar = ({ isSearchOpen, setIsSearchOpen }) => {
           </nav>
 
           {/* Right Action Icons (Right Zone) */}
-          <div className="flex items-center justify-end shrink-0 min-w-[140px] space-x-4 md:space-x-6">
+          <div className="flex items-center justify-end shrink-0 min-w-[120px] space-x-3.5 md:space-x-5">
             {/* Search Trigger */}
             <button
               onClick={() => setIsSearchOpen(true)}
-              className={`p-1.5 transition-colors duration-300 ${
+              className={`p-1 transition-colors duration-300 ${
                 isLightHero ? 'text-white/90 hover:text-white' : 'text-velora-dark hover:text-velora-black'
               }`}
               aria-label="Search catalog"
             >
-              <Search className="w-5 h-5 stroke-[1.5]" />
+              <Search className="w-4.5 h-4.5 stroke-[1.5]" />
             </button>
 
             {/* Wishlist */}
             <Link
               to="/wishlist"
-              className={`relative p-1.5 transition-colors duration-300 ${
+              className={`relative p-1 transition-colors duration-300 ${
                 isLightHero ? 'text-white/90 hover:text-white' : 'text-velora-dark hover:text-velora-black'
               }`}
               aria-label="Saved items"
             >
-              <Heart className="w-5 h-5 stroke-[1.5]" />
+              <Heart className="w-4.5 h-4.5 stroke-[1.5]" />
               {wishlistCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-velora-champagne text-white text-[9px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
+                <span className="absolute -top-1 -right-1 bg-velora-champagne text-white text-[8px] font-bold rounded-full w-3.5 h-3.5 flex items-center justify-center">
                   {wishlistCount}
                 </span>
               )}
