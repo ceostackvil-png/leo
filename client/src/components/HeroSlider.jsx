@@ -57,13 +57,13 @@ export const HeroSlider = ({ banners = [] }) => {
     },
   ];
 
-  // Auto-play slider every 6 seconds unless hovered/paused
+  // Auto-play slider every 3.5 seconds unless hovered/paused
   useEffect(() => {
     if (isPaused || slides.length <= 1) return;
 
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % slides.length);
-    }, 6000);
+    }, 3500);
 
     return () => clearInterval(interval);
   }, [isPaused, slides.length]);
@@ -106,14 +106,14 @@ export const HeroSlider = ({ banners = [] }) => {
       onTouchEnd={handleTouchEnd}
       aria-label="Promotional Hero Slider"
     >
-      {/* Background Images with Crossfade */}
-      <AnimatePresence mode="wait">
+      {/* Background Images with Ultra-Smooth Crossfade */}
+      <AnimatePresence>
         <motion.div
           key={currentSlide._id || currentIndex}
-          initial={{ opacity: 0, scale: 1.05 }}
+          initial={{ opacity: 0, scale: 1.04 }}
           animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 1.02 }}
-          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.9, ease: [0.25, 1, 0.5, 1] }}
           className="absolute inset-0 w-full h-full"
         >
           <img
@@ -130,80 +130,77 @@ export const HeroSlider = ({ banners = [] }) => {
       <div className="relative z-10 max-w-5xl mx-auto px-6 text-center text-white flex flex-col items-center">
         {/* Brand Crest */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
+          initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.5 }}
           className="w-16 h-16 md:w-20 md:h-20 rounded-full border border-white/30 p-1 flex items-center justify-center mb-5 backdrop-blur-sm shadow-2xl"
         >
           <img src="/logo.png" alt="LEO Crest" className="w-full h-full object-contain rounded-full" />
         </motion.div>
 
         {/* Tagline */}
-        <AnimatePresence mode="wait">
-          <motion.p
-            key={`tag-${currentIndex}`}
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.6 }}
-            className="text-xs md:text-sm uppercase tracking-[0.35em] text-velora-champagne font-medium mb-3 flex items-center space-x-2"
-          >
-            <span>{currentSlide.tag || "GENTLEMEN'S LUXURY ATELIER"}</span>
-          </motion.p>
-        </AnimatePresence>
+        <div className="h-6 mb-3 flex items-center justify-center overflow-hidden">
+          <AnimatePresence mode="wait">
+            <motion.p
+              key={`tag-${currentIndex}`}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.45, ease: "easeOut" }}
+              className="text-xs md:text-sm uppercase tracking-[0.35em] text-velora-champagne font-medium flex items-center space-x-2"
+            >
+              <span>{currentSlide.tag || "GENTLEMEN'S LUXURY ATELIER"}</span>
+            </motion.p>
+          </AnimatePresence>
+        </div>
 
         {/* Main Title */}
-        <AnimatePresence mode="wait">
-          <motion.h1
-            key={`title-${currentIndex}`}
-            initial={{ opacity: 0, y: 25 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -15 }}
-            transition={{ duration: 0.8 }}
-            className="font-editorial text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-normal tracking-[0.08em] uppercase leading-none"
-          >
-            {currentSlide.title}
-          </motion.h1>
-        </AnimatePresence>
+        <div className="min-h-[90px] sm:min-h-[120px] md:min-h-[150px] flex items-center justify-center">
+          <AnimatePresence mode="wait">
+            <motion.h1
+              key={`title-${currentIndex}`}
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -12 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+              className="font-editorial text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-normal tracking-[0.08em] uppercase leading-none"
+            >
+              {currentSlide.title}
+            </motion.h1>
+          </AnimatePresence>
+        </div>
 
         {/* Subtitle / Description */}
-        <AnimatePresence mode="wait">
-          <motion.p
-            key={`sub-${currentIndex}`}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.7, delay: 0.1 }}
-            className="mt-5 text-sm md:text-base font-light text-white/85 max-w-xl mx-auto tracking-wide leading-relaxed"
-          >
-            {currentSlide.subtitle}
-          </motion.p>
-        </AnimatePresence>
+        <div className="min-h-[50px] flex items-center justify-center">
+          <AnimatePresence mode="wait">
+            <motion.p
+              key={`sub-${currentIndex}`}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.45, delay: 0.05, ease: "easeOut" }}
+              className="mt-3 text-sm md:text-base font-light text-white/85 max-w-xl mx-auto tracking-wide leading-relaxed"
+            >
+              {currentSlide.subtitle}
+            </motion.p>
+          </AnimatePresence>
+        </div>
 
         {/* CTA Actions */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={`cta-${currentIndex}`}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="mt-8 flex flex-col sm:flex-row items-center gap-4 sm:gap-6"
+        <div className="mt-8 flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
+          <Link
+            to={currentSlide.ctaLink || '/shop'}
+            className="w-56 py-4 bg-white text-velora-black text-xs font-semibold tracking-[0.22em] uppercase hover:bg-velora-champagne hover:text-white transition-all duration-300 shadow-2xl text-center"
           >
-            <Link
-              to={currentSlide.ctaLink || '/shop'}
-              className="w-56 py-4 bg-white text-velora-black text-xs font-semibold tracking-[0.22em] uppercase hover:bg-velora-champagne hover:text-white transition-all duration-300 shadow-2xl text-center"
-            >
-              {currentSlide.ctaText || 'EXPLORE COLLECTION'}
-            </Link>
-            <Link
-              to="/shop?category=tailored-suits"
-              className="w-56 py-4 bg-transparent border border-white/80 text-white text-xs font-semibold tracking-[0.22em] uppercase hover:bg-white hover:text-velora-black transition-all duration-300 backdrop-blur-sm text-center"
-            >
-              Bespoke Tailoring
-            </Link>
-          </motion.div>
-        </AnimatePresence>
+            {currentSlide.ctaText || 'EXPLORE COLLECTION'}
+          </Link>
+          <Link
+            to="/shop?category=tailored-suits"
+            className="w-56 py-4 bg-transparent border border-white/80 text-white text-xs font-semibold tracking-[0.22em] uppercase hover:bg-white hover:text-velora-black transition-all duration-300 backdrop-blur-sm text-center"
+          >
+            Bespoke Tailoring
+          </Link>
+        </div>
       </div>
 
       {/* Manual Left/Right Navigation Arrows */}
