@@ -152,8 +152,8 @@ export const HomePage = () => {
       name: 'Vikramaditya S.',
       city: 'Mumbai',
       rating: 5,
-      review: 'The Supima Heavyweight Round Neck Tee is easily on par with international luxury brands. The collar does not sag even after 10 washes.',
-      productTitle: 'ALTER Supima Round Neck Tee',
+      review: 'The Supima Heavyweight Round Neck Tee is easily on par with international luxury brands. The collar does not sag even after multiple washes.',
+      productTitle: 'LEO Supima Round Neck Tee',
       verified: true
     },
     {
@@ -162,7 +162,7 @@ export const HomePage = () => {
       city: 'Bengaluru',
       rating: 5,
       review: 'The Classic Indigo Denim Jacket is stiff, structured, and fades into pure gold. 14.5oz selvedge at this price is unmatched.',
-      productTitle: 'Classic Indigo Denim Jacket',
+      productTitle: 'LEO Classic Indigo Denim Jacket',
       verified: true
     },
     {
@@ -170,18 +170,45 @@ export const HomePage = () => {
       name: 'Karan Singhal',
       city: 'New Delhi',
       rating: 5,
-      review: 'Ordered both the Formal Linen and Band-Collar shirt for my Europe trip. Extremely breathable and feels tailored to perfection.',
-      productTitle: 'Italian Tailored Linen Shirt',
+      review: 'Ordered both the Formal Linen and Band-Collar shirt for my travels. Extremely breathable and feels tailored to perfection.',
+      productTitle: 'LEO Italian Tailored Linen Shirt',
       verified: true
     }
   ];
 
+  const fitTypes = [
+    {
+      title: 'OVERSIZED FIT',
+      tagline: 'Drop-shoulder & boxy chest profile',
+      image: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=800&q=85',
+      link: '/shop?category=t-shirts'
+    },
+    {
+      title: 'REGULAR CLASSIC',
+      tagline: 'Tailored shoulder & clean silhouette',
+      image: 'https://images.unsplash.com/photo-1586363104862-3a5e2ab60d99?auto=format&fit=crop&w=800&q=85',
+      link: '/shop?category=t-shirts&subCategory=Polo'
+    },
+    {
+      title: 'RELAXED TRANSIT',
+      tagline: 'Extended ease of movement for travel',
+      image: 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=800&q=85',
+      link: '/shop?category=travelling-collection'
+    },
+    {
+      title: 'SARTORIAL SLIM',
+      tagline: 'Structured formal drape & sharp lines',
+      image: 'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=800&q=85',
+      link: '/shop?category=linen'
+    }
+  ];
+
   const instagramShots = [
-    { image: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=800&q=85', handle: '@alter.theking' },
-    { image: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=800&q=85', handle: '@alter.theking' },
-    { image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=800&q=85', handle: '@alter.theking' },
-    { image: 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=800&q=85', handle: '@alter.theking' },
-    { image: 'https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?auto=format&fit=crop&w=800&q=85', handle: '@alter.theking' },
+    { image: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=800&q=85', handle: '@leo.official' },
+    { image: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=800&q=85', handle: '@leo.official' },
+    { image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=800&q=85', handle: '@leo.official' },
+    { image: 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=800&q=85', handle: '@leo.official' },
+    { image: 'https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?auto=format&fit=crop&w=800&q=85', handle: '@leo.official' },
   ];
 
   return (
@@ -254,7 +281,7 @@ export const HomePage = () => {
             </div>
             <div>
               <p className="text-xs font-bold text-slate-900 uppercase tracking-wide">Free Shipping</p>
-              <p className="text-[11px] text-gray-500">On all orders above ₹1,999</p>
+              <p className="text-[11px] text-gray-500">On all prepaid orders</p>
             </div>
           </div>
 
@@ -274,7 +301,7 @@ export const HomePage = () => {
             </div>
             <div>
               <p className="text-xs font-bold text-slate-900 uppercase tracking-wide">7 Days Easy Return</p>
-              <p className="text-[11px] text-gray-500">Hassle-free doorstep pickup</p>
+              <p className="text-[11px] text-gray-500">Doorstep pickup & direct refund</p>
             </div>
           </div>
 
@@ -283,8 +310,8 @@ export const HomePage = () => {
               <Shield className="w-5 h-5" />
             </div>
             <div>
-              <p className="text-xs font-bold text-slate-900 uppercase tracking-wide">King Authentic</p>
-              <p className="text-[11px] text-gray-500">Direct from Alter Atelier</p>
+              <p className="text-xs font-bold text-slate-900 uppercase tracking-wide">LEO Authentic</p>
+              <p className="text-[11px] text-gray-500">Direct from Official Atelier</p>
             </div>
           </div>
         </div>
@@ -301,7 +328,7 @@ export const HomePage = () => {
               <span>POPULAR DEMAND</span>
             </div>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 tracking-tight">
-              Best Sellers of the King
+              Best Sellers
             </h2>
             <p className="text-xs sm:text-sm text-gray-500 mt-1">
               Top rated 4 T-Shirts, 2 Japanese Denim Jackets, and Pure Linen shirts.
@@ -336,6 +363,47 @@ export const HomePage = () => {
           {filteredBestSellers.slice(0, 8).map((product) => (
             <ProductCard key={product._id} product={product} />
           ))}
+        </div>
+      </section>
+
+      {/* ==================================================== */}
+      {/* NOBERO FEATURE: SHOP BY FIT                          */}
+      {/* ==================================================== */}
+      <section className="py-14 bg-slate-50 border-y border-gray-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+          <div className="text-center max-w-xl mx-auto mb-8">
+            <span className="text-xs font-black uppercase tracking-wider text-blue-600">
+              EXPLORE BY SILHOUETTE
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight mt-0.5">
+              Shop By Fit
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {fitTypes.map((fit, idx) => (
+              <Link
+                key={idx}
+                to={fit.link}
+                className="group relative aspect-[4/5] rounded-2xl overflow-hidden shadow-md bg-slate-200 flex flex-col justify-end p-4"
+              >
+                <img
+                  src={fit.image}
+                  alt={fit.title}
+                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
+                <div className="relative z-10 text-white">
+                  <h3 className="font-extrabold text-sm sm:text-base tracking-wide uppercase group-hover:text-amber-400 transition-colors">
+                    {fit.title}
+                  </h3>
+                  <p className="text-[10px] text-gray-300 font-medium line-clamp-1 mt-0.5">
+                    {fit.tagline}
+                  </p>
+                </div>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -527,10 +595,10 @@ export const HomePage = () => {
       {/* ==================================================== */}
       <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         <div className="text-center max-w-xl mx-auto mb-10 space-y-1">
-          <span className="text-xs font-black uppercase tracking-wider text-rose-600">#ALTERTheKing</span>
+          <span className="text-xs font-black uppercase tracking-wider text-rose-600">#LEOMenswear</span>
           <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">Community & Lookbook</h2>
           <p className="text-xs text-gray-500 font-medium">
-            Tag @alter.theking on Instagram to be featured on our official wall.
+            Tag @leo.official on Instagram to be featured on our official wall.
           </p>
         </div>
 

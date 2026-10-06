@@ -27,15 +27,15 @@ export const Footer = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 pb-12 border-b border-slate-800">
           <div className="lg:col-span-6 space-y-4">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 rounded-full bg-amber-500 text-slate-950 p-1 flex items-center justify-center font-black">
-                👑
+              <div className="w-10 h-10 rounded-full bg-slate-950 ring-2 ring-amber-500 p-0.5 flex items-center justify-center overflow-hidden">
+                <img src="/logo.png" alt="LEO Crest" className="w-full h-full object-contain rounded-full" />
               </div>
               <div className="flex flex-col">
                 <span className="font-extrabold text-2xl tracking-tight uppercase">
-                  ALTER <span className="text-amber-400">THE KING</span>
+                  LEO <span className="text-amber-400">OFFICIAL STORE</span>
                 </span>
                 <span className="text-[10px] uppercase tracking-widest text-gray-400 font-bold">
-                  Sovereign D2C Menswear Atelier
+                  Everyday Luxury & Modern Streetwear
                 </span>
               </div>
             </div>
@@ -95,11 +95,11 @@ export const Footer = () => {
           </div>
 
           <div className="space-y-3">
-            <p className="uppercase font-black text-amber-400 tracking-wider text-[11px]">About Alter</p>
+            <p className="uppercase font-black text-amber-400 tracking-wider text-[11px]">About LEO</p>
             <ul className="space-y-2 text-gray-300 font-medium">
-              <li><Link to="/about" className="hover:text-amber-400 transition-colors">The House of ALTER</Link></li>
+              <li><Link to="/about" className="hover:text-amber-400 transition-colors">The House of LEO</Link></li>
               <li><Link to="/about" className="hover:text-amber-400 transition-colors">Fabric Quality Standards</Link></li>
-              <li><Link to="/about" className="hover:text-amber-400 transition-colors">Sovereign Craftsmanship</Link></li>
+              <li><Link to="/about" className="hover:text-amber-400 transition-colors">Artisanal Craftsmanship</Link></li>
               <li><Link to="/contact" className="hover:text-amber-400 transition-colors">Store Locations</Link></li>
             </ul>
           </div>
@@ -109,14 +109,14 @@ export const Footer = () => {
             <ul className="space-y-2 text-gray-300 font-medium">
               <li><Link to="/privacy" className="hover:text-amber-400 transition-colors">Privacy Policy</Link></li>
               <li><Link to="/terms" className="hover:text-amber-400 transition-colors">Terms of Service</Link></li>
-              <li><Link to="/login/admin" className="hover:text-amber-400 transition-colors font-bold text-amber-400">👑 ALTER Admin Portal</Link></li>
+              <li><Link to="/login/admin" className="hover:text-amber-400 transition-colors font-bold text-amber-400">👑 LEO Admin Portal</Link></li>
             </ul>
           </div>
         </div>
 
         {/* Payment Methods & Bottom Bar */}
         <div className="pt-8 border-t border-slate-800 flex flex-col md:flex-row items-center justify-between text-xs text-gray-400 space-y-4 md:space-y-0">
-          <p>© 2026 ALTER — The King. All Rights Reserved. Crafted with pride in India.</p>
+          <p>© 2026 LEO Official Store. All Rights Reserved. Crafted with pride in India.</p>
           <div className="flex items-center space-x-3 text-[11px] font-bold text-gray-300">
             <span className="px-2 py-1 bg-slate-800 rounded">UPI / GPay</span>
             <span className="px-2 py-1 bg-slate-800 rounded">Cards & Netbanking</span>

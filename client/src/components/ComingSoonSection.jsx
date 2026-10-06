@@ -6,8 +6,8 @@ export const ComingSoonSection = ({ comingSoonProducts = [] }) => {
   const fallbackProducts = [
     {
       _id: 'cs-1',
-      title: 'ALTER Silk Jacquard Sovereign Smoking Jacket',
-      categoryName: 'Stitching & Eveningwear',
+      title: 'LEO Silk Jacquard Sovereign Smoking Jacket',
+      categoryName: 'Eveningwear & Tuxedos',
       price: 24999,
       image: 'https://images.unsplash.com/photo-1534030347209-467a5b0ad3e6?auto=format&fit=crop&w=1600&q=95',
       launchDate: 'October 15, 2026',
@@ -15,7 +15,7 @@ export const ComingSoonSection = ({ comingSoonProducts = [] }) => {
     },
     {
       _id: 'cs-2',
-      title: 'ALTER Double-Breasted Cashmere-Silk Dinner Blazer',
+      title: 'LEO Double-Breasted Cashmere-Silk Dinner Blazer',
       categoryName: 'Stitching & Coats',
       price: 21499,
       image: 'https://images.unsplash.com/photo-1598808503746-f34c53b9323e?auto=format&fit=crop&w=1600&q=95',
@@ -24,7 +24,7 @@ export const ComingSoonSection = ({ comingSoonProducts = [] }) => {
     },
     {
       _id: 'cs-3',
-      title: 'ALTER Sovereign Cashmere Draped Mantle Overcoat',
+      title: 'LEO Sovereign Cashmere Draped Mantle Overcoat',
       categoryName: 'Winter Edition',
       price: 18999,
       image: 'https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&w=1600&q=95',

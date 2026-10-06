@@ -1,9 +1,9 @@
 [
   {
-    "_id": "prod_alter-supima-round-neck-tee",
-    "title": "ALTER Supima Heavyweight Round Neck Tee",
-    "slug": "alter-supima-round-neck-tee",
-    "sku": "ALT-TEE-001",
+    "_id": "prod_leo-supima-round-neck-tee",
+    "title": "LEO Supima Heavyweight Round Neck Tee",
+    "slug": "leo-supima-round-neck-tee",
+    "sku": "LEO-TEE-001",
     "shortDescription": "280gsm long-staple Supima cotton round neck tee with reinforced ribbed collar.",
     "description": "Engineered for daily sovereign wear. Spun from 100% combed long-staple Supima cotton with a dense 280gsm weight that holds its architectural drape wash after wash. Features double-needle stitching and an ultra-soft peached finish.",
     "price": 1999,
@@ -44,10 +44,10 @@
     "numReviews": 46
   },
   {
-    "_id": "prod_alter-ribbed-full-sleeve-tee",
-    "title": "ALTER Heavyweight Ribbed Full Sleeve Tee",
-    "slug": "alter-ribbed-full-sleeve-tee",
-    "sku": "ALT-TEE-002",
+    "_id": "prod_leo-ribbed-full-sleeve-tee",
+    "title": "LEO Heavyweight Ribbed Full Sleeve Tee",
+    "slug": "leo-ribbed-full-sleeve-tee",
+    "sku": "LEO-TEE-002",
     "shortDescription": "Full sleeve heavy cotton tee with structured ribbed cuffs and seamless drop-shoulder.",
     "description": "The ultimate transitional layer. Designed with extended ribbed cuffs that stay securely in place and an articulated arm cut that facilitates ease of movement. Knitted in high-gauge 260gsm organic cotton.",
     "price": 2499,
@@ -85,10 +85,10 @@
     "numReviews": 32
   },
   {
-    "_id": "prod_alter-sovereign-turtle-neck-tee",
-    "title": "ALTER Sovereign Fine Turtle Neck Knit Tee",
-    "slug": "alter-sovereign-turtle-neck-tee",
-    "sku": "ALT-TEE-003",
+    "_id": "prod_leo-sovereign-turtle-neck-tee",
+    "title": "LEO Sovereign Fine Turtle Neck Knit Tee",
+    "slug": "leo-sovereign-turtle-neck-tee",
+    "sku": "LEO-TEE-003",
     "shortDescription": "Ultra-fine modal-cotton blend turtle neck tee with a refined slim-profile collar.",
     "description": "Tailored for sophisticated layering under blazers, denim jackets, and overcoats. Cut from a silky modal-cotton blend that provides lightweight warmth without bulk, holding its clean neck posture throughout the day.",
     "price": 2799,
@@ -126,10 +126,10 @@
     "numReviews": 29
   },
   {
-    "_id": "prod_alter-mercerized-pique-polo",
-    "title": "ALTER Mercerized Pique Knit Polo Tee",
-    "slug": "alter-mercerized-pique-polo",
-    "sku": "ALT-TEE-004",
+    "_id": "prod_leo-mercerized-pique-polo",
+    "title": "LEO Mercerized Pique Knit Polo Tee",
+    "slug": "leo-mercerized-pique-polo",
+    "sku": "LEO-TEE-004",
     "shortDescription": "Double-mercerized Egyptian cotton polo with sharp structured collar and mother-of-pearl buttons.",
     "description": "An elevated interpretation of the sporting polo. Double mercerization gives the pique knit a subtle silk-like sheen and deep, rich color retention. Styled with genuine Australian mother-of-pearl buttons and a stay-flat collar.",
     "price": 2999,
@@ -167,10 +167,10 @@
     "numReviews": 37
   },
   {
-    "_id": "prod_alter-indigo-denim-jacket",
-    "title": "ALTER Classic Indigo Raw Blue Denim Jacket",
-    "slug": "alter-indigo-denim-jacket",
-    "sku": "ALT-DNM-005",
+    "_id": "prod_leo-indigo-denim-jacket",
+    "title": "LEO Classic Indigo Raw Blue Denim Jacket",
+    "slug": "leo-indigo-denim-jacket",
+    "sku": "LEO-DNM-005",
     "shortDescription": "14.5oz Japanese red-line selvedge denim jacket in deep indigo blue with antique brass buttons.",
     "description": "Crafted on vintage shuttle looms from 14.5oz raw Japanese selvedge denim. Over time, the indigo dye yields high-contrast bespoke honeycombs and whiskers unique to the wearer. Features signature dual chest pockets and interior selvedgeID tape.",
     "price": 6999,
@@ -207,10 +207,10 @@
     "numReviews": 42
   },
   {
-    "_id": "prod_alter-olive-green-denim-jacket",
-    "title": "ALTER Vintage Washed Olive Green Denim Jacket",
-    "slug": "alter-olive-green-denim-jacket",
-    "sku": "ALT-DNM-006",
+    "_id": "prod_leo-olive-green-denim-jacket",
+    "title": "LEO Vintage Washed Olive Green Denim Jacket",
+    "slug": "leo-olive-green-denim-jacket",
+    "sku": "LEO-DNM-006",
     "shortDescription": "13.5oz garment-dyed olive green denim jacket with stonewash patina and gunmetal trims.",
     "description": "A rugged military-luxury crossover. Cut in heavy cotton denim, garment-dyed in rich olive green, and treated with artisanal stone-washing for subtle highs and lows. Finished with reinforced felled seams and matte gunmetal rivets.",
     "price": 6499,
@@ -246,10 +246,10 @@
     "numReviews": 35
   },
   {
-    "_id": "prod_alter-formal-linen-shirt",
-    "title": "ALTER Italian Tailored Formal Linen Shirt",
-    "slug": "alter-formal-linen-shirt",
-    "sku": "ALT-LIN-007",
+    "_id": "prod_leo-formal-linen-shirt",
+    "title": "LEO Italian Tailored Formal Linen Shirt",
+    "slug": "leo-formal-linen-shirt",
+    "sku": "LEO-LIN-007",
     "shortDescription": "Crisp Italian structured flax linen shirt with spread collar and clean French seams.",
     "description": "Brings the breathability of luxury linen into sharp business and formal atmospheres. Woven in Biella, Italy with high-twist linen yarns that resist excessive creasing while maintaining a sovereign silhouette.",
     "price": 4999,
@@ -287,10 +287,10 @@
     "numReviews": 38
   },
   {
-    "_id": "prod_alter-casual-linen-shirt",
-    "title": "ALTER Relaxed Band-Collar French Flax Linen Shirt",
-    "slug": "alter-casual-linen-shirt",
-    "sku": "ALT-LIN-008",
+    "_id": "prod_leo-casual-linen-shirt",
+    "title": "LEO Relaxed Band-Collar French Flax Linen Shirt",
+    "slug": "leo-casual-linen-shirt",
+    "sku": "LEO-LIN-008",
     "shortDescription": "Pre-washed Normandy flax linen shirt with relaxed mandarin collar and easy drape.",
     "description": "Garment-washed for instant lived-in comfort. Features an easy mandarin band collar, casual roll-up sleeve tabs, and natural coconut-shell buttons. Ideal for tropical escapes and relaxed weekend tailoring.",
     "price": 4499,
@@ -328,10 +328,10 @@
     "numReviews": 31
   },
   {
-    "_id": "prod_alter-leather-belt",
-    "title": "ALTER Full-Grain Calfskin Sovereign Dress Belt",
-    "slug": "alter-leather-belt",
-    "sku": "ALT-LTH-009",
+    "_id": "prod_leo-leather-belt",
+    "title": "LEO Full-Grain Calfskin Sovereign Dress Belt",
+    "slug": "leo-leather-belt",
+    "sku": "LEO-LTH-009",
     "shortDescription": "Hand-burnished French calfskin belt with solid brushed palladium buckle.",
     "description": "Crafted from 3.5mm thick full-grain French calfskin with bevelled and burnished edges. Designed with a solid brushed palladium buckle that never tarnishes, completing both denim and tailored trousers with quiet authority.",
     "price": 3499,
@@ -366,10 +366,10 @@
     "numReviews": 21
   },
   {
-    "_id": "prod_alter-leather-wallet",
-    "title": "ALTER Minimalist Bifold Leather Wallet",
-    "slug": "alter-leather-wallet",
-    "sku": "ALT-LTH-010",
+    "_id": "prod_leo-leather-wallet",
+    "title": "LEO Minimalist Bifold Leather Wallet",
+    "slug": "leo-leather-wallet",
+    "sku": "LEO-LTH-010",
     "shortDescription": "Slim RFID-protected bifold wallet in Italian saffiano leather with 8 card slots.",
     "description": "Engineered for pocket minimalism. Hand-stitched with bonded nylon thread and lined with RFID-blocking fabric. Holds up to 10 cards and flat currency without excess bulk.",
     "price": 2499,
@@ -403,10 +403,10 @@
     "numReviews": 28
   },
   {
-    "_id": "prod_alter-leather-chelsea-boots",
-    "title": "ALTER Handcrafted Italian Calfskin Chelsea Boots",
-    "slug": "alter-leather-chelsea-boots",
-    "sku": "ALT-LTH-011",
+    "_id": "prod_leo-leather-chelsea-boots",
+    "title": "LEO Handcrafted Italian Calfskin Chelsea Boots",
+    "slug": "leo-leather-chelsea-boots",
+    "sku": "LEO-LTH-011",
     "shortDescription": "Goodyear-welted Italian leather Chelsea boots with Vibram rubber lug soles.",
     "description": "Constructed in Florence using traditional Goodyear welting. The supple calfskin upper moulds to the foot over time, while the discrete Vibram half-sole delivers superior wet-weather grip with formal profile.",
     "price": 11999,
@@ -442,10 +442,10 @@
     "numReviews": 19
   },
   {
-    "_id": "prod_alter-leather-weekender-duffel",
-    "title": "ALTER Hand-Stitched Leather Weekender Duffel Bag",
-    "slug": "alter-leather-weekender-duffel",
-    "sku": "ALT-LTH-012",
+    "_id": "prod_leo-leather-weekender-duffel",
+    "title": "LEO Hand-Stitched Leather Weekender Duffel Bag",
+    "slug": "leo-leather-weekender-duffel",
+    "sku": "LEO-LTH-012",
     "shortDescription": "45L full-grain pull-up leather weekender with padded shoulder strap and brass feet.",
     "description": "Designed for 3-5 day transit. Built from heavy 2.2mm pull-up leather that showcases rich natural grain pull. Fitted with heavy YKK Excella zippers, reinforced riveted handles, and a dedicated shoe compartment.",
     "price": 14999,
@@ -479,10 +479,10 @@
     "numReviews": 16
   },
   {
-    "_id": "prod_alter-airport-travel-hoodie",
-    "title": "ALTER Heavyweight Airport Transit Travel Hoodie",
-    "slug": "alter-airport-travel-hoodie",
-    "sku": "ALT-TRV-013",
+    "_id": "prod_leo-airport-travel-hoodie",
+    "title": "LEO Heavyweight Airport Transit Travel Hoodie",
+    "slug": "leo-airport-travel-hoodie",
+    "sku": "LEO-TRV-013",
     "shortDescription": "450gsm dense loopback fleece travel hoodie with concealed passport pocket and eye-shield hood.",
     "description": "Constructed specifically for long-haul flight comfort and airport transit. Features a double-layered deep hood that doubles as an ambient eye shield, concealed zippered passport pouch, and thumb-loop cuffs.",
     "price": 3999,
@@ -520,10 +520,10 @@
     "numReviews": 51
   },
   {
-    "_id": "prod_alter-commuter-transit-joggers",
-    "title": "ALTER Relaxed Commuter Transit Joggers",
-    "slug": "alter-commuter-transit-joggers",
-    "sku": "ALT-TRV-014",
+    "_id": "prod_leo-commuter-transit-joggers",
+    "title": "LEO Relaxed Commuter Transit Joggers",
+    "slug": "leo-commuter-transit-joggers",
+    "sku": "LEO-TRV-014",
     "shortDescription": "Tapered stretch-cotton travel joggers with concealed zip pockets and internal drawstring.",
     "description": "Pairs seamlessly with the Transit Travel Hoodie. Tailored with a relaxed seat and tapered ankle cuff, structured pintuck seam down the front, and three concealed waterproof zipper security pockets.",
     "price": 3499,
@@ -559,10 +559,10 @@
     "numReviews": 34
   },
   {
-    "_id": "prod_alter-cashmere-sweatshirt",
-    "title": "ALTER Cashmere-Blend Minimalist Raglan Sweatshirt",
-    "slug": "alter-cashmere-sweatshirt",
-    "sku": "ALT-WNT-015",
+    "_id": "prod_leo-cashmere-sweatshirt",
+    "title": "LEO Cashmere-Blend Minimalist Raglan Sweatshirt",
+    "slug": "leo-cashmere-sweatshirt",
+    "sku": "LEO-WNT-015",
     "shortDescription": "Plush 380gsm Mongolian cashmere and organic cotton raglan crewneck sweatshirt.",
     "description": "Elevated athletic minimalism. A luxurious blend of 25% Grade-A Mongolian cashmere and 75% long-staple organic cotton delivers supreme cloud-soft thermal warmth with effortless daily ease.",
     "price": 4999,
@@ -599,10 +599,10 @@
     "numReviews": 23
   },
   {
-    "_id": "prod_alter-stitching-overcoat",
-    "title": "ALTER Double-Breasted Cashmere Overcoat",
-    "slug": "alter-stitching-overcoat",
-    "sku": "ALT-STC-016",
+    "_id": "prod_leo-stitching-overcoat",
+    "title": "LEO Double-Breasted Cashmere Overcoat",
+    "slug": "leo-stitching-overcoat",
+    "sku": "LEO-STC-016",
     "shortDescription": "650gsm Italian double-faced cashmere overcoat with hand-stitched pick detailing and peak lapels.",
     "description": "The crown of Alter master stitching. Tailored from heavy double-faced Italian cashmere with imposing shoulder lines, pick-stitched edges, real buffalo horn buttons, and pure cupro silk lining.",
     "price": 18999,

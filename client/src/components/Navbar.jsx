@@ -38,9 +38,9 @@ export const Navbar = ({ isSearchOpen, setIsSearchOpen }) => {
   const navigate = useNavigate();
 
   const announcementMessages = [
-    { text: '🔥 FLAT 15% OFF ON YOUR FIRST ORDER | USE CODE: FIRST15', bg: 'bg-gradient-to-r from-orange-600 via-amber-600 to-red-600' },
-    { text: '🚚 FREE EXPRESS SHIPPING ON ALL ORDERS ABOVE ₹1,999', bg: 'bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-600' },
-    { text: '⚡ LIMITED EDITION DROP: THE DENIM & LINEN CAPSULE IS LIVE', bg: 'bg-gradient-to-r from-emerald-600 via-teal-600 to-green-700' },
+    { text: '🔥 FLAT 15% OFF ON 1ST ORDER | USE CODE: LEO15 | 🚚 FREE SHIPPING ON PREPAID ORDERS', bg: 'bg-gradient-to-r from-orange-600 via-amber-600 to-red-600' },
+    { text: '⚡ BUY ANY 2 APPAREL & GET EXTRA 10% OFF AUTO-APPLIED AT CHECKOUT', bg: 'bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-600' },
+    { text: '✨ NEW LAUNCH: THE OVERSIZED TEES & TRAVEL CAPSULE IS NOW LIVE', bg: 'bg-gradient-to-r from-emerald-600 via-teal-600 to-green-700' },
   ];
 
   useEffect(() => {
@@ -79,45 +79,60 @@ export const Navbar = ({ isSearchOpen, setIsSearchOpen }) => {
 
   const navCategories = [
     {
-      name: 'T-Shirts',
+      name: 'Men',
+      href: '/shop?gender=Men',
+      badge: 'POPULAR',
+      badgeColor: 'bg-blue-600 text-white',
+      subcategories: [
+        { name: 'All Men Collections', href: '/shop?gender=Men' },
+        { name: 'Oversized T-Shirts', href: '/shop?category=t-shirts&subCategory=Oversized' },
+        { name: 'Classic Pique Polos', href: '/shop?category=t-shirts&subCategory=Polo' },
+        { name: 'Round Neck Tees', href: '/shop?category=t-shirts&subCategory=Round Neck' },
+        { name: 'Selvedge Denim Jackets', href: '/shop?category=denim&subCategory=Jackets' },
+        { name: '450gsm Hoodies', href: '/shop?category=winter-edition&subCategory=Hoodies' },
+        { name: 'Commuter Joggers', href: '/shop?category=travelling-collection&subCategory=Transit Joggers' },
+      ],
+      tagline: 'Engineered Everyday Wear'
+    },
+    {
+      name: 'Oversized Tees',
       href: '/shop?category=t-shirts',
       badge: 'HOT',
       badgeColor: 'bg-rose-500 text-white',
       subcategories: [
         { name: 'All T-Shirts', href: '/shop?category=t-shirts' },
-        { name: 'Round Neck Tees', href: '/shop?category=t-shirts&subCategory=Round Neck' },
-        { name: 'Full Sleeve Tees', href: '/shop?category=t-shirts&subCategory=Full Sleeve' },
+        { name: 'Heavyweight Round Neck', href: '/shop?category=t-shirts&subCategory=Round Neck' },
+        { name: 'Full Sleeve Knits', href: '/shop?category=t-shirts&subCategory=Full Sleeve' },
         { name: 'Turtle Neck Knit Tees', href: '/shop?category=t-shirts&subCategory=Turtle Neck' },
         { name: 'Mercerized Polos', href: '/shop?category=t-shirts&subCategory=Polo' },
-        { name: 'Oversized Boxy Tees', href: '/shop?category=t-shirts&subCategory=Oversized' },
       ],
-      tagline: '280gsm Supima & Mercerized Cotton'
+      tagline: '280gsm 100% Combed Cotton'
     },
     {
       name: 'Denim',
       href: '/shop?category=denim',
       badge: 'NEW',
-      badgeColor: 'bg-blue-600 text-white',
+      badgeColor: 'bg-indigo-600 text-white',
       subcategories: [
         { name: 'All Denim', href: '/shop?category=denim' },
         { name: 'Classic Indigo Denim Jacket', href: '/shop?category=denim&subCategory=Jackets' },
         { name: 'Olive Green Denim Jacket', href: '/shop?category=denim&subCategory=Jackets' },
         { name: 'Japanese Selvedge Jeans', href: '/shop?category=denim&subCategory=Jeans' },
       ],
-      tagline: '14.5oz Kaihara Japanese Selvedge'
+      tagline: '14.5oz Kaihara Raw Selvedge'
     },
     {
-      name: 'Winter Edition',
+      name: 'Winterwear',
       href: '/shop?category=winter-edition',
-      badge: 'TRENDING',
+      badge: '450 GSM',
       badgeColor: 'bg-amber-500 text-slate-900',
       subcategories: [
-        { name: 'All Winter Edition', href: '/shop?category=winter-edition' },
-        { name: '450gsm Heavyweight Hoodies', href: '/shop?category=winter-edition&subCategory=Hoodies' },
-        { name: 'Cashmere-Blend Sweatshirts', href: '/shop?category=winter-edition&subCategory=Sweatshirts' },
-        { name: 'Quilted Winter Shirts', href: '/shop?category=winter-edition&subCategory=Shirts' },
+        { name: 'All Winterwear', href: '/shop?category=winter-edition' },
+        { name: 'Heavyweight Hoodies', href: '/shop?category=winter-edition&subCategory=Hoodies' },
+        { name: 'Cashmere Sweatshirts', href: '/shop?category=winter-edition&subCategory=Sweatshirts' },
+        { name: 'Insulated Outerwear', href: '/shop?category=winter-edition&subCategory=Jackets' },
       ],
-      tagline: 'Grade-A Cashmere & Loopback Fleece'
+      tagline: 'Plush Loopback French Terry'
     },
     {
       name: 'Linen',
@@ -125,47 +140,35 @@ export const Navbar = ({ isSearchOpen, setIsSearchOpen }) => {
       subcategories: [
         { name: 'All Linen', href: '/shop?category=linen' },
         { name: 'Italian Formal Linen Shirts', href: '/shop?category=linen&subCategory=Formal' },
-        { name: 'Casual Band-Collar Linen Shirts', href: '/shop?category=linen&subCategory=Casual' },
+        { name: 'Casual Band-Collar Shirts', href: '/shop?category=linen&subCategory=Casual' },
         { name: 'Pleated Linen Trousers', href: '/shop?category=trousers' },
       ],
-      tagline: 'Pure Normandy Pre-Washed Flax'
+      tagline: 'Pure Normandy Flax'
     },
     {
-      name: 'Leather',
-      href: '/shop?category=leather-accessories',
-      subcategories: [
-        { name: 'All Leather', href: '/shop?category=leather-accessories' },
-        { name: 'Full-Grain Calfskin Belts', href: '/shop?category=leather-accessories&subCategory=Belts' },
-        { name: 'Minimalist Bifold Wallets', href: '/shop?category=leather-accessories&subCategory=Wallets' },
-        { name: 'Goodyear Chelsea Boots', href: '/shop?category=leather-accessories&subCategory=Shoes' },
-        { name: 'Weekender Duffel Bags', href: '/shop?category=leather-accessories&subCategory=Bags' },
-      ],
-      tagline: 'Vegetable-Tanned Florentine Leather'
-    },
-    {
-      name: 'Travelling',
+      name: 'Travel Wear',
       href: '/shop?category=travelling-collection',
       badge: 'TRANSIT',
       badgeColor: 'bg-emerald-600 text-white',
       subcategories: [
-        { name: 'All Travelling Gear', href: '/shop?category=travelling-collection' },
+        { name: 'All Travel Wear', href: '/shop?category=travelling-collection' },
         { name: 'Airport Transit Hoodies', href: '/shop?category=travelling-collection&subCategory=Travel Hoodies' },
         { name: 'Commuter Transit Joggers', href: '/shop?category=travelling-collection&subCategory=Transit Joggers' },
-        { name: 'Packable Travel Jackets', href: '/shop?category=travelling-collection&subCategory=Packable Jackets' },
+        { name: 'Leather Duffel Bags', href: '/shop?category=leather-accessories&subCategory=Bags' },
       ],
-      tagline: 'Engineered for Long-Haul Transit'
+      tagline: 'Engineered for Long Hauls'
     },
     {
-      name: 'Special Offers',
+      name: 'Combos & Deals',
       href: '/shop?isBestSeller=true',
-      badge: 'SALE 40%',
+      badge: 'SAVE 40%',
       badgeColor: 'bg-red-600 text-white animate-pulse',
       subcategories: [
+        { name: 'Buy 2 T-Shirts @ ₹1,499', href: '/shop?category=t-shirts' },
+        { name: 'Buy 2 Polos @ ₹1,999', href: '/shop?category=t-shirts' },
         { name: 'Best Sellers Under ₹2,999', href: '/shop?isBestSeller=true' },
-        { name: 'Buy 2 Bundle Deals', href: '/shop' },
-        { name: 'Clearance Archive', href: '/shop' },
       ],
-      tagline: 'Exclusive Member Discounts'
+      tagline: 'Super Saver Bundles'
     }
   ];
 
@@ -218,27 +221,27 @@ export const Navbar = ({ isSearchOpen, setIsSearchOpen }) => {
             </button>
           </div>
 
-          {/* Logo (Left Zone) — ALTER The King */}
+          {/* Logo (Left Zone) — LEO */}
           <div className="flex items-center shrink-0">
             <Link to="/" className="group flex items-center space-x-2.5">
-              <div className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-slate-900 p-0.5 ring-2 ring-amber-500/80 shadow-md flex items-center justify-center overflow-hidden">
+              <div className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-slate-950 p-0.5 ring-2 ring-amber-500 shadow-md flex items-center justify-center overflow-hidden">
                 <img
                   src="/logo.png"
-                  alt="ALTER The King Crest"
+                  alt="LEO Crest"
                   className="w-full h-full object-contain rounded-full group-hover:scale-105 transition-transform"
                 />
               </div>
               <div className="flex flex-col">
                 <div className="flex items-center space-x-1">
                   <span className="font-extrabold text-xl sm:text-2xl text-slate-900 tracking-tight leading-tight">
-                    ALTER
+                    LEO
                   </span>
                   <span className="bg-amber-500 text-slate-950 text-[9px] font-black uppercase px-1.5 py-0.5 rounded tracking-wider">
-                    KING
+                    STORE
                   </span>
                 </div>
-                <span className="text-[9px] text-slate-500 font-semibold uppercase tracking-[0.25em] -mt-0.5">
-                  The King Atelier
+                <span className="text-[9px] text-slate-500 font-bold uppercase tracking-[0.25em] -mt-0.5">
+                  Official Atelier
                 </span>
               </div>
             </Link>
@@ -251,7 +254,7 @@ export const Navbar = ({ isSearchOpen, setIsSearchOpen }) => {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search for T-Shirts, Denim, Hoodies, Linen..."
+                placeholder='Search for "Oversized Tees, Hoodies, Joggers..."'
                 className="w-full bg-gray-100 hover:bg-gray-50 focus:bg-white text-gray-900 placeholder-gray-400 text-xs rounded-full py-2.5 pl-10 pr-4 border border-transparent focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 outline-none transition-all"
               />
               <Search className="w-4 h-4 text-gray-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
@@ -453,10 +456,10 @@ export const Navbar = ({ isSearchOpen, setIsSearchOpen }) => {
               <div>
                 <div className="flex items-center justify-between pb-5 border-b border-gray-100">
                   <div className="flex items-center space-x-2">
-                    <img src="/logo.png" alt="ALTER Crest" className="w-8 h-8 object-contain rounded-full bg-slate-900 p-0.5" />
+                    <img src="/logo.png" alt="LEO Crest" className="w-8 h-8 object-contain rounded-full bg-slate-950 p-0.5" />
                     <div className="flex flex-col">
-                      <span className="font-extrabold text-lg text-slate-900">ALTER</span>
-                      <span className="text-[8px] tracking-widest uppercase text-amber-600 font-bold -mt-1">THE KING</span>
+                      <span className="font-extrabold text-lg text-slate-900">LEO</span>
+                      <span className="text-[8px] tracking-widest uppercase text-amber-600 font-bold -mt-1">OFFICIAL STORE</span>
                     </div>
                   </div>
                   <button
@@ -474,7 +477,7 @@ export const Navbar = ({ isSearchOpen, setIsSearchOpen }) => {
                       type="text"
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      placeholder="Search products..."
+                      placeholder='Search "Oversized Tees, Hoodies..."'
                       className="w-full bg-gray-100 text-gray-900 text-xs rounded-lg py-2.5 pl-9 pr-3 outline-none"
                     />
                     <Search className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
@@ -518,7 +521,7 @@ export const Navbar = ({ isSearchOpen, setIsSearchOpen }) => {
                       📦 Track Order
                     </Link>
                     <Link to="/about" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-black">
-                      👑 About Alter - The King
+                      👑 About LEO Atelier
                     </Link>
                     <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-black">
                       💬 WhatsApp & Help
