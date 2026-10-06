@@ -57,22 +57,16 @@ export const LeoIntroSplash = ({ onComplete }) => {
             scale: 1.02,
             transition: { duration: 0.7, ease: [0.76, 0, 0.24, 1] }
           }}
-          className="fixed inset-0 z-[100] bg-[#050505] text-[#F7F5F0] flex flex-col items-center justify-center overflow-hidden cursor-pointer selection:bg-transparent select-none"
+          className="fixed inset-0 z-[100] bg-black text-white flex flex-col items-center justify-center overflow-hidden cursor-pointer selection:bg-transparent select-none"
           onClick={handleDismiss}
         >
-          {/* Subtle Ambient Golden Glow */}
-          <div className="absolute w-[600px] h-[600px] rounded-full bg-gradient-to-tr from-[#C5A880]/20 via-[#C5A880]/5 to-transparent blur-[140px] pointer-events-none" />
-
-          {/* Background Atmospheric Subtle Pattern */}
-          <div className="absolute inset-0 bg-[radial-gradient(#ffffff08_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none opacity-30" />
-
           {/* Video Container */}
           <div className="relative z-10 flex flex-col items-center justify-center w-full max-w-4xl px-4">
             <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
+              initial={{ opacity: 0, scale: 0.98 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              className="relative w-full max-w-lg sm:max-w-xl md:max-w-2xl aspect-video overflow-hidden bg-transparent flex items-center justify-center"
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              className="relative w-full max-w-lg sm:max-w-xl md:max-w-2xl aspect-video overflow-hidden bg-black flex items-center justify-center"
             >
               <video
                 ref={videoRef}
