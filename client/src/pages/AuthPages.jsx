@@ -248,26 +248,17 @@ export const LoginPage = () => {
             </div>
           )}
 
-          {/* Quick Demo Fill Buttons (for email mode) */}
+          {/* Quick Demo Fill (Client only) */}
           {authMode === 'email' && (
-            <div className="p-3 bg-[#F0EDE6] border border-velora-border text-xs space-y-2">
-              <span className="text-[10px] uppercase tracking-widest text-velora-muted font-semibold block">Quick Demo Logins:</span>
-              <div className="flex gap-2">
-                <button
-                  type="button"
-                  onClick={() => handleDemoFill('customer')}
-                  className="flex-1 py-1.5 bg-white border border-stone-300 text-[11px] font-medium hover:border-black transition-colors"
-                >
-                  Client Demo
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleDemoFill('admin')}
-                  className="flex-1 py-1.5 bg-stone-900 text-velora-champagne text-[11px] font-medium hover:bg-black transition-colors"
-                >
-                  Admin Demo
-                </button>
-              </div>
+            <div className="p-3 bg-[#F0EDE6] border border-velora-border text-xs flex items-center justify-between">
+              <span className="text-[10px] uppercase tracking-widest text-velora-muted font-semibold">Client Demo:</span>
+              <button
+                type="button"
+                onClick={() => handleDemoFill('customer')}
+                className="px-4 py-1.5 bg-white border border-stone-300 text-[11px] font-medium hover:border-black transition-colors"
+              >
+                Auto-fill Client Demo
+              </button>
             </div>
           )}
 

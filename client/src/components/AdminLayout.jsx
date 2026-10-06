@@ -17,7 +17,10 @@ import {
   LogOut,
   Menu,
   X,
-  ChevronRight
+  ChevronRight,
+  Sparkles,
+  Shield,
+  HelpCircle
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 

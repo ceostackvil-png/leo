@@ -81,6 +81,7 @@ const AppLayout = () => {
 
           {/* Customer Auth */}
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/login/admin" element={<AdminLoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
