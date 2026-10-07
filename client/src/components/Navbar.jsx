@@ -37,16 +37,19 @@ export const Navbar = ({ isSearchOpen, setIsSearchOpen }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
+  const [isAppBannerVisible, setIsAppBannerVisible] = useState(true);
+
   const announcementMessages = [
-    { text: '🔥 FLAT 15% OFF ON 1ST ORDER | USE CODE: LEO15 | 🚚 FREE SHIPPING ON PREPAID ORDERS', bg: 'bg-gradient-to-r from-orange-600 via-amber-600 to-red-600' },
-    { text: '⚡ BUY ANY 2 APPAREL & GET EXTRA 10% OFF AUTO-APPLIED AT CHECKOUT', bg: 'bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-600' },
-    { text: '✨ NEW LAUNCH: THE OVERSIZED TEES & TRAVEL CAPSULE IS NOW LIVE', bg: 'bg-gradient-to-r from-emerald-600 via-teal-600 to-green-700' },
+    { text: "100% Refund Guarantee if you don't ❤️ the product. Shop with Confidence.", icon: '❤️' },
+    { text: '🔥 FLAT ₹300 OFF ON 1ST ORDER | USE CODE: LEO300 | 🚚 FREE SHIPPING ON PREPAID ORDERS', icon: '🔥' },
+    { text: '⚡ BUY ANY 2 APPAREL & GET EXTRA 10% OFF AUTO-APPLIED AT CHECKOUT', icon: '⚡' },
+    { text: '✨ OVERSIZED TEES & DENIM DROP IS NOW LIVE | 450 GSM FRENCH TERRY', icon: '✨' },
   ];
 
   useEffect(() => {
     const timer = setInterval(() => {
       setTickerIndex((prev) => (prev + 1) % announcementMessages.length);
-    }, 4000);
+    }, 3800);
     return () => clearInterval(timer);
   }, []);
 
@@ -175,21 +178,58 @@ export const Navbar = ({ isSearchOpen, setIsSearchOpen }) => {
   return (
     <>
       {/* ==================================================== */}
-      {/* TOP ANNOUNCEMENT TICKER (NOBERO STYLE)               */}
+      {/* TOP APP DOWNLOAD BANNER (NOBERO SIGNATURE WIDGET)    */}
       {/* ==================================================== */}
-      <div className={`text-white text-xs font-semibold tracking-wider py-2 px-4 transition-colors duration-500 text-center ${announcementMessages[tickerIndex].bg}`}>
+      {isAppBannerVisible && (
+        <div className="bg-[#EEF2FF] border-b border-[#DDE4FC] px-3 sm:px-6 py-2 text-xs text-[#242F66] transition-all">
+          <div className="max-w-7xl mx-auto flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2.5">
+              <div className="w-7 h-7 rounded-lg bg-[#242F66] text-white flex items-center justify-center font-black text-xs shrink-0 shadow-sm">
+                🦁
+              </div>
+              <div className="leading-tight">
+                <span className="font-bold text-[#242F66] block sm:inline mr-2">LEO is better on the App</span>
+                <span className="font-extrabold text-blue-700 bg-white px-2 py-0.5 rounded border border-blue-200 text-[11px] shadow-2xs">
+                  Flat ₹300 Off | Code: LEO300
+                </span>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2 shrink-0">
+              <button
+                onClick={() => navigate('/shop')}
+                className="bg-[#2D45A5] text-white text-[10px] sm:text-[11px] font-extrabold py-1 px-3.5 rounded uppercase tracking-wider hover:bg-[#242F66] transition-colors shadow-sm cursor-pointer"
+              >
+                OPEN APP
+              </button>
+              <button
+                onClick={() => setIsAppBannerVisible(false)}
+                aria-label="Close app banner"
+                className="p-1 text-[#242F66]/70 hover:text-[#242F66] cursor-pointer"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ==================================================== */}
+      {/* TOP ANNOUNCEMENT TICKER (NOBERO SIGNATURE #242F66)   */}
+      {/* ==================================================== */}
+      <div className="bg-[#242F66] text-white text-xs font-semibold py-2 px-4 text-center overflow-hidden relative shadow-inner">
         <div className="max-w-7xl mx-auto flex items-center justify-center space-x-2">
           <AnimatePresence mode="wait">
-            <motion.span
+            <motion.div
               key={tickerIndex}
-              initial={{ opacity: 0, y: 8 }}
+              initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.3 }}
-              className="flex items-center space-x-2 text-[11px] sm:text-xs font-medium"
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.35 }}
+              className="flex items-center justify-center space-x-2 text-[11px] sm:text-xs font-semibold"
             >
               <span>{announcementMessages[tickerIndex].text}</span>
-            </motion.span>
+            </motion.div>
           </AnimatePresence>
         </div>
       </div>
@@ -198,8 +238,8 @@ export const Navbar = ({ isSearchOpen, setIsSearchOpen }) => {
       {/* MAIN BRIGHT NAVBAR                                   */}
       {/* ==================================================== */}
       <header
-        className={`sticky top-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md transition-all duration-200 border-b border-gray-200 shadow-sm ${
-          isScrolled ? 'py-2.5 shadow-md' : 'py-3'
+        className={`sticky top-0 left-0 right-0 z-40 bg-white transition-all duration-200 border-b border-[#E8E9EA] shadow-xs ${
+          isScrolled ? 'py-2 shadow-md' : 'py-2.5'
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 flex items-center justify-between gap-4">
@@ -233,15 +273,15 @@ export const Navbar = ({ isSearchOpen, setIsSearchOpen }) => {
               </div>
               <div className="flex flex-col">
                 <div className="flex items-center space-x-1">
-                  <span className="font-extrabold text-xl sm:text-2xl text-slate-900 tracking-tight leading-tight">
+                  <span className="font-black text-xl sm:text-2xl text-[#242F66] tracking-tight leading-tight">
                     LEO
                   </span>
-                  <span className="bg-amber-500 text-slate-950 text-[9px] font-black uppercase px-1.5 py-0.5 rounded tracking-wider">
-                    STORE
+                  <span className="bg-amber-400 text-stone-950 text-[9px] font-black uppercase px-1.5 py-0.5 rounded tracking-wider shadow-xs">
+                    OFFICIAL
                   </span>
                 </div>
                 <span className="text-[9px] text-slate-500 font-bold uppercase tracking-[0.25em] -mt-0.5">
-                  Official Atelier
+                  D2C Apparel
                 </span>
               </div>
             </Link>
@@ -254,10 +294,10 @@ export const Navbar = ({ isSearchOpen, setIsSearchOpen }) => {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder='Search for "Oversized Tees, Hoodies, Joggers..."'
-                className="w-full bg-gray-100 hover:bg-gray-50 focus:bg-white text-gray-900 placeholder-gray-400 text-xs rounded-full py-2.5 pl-10 pr-4 border border-transparent focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 outline-none transition-all"
+                placeholder='Try searching "T-shirts", "Denim Jackets", "Hoodies"...'
+                className="w-full bg-[#F5F6F8] hover:bg-[#EBEEF2] focus:bg-white text-gray-900 placeholder-gray-400 text-xs rounded-lg py-2.5 pl-10 pr-4 border border-[#E8E9EA] focus:border-[#242F66] focus:ring-2 focus:ring-[#242F66]/10 outline-none transition-all font-medium"
               />
-              <Search className="w-4 h-4 text-gray-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+              <Search className="w-4 h-4 text-gray-500 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
             </form>
           </div>
 
