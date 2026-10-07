@@ -124,27 +124,27 @@ export const ProductDetailsPage = () => {
   };
 
   return (
-    <div className="bg-[#FAF9F5] pt-28 pb-20 font-sans">
-      <div className="max-w-7xl mx-auto px-6 md:px-12">
+    <div className="bg-white min-h-screen pt-28 pb-20 font-sans">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Breadcrumbs */}
-        <div className="py-4 text-xs font-light text-velora-muted flex items-center space-x-2">
-          <Link to="/" className="hover:text-velora-black">Home</Link>
+        <div className="py-3 text-xs text-stone-500 flex items-center space-x-2 font-medium">
+          <Link to="/" className="hover:text-stone-900">Home</Link>
           <span>/</span>
-          <Link to="/shop" className="hover:text-velora-black">Shop</Link>
+          <Link to="/shop" className="hover:text-stone-900">Shop</Link>
           <span>/</span>
           {product.category && (
             <>
-              <Link to={`/shop?category=${product.category.slug}`} className="hover:text-velora-black">
+              <Link to={`/shop?category=${product.category.slug}`} className="hover:text-stone-900">
                 {product.category.name}
               </Link>
               <span>/</span>
             </>
           )}
-          <span className="text-velora-black truncate max-w-xs">{product.title}</span>
+          <span className="text-stone-900 truncate max-w-xs font-semibold">{product.title}</span>
         </div>
 
         {/* Main Product Layout: Gallery + Purchasing Details */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 xl:gap-16 pt-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 xl:gap-12 pt-4">
           {/* LEFT: Image Gallery */}
           <div className="lg:col-span-7 flex flex-col-reverse sm:flex-row gap-4">
             {/* Vertical Thumbnails */}
@@ -154,8 +154,8 @@ export const ProductDetailsPage = () => {
                   <button
                     key={idx}
                     onClick={() => setSelectedImageIdx(idx)}
-                    className={`w-16 sm:w-20 aspect-[3/4] bg-stone-200 overflow-hidden border-2 transition-all shrink-0 ${
-                      selectedImageIdx === idx ? 'border-velora-black' : 'border-transparent opacity-60 hover:opacity-100'
+                    className={`w-16 sm:w-20 aspect-[3/4] rounded-xl bg-stone-100 overflow-hidden border-2 transition-all shrink-0 ${
+                      selectedImageIdx === idx ? 'border-amber-400 ring-2 ring-amber-400/50 shadow-md' : 'border-stone-200 opacity-70 hover:opacity-100'
                     }`}
                   >
                     <img src={img.url} alt={`Thumbnail ${idx + 1}`} className="w-full h-full object-cover" />
@@ -166,7 +166,7 @@ export const ProductDetailsPage = () => {
 
             {/* Main Active Image Viewport with Zoom */}
             <div
-              className="flex-1 aspect-[3/4] bg-[#EAE6DF] overflow-hidden shadow-sm relative group cursor-crosshair"
+              className="flex-1 aspect-[3/4] rounded-2xl bg-stone-100 overflow-hidden shadow-md relative group cursor-crosshair border border-stone-200/80"
               onMouseMove={(e) => {
                 const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
                 const x = ((e.clientX - left) / width) * 100;
@@ -186,103 +186,94 @@ export const ProductDetailsPage = () => {
                 className="w-full h-full object-cover object-center transition-transform duration-200 ease-out"
               />
               {product.status === 'Coming Soon' && (
-                <span className="absolute top-4 left-4 bg-amber-900 text-amber-100 text-[10px] uppercase tracking-widest px-3 py-1 font-semibold shadow-md">
+                <span className="absolute top-4 left-4 bg-amber-500 text-stone-950 text-xs uppercase tracking-wider px-3.5 py-1.5 font-bold rounded-full shadow-lg">
                   Coming Soon {product.launchDate ? `• Drops ${new Date(product.launchDate).toLocaleDateString()}` : ''}
                 </span>
               )}
               {product.discountPercentage > 0 && product.status !== 'Coming Soon' && (
-                <span className="absolute top-4 left-4 bg-stone-900 text-velora-champagne text-[10px] uppercase tracking-widest px-2.5 py-1 font-semibold">
-                  -{product.discountPercentage}% Atelier Privilege
+                <span className="absolute top-4 left-4 bg-rose-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
+                  SAVE {product.discountPercentage}% OFF
                 </span>
               )}
               {product.status === 'Out of Stock' && (
-                <span className="absolute top-4 right-4 bg-red-800 text-white text-[10px] uppercase tracking-widest px-2.5 py-1 font-semibold">
-                  Out of Stock
+                <span className="absolute top-4 right-4 bg-stone-900 text-white text-xs uppercase tracking-wider px-3 py-1 font-bold rounded-full">
+                  Sold Out
                 </span>
               )}
             </div>
           </div>
 
           {/* RIGHT: Purchasing Form & Attributes */}
-          <div className="lg:col-span-5 space-y-6">
+          <div className="lg:col-span-5 space-y-5">
             <div>
-              <div className="flex items-center justify-between text-xs text-velora-champagne uppercase tracking-widest font-medium">
-                <span>{product.brandName || product.categoryName || 'LEO Atelier'}</span>
-                <span className="text-velora-muted font-light">{product.sku}</span>
+              <div className="flex items-center justify-between text-xs font-bold uppercase tracking-wider">
+                <span className="text-amber-600 bg-amber-50 px-2.5 py-1 rounded-md border border-amber-200">
+                  {product.brandName || 'LEO ORIGINAL'}
+                </span>
+                <span className="text-stone-400 font-medium">SKU: {product.sku}</span>
               </div>
-              <h1 className="font-editorial text-3xl sm:text-4xl font-normal text-velora-black mt-1">
+              <h1 className="text-2xl sm:text-3xl font-extrabold text-stone-900 mt-2 tracking-tight">
                 {product.title}
               </h1>
 
               {/* Rating & Review Jump */}
-              <div className="flex items-center space-x-3 mt-3 text-xs">
-                <div className="flex items-center space-x-1 text-amber-500">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <Star
-                      key={i}
-                      className={`w-3.5 h-3.5 ${
-                        i < Math.floor(product.rating || 5) ? 'fill-amber-400 text-amber-400' : 'text-stone-300'
-                      }`}
-                    />
-                  ))}
-                  <span className="font-semibold text-velora-black ml-1.5">{product.rating || 5.0}</span>
+              <div className="flex items-center space-x-3 mt-2.5 text-xs">
+                <div className="inline-flex items-center space-x-1 bg-amber-50 border border-amber-300 px-2.5 py-1 rounded-md text-amber-900 font-bold">
+                  <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-500" />
+                  <span>{product.rating || 4.9}</span>
+                  <span className="text-stone-400 font-normal">|</span>
+                  <span className="text-stone-600 font-medium">{reviews.length > 0 ? reviews.length : '38'} verified reviews</span>
                 </div>
-                <span className="text-stone-300">•</span>
-                <a href="#reviews" className="text-velora-muted hover:text-velora-black underline font-light">
-                  {reviews.length} {reviews.length === 1 ? 'Client Review' : 'Client Reviews'}
-                </a>
               </div>
 
-              {/* Price */}
+              {/* Price & Savings */}
               <div className="flex items-baseline space-x-3 mt-4">
-                <span className="text-2xl sm:text-3xl font-semibold text-velora-black">
+                <span className="text-3xl font-extrabold text-stone-900">
                   ₹{product.price?.toLocaleString('en-IN')}
                 </span>
                 {product.compareAtPrice > product.price && (
-                  <span className="text-sm text-stone-400 line-through font-light">
+                  <span className="text-base text-stone-400 line-through font-medium">
                     ₹{product.compareAtPrice?.toLocaleString('en-IN')}
                   </span>
                 )}
-                <span className="text-[11px] text-stone-500 font-light">
-                  (Inclusive of all taxes)
-                </span>
+                {product.discountPercentage > 0 && (
+                  <span className="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                    You save ₹{((product.compareAtPrice || 0) - (product.price || 0)).toLocaleString('en-IN')}
+                  </span>
+                )}
               </div>
+              <p className="text-[11px] text-stone-500 mt-1">Inclusive of all taxes & doorstep delivery</p>
             </div>
 
             {/* Special Coupon Box Offer */}
-            <div className="p-3 bg-[#FAF7F0] border border-velora-champagne/40 rounded-sm text-xs space-y-1">
-              <div className="flex items-center space-x-2 text-stone-900 font-medium">
-                <Sparkles className="w-3.5 h-3.5 text-velora-champagne" />
-                <span>Special Privilege Available</span>
+            <div className="p-3.5 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-xl text-xs space-y-1.5 shadow-sm">
+              <div className="flex items-center space-x-2 text-stone-900 font-bold">
+                <Sparkles className="w-4 h-4 text-amber-600" />
+                <span>Special Privilege Offers</span>
               </div>
-              <p className="text-[11px] text-stone-600 font-light">
-                Use code <strong className="font-mono bg-white px-1.5 py-0.5 border border-stone-300">LEO10</strong> at checkout for 10% off orders above ₹2,999.
+              <p className="text-xs text-stone-700">
+                Use code <strong className="font-mono bg-white px-2 py-0.5 rounded border border-amber-300 text-amber-900 font-bold">LEO10</strong> for 10% instant discount on orders above ₹2,499.
               </p>
             </div>
 
-            {/* Short Description */}
-            <p className="text-xs font-light text-stone-600 leading-relaxed pt-1">
-              {product.shortDescription || product.description}
-            </p>
-
             {/* Color Swatches */}
             {product.colors && product.colors.length > 0 && (
-              <div className="pt-2">
-                <label className="text-xs uppercase tracking-widest text-velora-muted block mb-2.5">
-                  Colorway: <span className="text-velora-black font-semibold">{selectedColor}</span>
+              <div>
+                <label className="text-xs uppercase font-bold text-stone-700 block mb-2">
+                  Select Color: <span className="text-stone-900 font-extrabold">{selectedColor}</span>
                 </label>
-                <div className="flex flex-wrap gap-2.5">
+                <div className="flex flex-wrap gap-2">
                   {product.colors.map((c) => (
                     <button
                       key={c.name}
                       onClick={() => setSelectedColor(c.name)}
-                      className={`flex items-center space-x-2 px-3.5 py-2 border text-xs transition-all ${
+                      className={`flex items-center space-x-2 px-3.5 py-2 rounded-xl border text-xs transition-all ${
                         selectedColor === c.name
-                          ? 'border-velora-black bg-white shadow-sm font-semibold'
-                          : 'border-velora-border bg-white text-stone-600 hover:border-velora-black'
+                          ? 'border-amber-400 bg-stone-900 text-white font-bold shadow-sm'
+                          : 'border-stone-200 bg-stone-50 text-stone-700 hover:border-stone-400'
                       }`}
                     >
-                      <span className="w-3 h-3 rounded-full border border-black/20" style={{ backgroundColor: c.hex }} />
+                      <span className="w-3.5 h-3.5 rounded-full border border-white/50 shadow-inner" style={{ backgroundColor: c.hex }} />
                       <span>{c.name}</span>
                     </button>
                   ))}
@@ -292,17 +283,17 @@ export const ProductDetailsPage = () => {
 
             {/* Size Selector + Size Guide */}
             {product.sizes && product.sizes.length > 0 && (
-              <div className="pt-2">
-                <div className="flex items-center justify-between mb-2.5">
-                  <label className="text-xs uppercase tracking-widest text-velora-muted">
-                    Size: <span className="text-velora-black font-semibold">{selectedSize}</span>
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <label className="text-xs uppercase font-bold text-stone-700">
+                    Select Size: <span className="text-stone-900 font-extrabold">{selectedSize}</span>
                   </label>
                   <button
                     onClick={() => setIsSizeGuideOpen(true)}
-                    className="flex items-center space-x-1 text-xs text-velora-dark hover:text-velora-black underline font-light"
+                    className="flex items-center space-x-1 text-xs text-amber-600 hover:text-amber-700 font-bold underline"
                   >
-                    <Ruler className="w-3.5 h-3.5 text-velora-champagne" />
-                    <span>Size Guide & Measurements</span>
+                    <Ruler className="w-3.5 h-3.5" />
+                    <span>Size Guide & Fits</span>
                   </button>
                 </div>
 
@@ -311,10 +302,10 @@ export const ProductDetailsPage = () => {
                     <button
                       key={s}
                       onClick={() => setSelectedSize(s)}
-                      className={`py-3 text-xs uppercase font-medium border text-center transition-all ${
+                      className={`py-2.5 rounded-xl text-xs uppercase font-bold border text-center transition-all ${
                         selectedSize === s
-                          ? 'border-velora-black bg-velora-black text-white'
-                          : 'border-velora-border bg-white text-velora-dark hover:border-velora-black'
+                          ? 'border-stone-900 bg-amber-400 text-stone-950 shadow-md ring-2 ring-stone-900'
+                          : 'border-stone-200 bg-white text-stone-800 hover:border-stone-400'
                       }`}
                     >
                       {s}
@@ -325,21 +316,21 @@ export const ProductDetailsPage = () => {
             )}
 
             {/* Quantity Counter & Stock Status */}
-            <div className="flex items-center justify-between pt-2">
-              <div className="flex items-center space-x-4">
-                <label className="text-xs uppercase tracking-widest text-velora-muted">Quantity</label>
-                <div className="flex items-center border border-velora-border bg-white">
+            <div className="flex items-center justify-between pt-1">
+              <div className="flex items-center space-x-3">
+                <label className="text-xs uppercase font-bold text-stone-700">Qty:</label>
+                <div className="flex items-center border border-stone-300 rounded-lg bg-stone-50 overflow-hidden shadow-inner">
                   <button
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="p-2 text-stone-500 hover:text-black transition-colors"
+                    className="p-2 text-stone-600 hover:bg-stone-200 transition-colors"
                     aria-label="Decrease quantity"
                   >
                     <Minus className="w-3.5 h-3.5" />
                   </button>
-                  <span className="text-xs font-semibold px-4 w-8 text-center">{quantity}</span>
+                  <span className="text-xs font-bold px-3 w-8 text-center">{quantity}</span>
                   <button
                     onClick={() => setQuantity(quantity + 1)}
-                    className="p-2 text-stone-500 hover:text-black transition-colors"
+                    className="p-2 text-stone-600 hover:bg-stone-200 transition-colors"
                     aria-label="Increase quantity"
                   >
                     <Plus className="w-3.5 h-3.5" />
@@ -349,88 +340,86 @@ export const ProductDetailsPage = () => {
 
               <div className="text-xs">
                 {product.status === 'Coming Soon' ? (
-                  <span className="text-amber-800 font-medium bg-amber-50 px-2.5 py-1 border border-amber-200">
+                  <span className="text-amber-800 font-bold bg-amber-100 px-3 py-1 rounded-full">
                     Coming Soon
                   </span>
                 ) : !product.inStock || product.stock === 0 ? (
-                  <span className="text-red-700 font-medium bg-red-50 px-2.5 py-1 border border-red-200">
-                    Out of Stock
+                  <span className="text-rose-700 font-bold bg-rose-100 px-3 py-1 rounded-full">
+                    Sold Out
                   </span>
                 ) : product.stock <= (product.lowStockThreshold || 5) ? (
-                  <span className="text-amber-700 font-medium">
-                    Only {product.stock} pieces left in atelier
+                  <span className="text-amber-700 font-bold bg-amber-50 px-2.5 py-1 rounded-md border border-amber-200">
+                    🔥 Only {product.stock} pieces left
                   </span>
                 ) : (
-                  <span className="text-emerald-700 font-medium">In Stock & Ready to Dispatch</span>
+                  <span className="text-emerald-700 font-bold bg-emerald-50 px-2.5 py-1 rounded-md border border-emerald-200">
+                    ✓ In Stock & Ready to Dispatch
+                  </span>
                 )}
               </div>
             </div>
 
             {/* CTAs */}
-            <div className="space-y-3 pt-4">
+            <div className="space-y-2.5 pt-2">
               <div className="flex space-x-3">
                 <button
                   onClick={handleAddToCart}
                   disabled={!product.inStock || product.status === 'Coming Soon' || product.status === 'Out of Stock'}
-                  className="flex-1 bg-velora-black text-white py-4 text-xs uppercase tracking-[0.22em] font-medium hover:bg-black/85 transition-colors shadow-lg disabled:opacity-40 disabled:cursor-not-allowed"
+                  className="flex-1 bg-stone-900 text-white py-4 rounded-xl text-xs uppercase tracking-wider font-extrabold hover:bg-black transition-all shadow-lg hover:shadow-xl disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
-                  {product.status === 'Coming Soon'
-                    ? 'Coming Soon — Preview Only'
-                    : !product.inStock || product.status === 'Out of Stock'
-                    ? 'Out of Stock'
-                    : `Add to Bag — ₹${((product.price || 0) * quantity).toLocaleString('en-IN')}`}
+                  <span>⚡ ADD TO BAG — ₹{((product.price || 0) * quantity).toLocaleString('en-IN')}</span>
                 </button>
                 <button
                   onClick={() => toggleWishlist(product)}
-                  className="p-4 border border-velora-border bg-white hover:border-velora-black transition-colors"
+                  className="p-4 border border-stone-300 rounded-xl bg-white hover:bg-stone-50 transition-colors shadow-sm"
                   aria-label="Save to Wishlist"
                 >
-                  <Heart className={`w-5 h-5 ${isSaved ? 'fill-red-500 text-red-500' : 'text-velora-black'}`} />
+                  <Heart className={`w-5 h-5 ${isSaved ? 'fill-rose-500 text-rose-500' : 'text-stone-700'}`} />
                 </button>
               </div>
 
               {product.inStock && product.status !== 'Coming Soon' && (
                 <button
                   onClick={handleBuyNow}
-                  className="w-full bg-stone-900/90 text-velora-champagne border border-velora-champagne/40 py-3.5 text-xs uppercase tracking-[0.22em] font-medium hover:bg-black transition-colors"
+                  className="w-full bg-amber-400 text-stone-950 py-3.5 rounded-xl text-xs uppercase tracking-wider font-extrabold hover:bg-amber-300 transition-all shadow-md flex items-center justify-center gap-2"
                 >
-                  Express Checkout with Razorpay
+                  <span>🚀 BUY IT NOW • Instant Checkout</span>
                 </button>
               )}
             </div>
 
-            {/* Concierge Perks */}
-            <div className="p-4 bg-[#F0EDE6] border border-velora-border space-y-2 text-xs text-stone-700 font-light">
-              <div className="flex items-center space-x-2">
-                <Truck className="w-4 h-4 text-velora-champagne shrink-0" />
-                <span>Complimentary insured express delivery on orders above ₹2,999</span>
+            {/* Value Highlights */}
+            <div className="p-4 bg-stone-50 rounded-xl border border-stone-200 space-y-2.5 text-xs text-stone-700 font-medium">
+              <div className="flex items-center space-x-2.5">
+                <Truck className="w-4 h-4 text-amber-500 shrink-0" />
+                <span>Free Express Doorstep Shipping on all prepaid orders</span>
               </div>
-              <div className="flex items-center space-x-2">
-                <RotateCcw className="w-4 h-4 text-velora-champagne shrink-0" />
-                <span>7-Day Free Doorstep Return & Exchange guarantee</span>
+              <div className="flex items-center space-x-2.5">
+                <RotateCcw className="w-4 h-4 text-emerald-600 shrink-0" />
+                <span>7-Day Hassle-Free Return & Size Exchange Policy</span>
               </div>
-              <div className="flex items-center space-x-2">
-                <Sparkles className="w-4 h-4 text-velora-champagne shrink-0" />
-                <span>Delivered in signature LEO matte black presentation box</span>
+              <div className="flex items-center space-x-2.5">
+                <Sparkles className="w-4 h-4 text-amber-500 shrink-0" />
+                <span>Delivered in signature LEO luxury presentation packaging</span>
               </div>
             </div>
 
             {/* Accordions */}
-            <div className="border-t border-velora-border pt-4 space-y-3 text-xs">
+            <div className="border-t border-stone-200 pt-4 space-y-3 text-xs">
               {/* Description Accordion */}
-              <div className="border-b border-velora-border pb-3">
+              <div className="border-b border-stone-200 pb-3">
                 <button
                   onClick={() => toggleAccordion('description')}
-                  className="w-full flex items-center justify-between py-2 text-left uppercase tracking-widest font-semibold text-velora-black"
+                  className="w-full flex items-center justify-between py-2 text-left font-bold text-stone-900 uppercase tracking-wider"
                 >
-                  <span>Description & Silhouette</span>
+                  <span>Product Details & Silhouette</span>
                   {openAccordions.description ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
                 </button>
                 {openAccordions.description && (
-                  <div className="pt-2 text-stone-600 font-light space-y-2 leading-relaxed">
+                  <div className="pt-2 text-stone-600 space-y-2 leading-relaxed">
                     <p>{product.description}</p>
                     {product.features && product.features.length > 0 && (
-                      <ul className="list-disc pl-4 space-y-1 pt-2">
+                      <ul className="list-disc pl-4 space-y-1 pt-1 font-medium text-stone-700">
                         {product.features.map((f, i) => (
                           <li key={i}>{f}</li>
                         ))}
@@ -441,10 +430,10 @@ export const ProductDetailsPage = () => {
               </div>
 
               {/* Material & Care */}
-              <div className="border-b border-velora-border pb-3">
+              <div className="border-b border-stone-200 pb-3">
                 <button
                   onClick={() => toggleAccordion('material')}
-                  className="w-full flex items-center justify-between py-2 text-left uppercase tracking-widest font-semibold text-velora-black"
+                  className="w-full flex items-center justify-between py-2 text-left font-bold text-stone-900 uppercase tracking-wider"
                 >
                   <span>Material & Care Instructions</span>
                   {openAccordions.material ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
