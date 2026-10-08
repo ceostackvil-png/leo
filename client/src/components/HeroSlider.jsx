@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, ChevronRight, Sparkles, ArrowRight, Flame } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 export const HeroSlider = ({ banners = [] }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -9,37 +9,41 @@ export const HeroSlider = ({ banners = [] }) => {
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
 
-  const slides = banners.length > 0 ? banners : [
+  const defaultSlides = [
     {
       _id: 'banner_1',
-      title: 'THE NEW STANDARD',
-      subtitle: 'Heavyweight Supima Cotton & 14.5oz Japanese Selvedge Denim.',
-      tag: "⚡ NEW COLLECTION '26",
-      image: '/hero-menswear.jpg',
-      ctaText: 'SHOP THE KING DROP',
+      desktopImage: 'https://nobero.com/cdn/shop/files/AW_26_Homepage_Banners_Desktop_jpg.jpg?v=1790747269',
+      mobileImage: 'https://nobero.com/cdn/shop/files/AW_26_Homepage_Banners_Mobile-2_jpg.jpg?v=1790747250',
+      title: 'AW 26 DROP — AUTUMN WINTER COLLECTION',
       ctaLink: '/shop',
     },
     {
       _id: 'banner_2',
-      title: 'SOVEREIGN STITCHING',
-      subtitle: 'Hand-tailored master blazers and artisanal coats built for modern royalty.',
-      tag: '🧵 ARTISANAL ATELIER',
-      image: 'https://images.unsplash.com/photo-1593030761757-71fae45fa0e7?auto=format&fit=crop&w=2560&q=95',
-      ctaText: 'EXPLORE STITCHING',
-      ctaLink: '/shop?category=outerwear',
+      desktopImage: 'https://nobero.com/cdn/shop/files/FULL-SLEEVE_T-SHIRT.jpg?v=1787831897',
+      mobileImage: 'https://nobero.com/cdn/shop/files/full_sleeve_Mobile.jpg?v=1787831879',
+      title: 'FULL SLEEVE T-SHIRTS DROP',
+      ctaLink: '/shop?category=t-shirts',
     },
     {
       _id: 'banner_3',
-      title: 'THE DENIM EDITION',
-      subtitle: 'Classic Indigo Blue & Vintage Washed Olive Green Raw Selvedge Jackets.',
-      tag: '🔥 LIMITED RUN',
-      image: 'https://images.unsplash.com/photo-1576995853123-5a10305d93c0?auto=format&fit=crop&w=2560&q=95',
-      ctaText: 'SHOP DENIM JACKETS',
-      ctaLink: '/shop?category=denim',
+      desktopImage: 'https://nobero.com/cdn/shop/files/our_app_is_here_-_Desktop_jpg.jpg?v=1768989566',
+      mobileImage: 'https://nobero.com/cdn/shop/files/our_app_is_here_Mobile_-7_jpg.jpg?v=1768989570',
+      title: 'DOWNLOAD THE NOBERO APP — GET ₹300 OFF',
+      ctaLink: '/shop',
     },
   ];
 
-  // Auto-play slider every 4.5 seconds unless hovered/paused
+  const slides = banners && banners.length > 0
+    ? banners.map(b => ({
+        _id: b._id || b.id || Math.random().toString(),
+        desktopImage: b.desktopImage || b.image || 'https://nobero.com/cdn/shop/files/AW_26_Homepage_Banners_Desktop_jpg.jpg?v=1790747269',
+        mobileImage: b.mobileImage || b.imageMobile || b.desktopImage || 'https://nobero.com/cdn/shop/files/AW_26_Homepage_Banners_Mobile-2_jpg.jpg?v=1790747250',
+        title: b.title || 'Nobero Official',
+        ctaLink: b.ctaLink || b.link || '/shop',
+      }))
+    : defaultSlides;
+
+  // Auto-play slider every 4.5 seconds
   useEffect(() => {
     if (isPaused || slides.length <= 1) return;
 
@@ -79,131 +83,75 @@ export const HeroSlider = ({ banners = [] }) => {
 
   return (
     <section
-      className="relative w-full h-[480px] sm:h-[580px] md:h-[680px] flex items-center justify-center overflow-hidden bg-slate-950 select-none"
+      className="relative w-full overflow-hidden bg-white select-none"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
-      aria-label="Promotional Hero Slider"
+      aria-label="Nobero Hero Banner Slider"
     >
-      {/* Background Images */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={currentSlide._id || currentIndex}
-          initial={{ opacity: 0, scale: 1.05 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.7 }}
-          className="absolute inset-0 w-full h-full"
-        >
-          <img
-            src={currentSlide.image}
-            alt={currentSlide.title}
-            className="w-full h-full object-cover object-center brightness-[0.78] contrast-110"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/40" />
-        </motion.div>
-      </AnimatePresence>
-
-      {/* Slide Content Overlay */}
-      <div className="relative z-10 max-w-4xl mx-auto px-6 text-center text-white flex flex-col items-center">
-        {/* Tagline Badge */}
-        <div className="mb-3">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={`tag-${currentIndex}`}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-amber-500/90 text-slate-950 text-xs font-black uppercase tracking-wider shadow-lg"
-            >
-              <span>{currentSlide.tag || "⚡ ALTER — THE KING ATELIER"}</span>
-            </motion.div>
-          </AnimatePresence>
-        </div>
-
-        {/* Main Title */}
-        <div className="min-h-[60px] sm:min-h-[90px] md:min-h-[110px] flex items-center justify-center">
-          <AnimatePresence mode="wait">
-            <motion.h1
-              key={`title-${currentIndex}`}
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -12 }}
-              transition={{ duration: 0.4 }}
-              className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight uppercase leading-tight drop-shadow-md"
-            >
-              {currentSlide.title}
-            </motion.h1>
-          </AnimatePresence>
-        </div>
-
-        {/* Subtitle */}
-        <div className="min-h-[40px] flex items-center justify-center">
-          <AnimatePresence mode="wait">
-            <motion.p
-              key={`sub-${currentIndex}`}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              className="text-xs sm:text-sm md:text-base font-normal text-white/90 max-w-lg mx-auto tracking-wide leading-relaxed drop-shadow"
-            >
-              {currentSlide.subtitle}
-            </motion.p>
-          </AnimatePresence>
-        </div>
-
-        {/* CTA Action Buttons */}
-        <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-          <Link
-            to={currentSlide.ctaLink || '/shop'}
-            className="px-7 py-3.5 bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs sm:text-sm font-black tracking-wider uppercase rounded-full transition-all duration-200 shadow-xl flex items-center space-x-2 hover:scale-105"
+      <Link to={currentSlide.ctaLink} className="block w-full cursor-pointer">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentSlide._id || currentIndex}
+            initial={{ opacity: 0.85 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0.85 }}
+            transition={{ duration: 0.35 }}
+            className="w-full"
           >
-            <span>{currentSlide.ctaText || 'SHOP NOW'}</span>
-            <ArrowRight className="w-4 h-4" />
-          </Link>
-          <Link
-            to="/shop?isBestSeller=true"
-            className="px-6 py-3.5 bg-white/15 hover:bg-white/25 border border-white/40 text-white text-xs sm:text-sm font-bold tracking-wider uppercase rounded-full transition-all duration-200 backdrop-blur-md"
-          >
-            View Best Sellers
-          </Link>
-        </div>
-      </div>
+            {/* Desktop Banner Image */}
+            <img
+              src={currentSlide.desktopImage}
+              alt={currentSlide.title}
+              className="hidden md:block w-full h-auto object-cover max-h-[580px] xl:max-h-[640px]"
+            />
+            {/* Mobile Banner Image */}
+            <img
+              src={currentSlide.mobileImage}
+              alt={currentSlide.title}
+              className="block md:hidden w-full h-auto object-cover aspect-[4/5] sm:aspect-[16/10]"
+            />
+          </motion.div>
+        </AnimatePresence>
+      </Link>
 
-      {/* Manual Arrows */}
-      <button
-        onClick={handlePrev}
-        className="hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-white/20 hover:bg-white text-white hover:text-slate-950 items-center justify-center transition-all backdrop-blur-md shadow-lg"
-        aria-label="Previous slide"
-      >
-        <ChevronLeft className="w-6 h-6" />
-      </button>
-
-      <button
-        onClick={handleNext}
-        className="hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-white/20 hover:bg-white text-white hover:text-slate-950 items-center justify-center transition-all backdrop-blur-md shadow-lg"
-        aria-label="Next slide"
-      >
-        <ChevronRight className="w-6 h-6" />
-      </button>
-
-      {/* Pagination Dots */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center space-x-2">
-        {slides.map((_, idx) => (
+      {/* Navigation Arrows */}
+      {slides.length > 1 && (
+        <>
           <button
-            key={idx}
-            onClick={() => setCurrentIndex(idx)}
-            className={`transition-all duration-300 rounded-full ${
-              currentIndex === idx
-                ? 'w-8 h-2.5 bg-amber-500'
-                : 'w-2.5 h-2.5 bg-white/40 hover:bg-white/70'
-            }`}
-            aria-label={`Go to slide ${idx + 1}`}
-          />
-        ))}
-      </div>
+            onClick={(e) => { e.preventDefault(); handlePrev(); }}
+            className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-white/80 hover:bg-white text-[#181B2D] flex items-center justify-center shadow-md transition-all z-20"
+            aria-label="Previous banner"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+          <button
+            onClick={(e) => { e.preventDefault(); handleNext(); }}
+            className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-white/80 hover:bg-white text-[#181B2D] flex items-center justify-center shadow-md transition-all z-20"
+            aria-label="Next banner"
+          >
+            <ChevronRight className="w-5 h-5" />
+          </button>
+        </>
+      )}
+
+      {/* Indicators / Dots */}
+      {slides.length > 1 && (
+        <div className="absolute bottom-3 sm:bottom-4 left-1/2 -translate-x-1/2 flex items-center space-x-2 z-20">
+          {slides.map((_, idx) => (
+            <button
+              key={idx}
+              onClick={(e) => { e.preventDefault(); setCurrentIndex(idx); }}
+              className={`h-2 rounded-full transition-all duration-300 ${
+                currentIndex === idx ? 'w-6 bg-[#242F66]' : 'w-2 bg-white/80 hover:bg-white'
+              }`}
+              aria-label={`Go to slide ${idx + 1}`}
+            />
+          ))}
+        </div>
+      )}
     </section>
   );
 };
