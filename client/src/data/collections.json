@@ -1,62 +1,62 @@
 [
   {
-    "_id": "col_the-king-essentials",
-    "name": "The King Essentials",
-    "slug": "the-king-essentials",
-    "tagline": "Heavyweight Supima tees, ribbed full sleeves, turtle necks, and mercerized polos.",
-    "description": "Foundational wardrobe architecture engineered with sovereign precision and heavyweight fabrics.",
-    "heroImage": "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=1600&q=95",
+    "_id": "col_co-ords",
+    "name": "Best Selling Co-Ords",
+    "slug": "co-ords",
+    "tagline": "Airport ready matching sets engineered for modern comfort.",
+    "description": "Elevated matching sets in breathable French Terry. Built for airports, casual hangouts, and downtime.",
+    "heroImage": "https://nobero.com/cdn/shop/files/HB_Co-Ords_des.jpg",
+    "season": "Trending 2026",
+    "isFeatured": true
+  },
+  {
+    "_id": "col_fashion-joggers",
+    "name": "Fashion Cargo & Joggers",
+    "slug": "joggers",
+    "tagline": "4-way stretch fabric, deep zip pockets, and ergonomic ankle cuffs.",
+    "description": "Engineered with premium stretch cotton, secure zip pockets, and ergonomic ankle cuffs.",
+    "heroImage": "https://nobero.com/cdn/shop/files/HB_Fashion_Joggers_des.jpg",
+    "season": "Everyday Active",
+    "isFeatured": true
+  },
+  {
+    "_id": "col_hoodies-jackets",
+    "name": "Winter Hoodies & Jackets",
+    "slug": "hoodies-sweatshirts",
+    "tagline": "450 GSM plush French Terry loopback hoodies and fleece sweatshirts.",
+    "description": "Heavyweight warmth with soft breathable lining and relaxed silhouette.",
+    "heroImage": "https://nobero.com/cdn/shop/files/HB_Hoodies_Jackets_des.jpg",
+    "season": "Autumn / Winter 2026",
+    "isFeatured": true
+  },
+  {
+    "_id": "col_shackets",
+    "name": "Textured Street Shackets",
+    "slug": "shackets",
+    "tagline": "Heavyweight woven textures made for smart layering.",
+    "description": "The perfect in-between layer for year-round effortless smart casual styling.",
+    "heroImage": "https://nobero.com/cdn/shop/files/HB_Shacket_des_jpg.jpg",
     "season": "Permanent Collection",
     "isFeatured": true
   },
   {
-    "_id": "col_denim-edition",
-    "name": "The Denim Edition",
-    "slug": "denim-edition",
-    "tagline": "Raw Japanese selvedge denim jackets in Indigo Blue and Olive Green.",
-    "description": "Heavyweight denim jackets woven on vintage shuttle looms, yielding bespoke patina over time.",
-    "heroImage": "https://images.unsplash.com/photo-1576995853123-5a10305d93c0?auto=format&fit=crop&w=1600&q=95",
-    "season": "Limited Edition",
+    "_id": "col_chinos",
+    "name": "Modern Stretch Chinos",
+    "slug": "chinos",
+    "tagline": "Clean tailored profile with all-day flexibility.",
+    "description": "Work-to-weekend trousers that feel like sweatpants and look like bespoke chinos.",
+    "heroImage": "https://nobero.com/cdn/shop/files/HB_Chinos_des.jpg",
+    "season": "Classic Essentials",
     "isFeatured": true
   },
   {
-    "_id": "col_linen-atelier",
-    "name": "Pure Linen Atelier",
-    "slug": "linen-atelier",
-    "tagline": "Breathable French flax and Italian tailored formal & casual linen shirts.",
-    "description": "Pre-washed Normandy flax linen for summer ease and sharp tropical tailoring.",
-    "heroImage": "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=1600&q=95",
-    "season": "Spring / Summer 2026",
-    "isFeatured": true
-  },
-  {
-    "_id": "col_travelling-capsule",
-    "name": "Travelling Collection",
-    "slug": "travelling-capsule",
-    "tagline": "450gsm airport hoodies, transit joggers, and ergonomic commuter pieces.",
-    "description": "Engineered for first-class transit, airport lounges, and long-haul ease.",
-    "heroImage": "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=1600&q=95",
-    "season": "Year-Round Transit",
-    "isFeatured": true
-  },
-  {
-    "_id": "col_leather-collection",
-    "name": "Leather Collection",
-    "slug": "leather-collection",
-    "tagline": "Full-grain calfskin belts, minimalist wallets, Chelsea boots, and weekender duffels.",
-    "description": "Artisanal vegetable-tanned leather crafted in Florence with brushed palladium hardware.",
-    "heroImage": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=1600&q=95",
-    "season": "Permanent Archive",
-    "isFeatured": true
-  },
-  {
-    "_id": "col_sovereign-stitching",
-    "name": "Sovereign Stitching",
-    "slug": "sovereign-stitching",
-    "tagline": "Hand-stitched double-faced cashmere overcoats and bespoke blazers.",
-    "description": "Master needlework and architectural shoulder profiles for modern kings.",
-    "heroImage": "https://images.unsplash.com/photo-1593030761757-71fae45fa0e7?auto=format&fit=crop&w=1600&q=95",
-    "season": "Autumn / Winter 2026",
+    "_id": "col_travel-essentials",
+    "name": "The Travel Capsule",
+    "slug": "travel-wear",
+    "tagline": "Engineered for long hauls, airports, and active transit.",
+    "description": "Wrinkle-resistant fabrics with concealed passport pockets and maximum airflow.",
+    "heroImage": "https://nobero.com/cdn/shop/files/Travel_essential.jpg",
+    "season": "Transit 2026",
     "isFeatured": true
   }
 ]

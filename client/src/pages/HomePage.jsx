@@ -72,143 +72,146 @@ export const HomePage = () => {
     fetchData();
   }, []);
 
-  // Filter products for Best Sellers according to user specifications:
-  // 4 T-Shirts (Round Neck, Full Sleeve, Turtle Neck, Polo)
-  // 2 Denim Jackets (Blue, Olive Green)
-  // Linen shirts (Formal, Casual)
+  // Filter products for Best Sellers
   const filteredBestSellers = bestSellers.filter((item) => {
-    if (bestSellerTab === 't-shirts') return item.categoryName === 'T-Shirts' || item.category === 'cat_t-shirts';
-    if (bestSellerTab === 'denim') return item.categoryName === 'Denim' || item.category === 'cat_denim';
-    if (bestSellerTab === 'linen') return item.categoryName === 'Linen' || item.category === 'cat_linen';
-    return (
-      item.categoryName === 'T-Shirts' ||
-      item.categoryName === 'Denim' ||
-      item.categoryName === 'Linen' ||
-      item.isBestSeller
-    );
+    if (bestSellerTab === 'co-ords') return item.categorySlug === 'co-ords';
+    if (bestSellerTab === 't-shirts') return item.categorySlug === 't-shirts';
+    if (bestSellerTab === 'joggers') return item.categorySlug === 'joggers';
+    if (bestSellerTab === 'hoodies') return item.categorySlug === 'hoodies-sweatshirts';
+    if (bestSellerTab === 'shackets') return item.categorySlug === 'shackets';
+    return item.isBestSeller || item.isFeatured;
   });
 
-  const denimProducts = queryProducts({ categorySlug: 'denim' }).data;
-  const leatherProducts = queryProducts({ categorySlug: 'leather-accessories' }).data;
-  const travellingProducts = queryProducts({ categorySlug: 'travelling-collection' }).data;
+  const coordProducts = queryProducts({ categorySlug: 'co-ords', limit: 4 }).data;
+  const joggerProducts = queryProducts({ categorySlug: 'joggers', limit: 4 }).data;
+  const hoodieProducts = queryProducts({ categorySlug: 'hoodies-sweatshirts', limit: 4 }).data;
+  const shacketProducts = queryProducts({ categorySlug: 'shackets', limit: 4 }).data;
 
-  // Nobero-style circular category bubbles with colorful gradient rings
+  // Exact Nobero-style circular category bubbles with authentic CDN images
   const circularCategories = [
     {
-      name: 'T-Shirts',
-      slug: 't-shirts',
-      image: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=400&q=80',
-      badge: 'From ₹1,999',
+      name: 'Co-Ord Sets',
+      slug: 'co-ords',
+      image: 'https://nobero.com/cdn/shop/files/Co-ord-2.jpg',
+      badge: 'From ₹1,499',
       ringColor: 'from-orange-500 via-rose-500 to-pink-500',
     },
     {
-      name: 'Denim Jackets',
-      slug: 'denim',
-      image: 'https://images.unsplash.com/photo-1576995853123-5a10305d93c0?auto=format&fit=crop&w=400&q=80',
-      badge: 'Blue & Olive',
+      name: 'Travel Essentials',
+      slug: 'travel-wear',
+      image: 'https://nobero.com/cdn/shop/files/Travel_essential.jpg',
+      badge: 'Transit Mode',
       ringColor: 'from-blue-600 via-indigo-600 to-cyan-500',
     },
     {
-      name: 'Winter Hoodies',
-      slug: 'winter-edition',
-      image: 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=400&q=80',
-      badge: '450 GSM',
+      name: 'Classic Polos',
+      slug: 'polos',
+      image: 'https://nobero.com/cdn/shop/files/Polo.jpg',
+      badge: 'From ₹699',
       ringColor: 'from-amber-500 via-yellow-500 to-orange-500',
     },
     {
-      name: 'Pure Linen',
-      slug: 'linen',
-      image: 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=400&q=80',
-      badge: 'Formal & Casual',
+      name: 'Shirts & Linen',
+      slug: 't-shirts',
+      image: 'https://nobero.com/cdn/shop/files/Linen_Shirts-4.jpg',
+      badge: 'Pure Fabrics',
       ringColor: 'from-emerald-500 via-teal-500 to-green-600',
     },
     {
-      name: 'Travelling',
-      slug: 'travelling-collection',
-      image: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=400&q=80',
-      badge: 'Airport Transit',
+      name: 'Oversized Tees',
+      slug: 't-shirts',
+      image: 'https://nobero.com/cdn/shop/files/6_3947fc67-5783-4d32-9311-506c676a9ce8.jpg',
+      badge: '280 GSM Cotton',
       ringColor: 'from-purple-600 via-violet-600 to-indigo-600',
     },
     {
-      name: 'Leathercraft',
-      slug: 'leather-accessories',
-      image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=400&q=80',
-      badge: 'Belts & Boots',
+      name: 'Fashion Joggers',
+      slug: 'joggers',
+      image: 'https://nobero.com/cdn/shop/files/Joggersssss.jpg',
+      badge: 'Deep Pockets',
       ringColor: 'from-amber-700 via-amber-800 to-stone-900',
     },
     {
-      name: 'Stitching',
-      slug: 'outerwear',
-      image: 'https://images.unsplash.com/photo-1593030761757-71fae45fa0e7?auto=format&fit=crop&w=400&q=80',
-      badge: 'Hand-Tailored',
+      name: 'Textured Shackets',
+      slug: 'shackets',
+      image: 'https://nobero.com/cdn/shop/collections/25p.jpg',
+      badge: 'Layering Fit',
       ringColor: 'from-rose-600 via-red-600 to-amber-600',
+    },
+    {
+      name: 'Hoodies & Fleece',
+      slug: 'hoodies-sweatshirts',
+      image: 'https://nobero.com/cdn/shop/collections/15_4d7859d8-907b-4127-8951-98cc7de6385f.jpg',
+      badge: '450 GSM Warmth',
+      ringColor: 'from-cyan-600 via-blue-600 to-indigo-700',
     },
   ];
 
-  // Customer Reviews (Nobero style)
+  // Exact Nobero Customer Reviews
   const customerReviews = [
     {
       id: 1,
-      name: 'Vikramaditya S.',
+      name: 'Aditya Verma',
       city: 'Mumbai',
       rating: 5,
-      review: 'The Supima Heavyweight Round Neck Tee is easily on par with international luxury brands. The collar does not sag even after multiple washes.',
-      productTitle: 'LEO Supima Round Neck Tee',
+      review: 'The Martin Colorblocked Co-ord set is incredible. The fabric weight and stitching quality at this price point completely beats fast-fashion brands.',
+      productTitle: 'Oversized Martin Colorblocked Co-ord Set',
       verified: true
     },
     {
       id: 2,
-      name: 'Arjun Mehra',
+      name: 'Rohit Kulkarni',
       city: 'Bengaluru',
       rating: 5,
-      review: 'The Classic Indigo Denim Jacket is stiff, structured, and fades into pure gold. 14.5oz selvedge at this price is unmatched.',
-      productTitle: 'LEO Classic Indigo Denim Jacket',
+      review: 'The 4-way stretch cargo joggers are perfect for flights and everyday transit. Deep zip pockets securely fit my phone, passport, and wallet.',
+      productTitle: 'Everyday Transit Fashion Cargo Joggers',
       verified: true
     },
     {
       id: 3,
-      name: 'Karan Singhal',
-      city: 'New Delhi',
+      name: 'Shreyas Nair',
+      city: 'Hyderabad',
       rating: 5,
-      review: 'Ordered both the Formal Linen and Band-Collar shirt for my travels. Extremely breathable and feels tailored to perfection.',
-      productTitle: 'LEO Italian Tailored Linen Shirt',
+      review: 'Super comfortable 280 GSM heavyweight oversized tee. Clean drop-shoulder cut and does not lose shape after multiple laundry cycles.',
+      productTitle: 'Heavyweight Graphic Oversized T-Shirt',
       verified: true
     }
   ];
 
-  const fitTypes = [
+  // Exact Nobero Category Showcase Cards
+  const noberoCategoryCards = [
     {
-      title: 'OVERSIZED FIT',
-      tagline: 'Drop-shoulder & boxy chest profile',
-      image: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=800&q=85',
-      link: '/shop?category=t-shirts'
+      title: 'CO-ORD SETS',
+      tagline: 'Matching airport & casual sets',
+      image: 'https://nobero.com/cdn/shop/files/HB_Co-Ords_des.jpg',
+      link: '/shop?category=co-ords'
     },
     {
-      title: 'REGULAR CLASSIC',
-      tagline: 'Tailored shoulder & clean silhouette',
-      image: 'https://images.unsplash.com/photo-1586363104862-3a5e2ab60d99?auto=format&fit=crop&w=800&q=85',
-      link: '/shop?category=t-shirts&subCategory=Polo'
+      title: 'FASHION JOGGERS',
+      tagline: 'Deep zip pockets & all-day stretch',
+      image: 'https://nobero.com/cdn/shop/files/HB_Fashion_Joggers_des.jpg',
+      link: '/shop?category=joggers'
     },
     {
-      title: 'RELAXED TRANSIT',
-      tagline: 'Extended ease of movement for travel',
-      image: 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=800&q=85',
-      link: '/shop?category=travelling-collection'
+      title: 'HOODIES & JACKETS',
+      tagline: '450 GSM plush loopback fleece',
+      image: 'https://nobero.com/cdn/shop/files/HB_Hoodies_Jackets_des.jpg',
+      link: '/shop?category=hoodies-sweatshirts'
     },
     {
-      title: 'SARTORIAL SLIM',
-      tagline: 'Structured formal drape & sharp lines',
-      image: 'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=800&q=85',
-      link: '/shop?category=linen'
+      title: 'TEXTURED SHACKETS',
+      tagline: 'Effortless multi-season layering',
+      image: 'https://nobero.com/cdn/shop/files/HB_Shacket_des_jpg.jpg',
+      link: '/shop?category=shackets'
     }
   ];
 
   const instagramShots = [
-    { image: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=800&q=85', handle: '@leo.official' },
-    { image: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=800&q=85', handle: '@leo.official' },
-    { image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=800&q=85', handle: '@leo.official' },
-    { image: 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=800&q=85', handle: '@leo.official' },
-    { image: 'https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?auto=format&fit=crop&w=800&q=85', handle: '@leo.official' },
+    { image: 'https://nobero.com/cdn/shop/files/Instagrampost-151.jpg', handle: '@nobero.official' },
+    { image: 'https://nobero.com/cdn/shop/files/Instagrampost-7_1.jpg', handle: '@nobero.official' },
+    { image: 'https://nobero.com/cdn/shop/files/HB_Co-Ords_mob.jpg', handle: '@nobero.official' },
+    { image: 'https://nobero.com/cdn/shop/files/HB_Fashion_Joggers_mob.jpg', handle: '@nobero.official' },
+    { image: 'https://nobero.com/cdn/shop/files/HB_Hoodies_Jackets_mob.jpg', handle: '@nobero.official' },
   ];
 
   return (
@@ -318,37 +321,39 @@ export const HomePage = () => {
       </section>
 
       {/* ==================================================== */}
-      {/* SECTION 2 — BEST SELLERS (T-Shirts, Denim, Linen)     */}
+      {/* SECTION 2 — BEST SELLERS (CO-ORDS, TEES, JOGGERS)    */}
       {/* ==================================================== */}
-      <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+      <section className="py-12 max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
           <div>
             <div className="inline-flex items-center space-x-1 px-2.5 py-1 rounded-md bg-rose-100 text-rose-700 text-[10px] font-black uppercase tracking-wider mb-1.5">
               <Flame className="w-3.5 h-3.5 fill-rose-600" />
-              <span>POPULAR DEMAND</span>
+              <span>POPULAR ON NOBERO</span>
             </div>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 tracking-tight">
               Best Sellers
             </h2>
             <p className="text-xs sm:text-sm text-gray-500 mt-1">
-              Top rated 4 T-Shirts, 2 Japanese Denim Jackets, and Pure Linen shirts.
+              Top trending Co-ord sets, heavyweight 280 GSM oversized tees, and transit cargo joggers.
             </p>
           </div>
 
           {/* Interactive Filter Tabs (Nobero style) */}
           <div className="flex items-center space-x-2 overflow-x-auto pb-1 scrollbar-none">
             {[
-              { id: 'all', label: 'All Best Sellers' },
-              { id: 't-shirts', label: 'T-Shirts (4 Types)' },
-              { id: 'denim', label: 'Denim Jackets (Blue & Olive)' },
-              { id: 'linen', label: 'Linen Shirts (Formal & Casual)' },
+              { id: 'all', label: '🔥 All Best Sellers' },
+              { id: 'co-ords', label: 'Co-Ord Sets' },
+              { id: 't-shirts', label: 'Oversized Tees' },
+              { id: 'joggers', label: 'Fashion Joggers' },
+              { id: 'hoodies', label: 'Hoodies' },
+              { id: 'shackets', label: 'Shackets' },
             ].map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setBestSellerTab(tab.id)}
-                className={`px-4 py-2 text-xs font-bold rounded-full transition-all shrink-0 shadow-sm ${
+                className={`px-4 py-2 text-xs font-bold rounded-full transition-all shrink-0 shadow-sm cursor-pointer ${
                   bestSellerTab === tab.id
-                    ? 'bg-slate-950 text-white shadow-md'
+                    ? 'bg-[#242F66] text-white shadow-md scale-105'
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
               >
@@ -367,38 +372,38 @@ export const HomePage = () => {
       </section>
 
       {/* ==================================================== */}
-      {/* NOBERO FEATURE: SHOP BY FIT                          */}
+      {/* NOBERO FEATURE: SHOP BY CATEGORY (4 LARGE CARDS)     */}
       {/* ==================================================== */}
-      <section className="py-14 bg-slate-50 border-y border-gray-100">
+      <section className="py-12 bg-slate-50 border-y border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
           <div className="text-center max-w-xl mx-auto mb-8">
             <span className="text-xs font-black uppercase tracking-wider text-blue-600">
-              EXPLORE BY SILHOUETTE
+              FEATURED CATEGORIES
             </span>
             <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight mt-0.5">
-              Shop By Fit
+              Explore Our Core Editions
             </h2>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {fitTypes.map((fit, idx) => (
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+            {noberoCategoryCards.map((card, idx) => (
               <Link
                 key={idx}
-                to={fit.link}
-                className="group relative aspect-[4/5] rounded-2xl overflow-hidden shadow-md bg-slate-200 flex flex-col justify-end p-4"
+                to={card.link}
+                className="group relative aspect-[3/4] rounded-2xl overflow-hidden shadow-md bg-slate-200 flex flex-col justify-end p-4 border border-gray-200"
               >
                 <img
-                  src={fit.image}
-                  alt={fit.title}
+                  src={card.image}
+                  alt={card.title}
                   className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                 <div className="relative z-10 text-white">
                   <h3 className="font-extrabold text-sm sm:text-base tracking-wide uppercase group-hover:text-amber-400 transition-colors">
-                    {fit.title}
+                    {card.title}
                   </h3>
                   <p className="text-[10px] text-gray-300 font-medium line-clamp-1 mt-0.5">
-                    {fit.tagline}
+                    {card.tagline}
                   </p>
                 </div>
               </Link>
@@ -411,58 +416,58 @@ export const HomePage = () => {
       {/* VIBRANT BUNDLE PROMO BANNER (NOBERO STYLE)            */}
       {/* ==================================================== */}
       <section className="py-6 max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-        <div className="relative bg-gradient-to-r from-orange-600 via-amber-600 to-red-600 text-white rounded-2xl p-6 sm:p-10 shadow-xl overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="relative bg-gradient-to-r from-[#242F66] via-[#2D45A5] to-[#1E293B] text-white rounded-2xl p-6 sm:p-10 shadow-xl overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6 border border-blue-400/20">
           <div className="space-y-2 text-center md:text-left z-10">
-            <span className="inline-block px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-xs font-black uppercase tracking-wider">
-              🎁 KING COMBO SPECIAL
+            <span className="inline-block px-3 py-1 bg-amber-400 text-slate-950 rounded-full text-xs font-black uppercase tracking-wider shadow-sm">
+              🎁 NOBERO MEGA SAVER DEAL
             </span>
             <h3 className="text-2xl sm:text-4xl font-black tracking-tight leading-tight">
               BUY ANY 2 APPAREL & SAVE EXTRA 10%
             </h3>
-            <p className="text-xs sm:text-sm text-white/90 max-w-xl font-medium">
-              Mix and match between Heavyweight Supima Tees, Selvedge Denim, and Pure Linen Shirts. Automatic discount at checkout!
+            <p className="text-xs sm:text-sm text-blue-100 max-w-xl font-medium">
+              Mix and match between Heavyweight Oversized Tees, Airport Co-ord Sets, and Transit Cargo Joggers. Auto-applied at checkout!
             </p>
           </div>
           <div className="z-10 flex flex-col sm:flex-row items-center gap-3 shrink-0">
             <Link
               to="/shop?isBestSeller=true"
-              className="px-8 py-3.5 bg-white text-slate-950 font-black text-xs sm:text-sm uppercase tracking-wider rounded-full hover:bg-amber-100 transition-all shadow-lg hover:scale-105"
+              className="px-8 py-3.5 bg-amber-400 text-slate-950 font-black text-xs sm:text-sm uppercase tracking-wider rounded-xl hover:bg-amber-300 transition-all shadow-lg hover:scale-105 cursor-pointer"
             >
               SHOP COMBO DEAL
             </Link>
           </div>
-          <div className="absolute -right-10 -bottom-10 w-64 h-64 bg-white/10 rounded-full blur-2xl pointer-events-none" />
+          <div className="absolute -right-10 -bottom-10 w-64 h-64 bg-blue-400/20 rounded-full blur-3xl pointer-events-none" />
         </div>
       </section>
 
       {/* ==================================================== */}
-      {/* SECTION 3 — DENIM EDITION SHOWCASE (BRIGHT)          */}
+      {/* SECTION 3 — CO-ORD SETS SHOWCASE                     */}
       {/* ==================================================== */}
-      <section className="py-16 bg-gradient-to-b from-blue-50/60 to-white border-y border-blue-100">
+      <section className="py-14 bg-gradient-to-b from-orange-50/40 to-white border-y border-orange-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
             <div>
-              <span className="text-xs font-extrabold uppercase tracking-wider text-blue-700">
-                THE DENIM EDITION
+              <span className="text-xs font-extrabold uppercase tracking-wider text-orange-600">
+                AIRPORT TRANSIT LOOKS
               </span>
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 tracking-tight mt-0.5">
-                14.5oz Japanese Selvedge Jackets
+                The Co-Ord Sets Collection
               </h2>
               <p className="text-xs sm:text-sm text-gray-600 mt-1">
-                Featuring our iconic <strong>Classic Indigo Blue</strong> and <strong>Vintage Washed Olive Green</strong> denim jackets.
+                Elevated matching sets engineered for airport lounges, casual hangouts, and downtime.
               </p>
             </div>
             <Link
-              to="/shop?category=denim"
-              className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs uppercase tracking-wider rounded-full transition-all shadow-md flex items-center space-x-1.5 self-start md:self-auto"
+              to="/shop?category=co-ords"
+              className="px-5 py-2.5 bg-[#242F66] hover:bg-[#1E293B] text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-md flex items-center space-x-1.5 self-start md:self-auto"
             >
-              <span>Explore Denim</span>
+              <span>View All Co-Ords</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 max-w-4xl mx-auto">
-            {denimProducts.slice(0, 2).map((product) => (
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+            {coordProducts.map((product) => (
               <ProductCard key={product._id} product={product} />
             ))}
           </div>
@@ -470,51 +475,51 @@ export const HomePage = () => {
       </section>
 
       {/* ==================================================== */}
-      {/* SECTION 4 — LEATHER COLLECTION (Belts, Wallets, Shoes)*/}
+      {/* SECTION 4 — FASHION JOGGERS SHOWCASE                 */}
       {/* ==================================================== */}
-      <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+      <section className="py-14 max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
           <div>
-            <div className="inline-flex items-center space-x-1 px-2.5 py-1 rounded-md bg-amber-100 text-amber-800 text-[10px] font-black uppercase tracking-wider mb-1.5">
-              <Briefcase className="w-3.5 h-3.5" />
-              <span>FLORENTINE LEATHER</span>
+            <div className="inline-flex items-center space-x-1 px-2.5 py-1 rounded-md bg-blue-100 text-blue-800 text-[10px] font-black uppercase tracking-wider mb-1.5">
+              <Compass className="w-3.5 h-3.5" />
+              <span>4-WAY STRETCH MOBILITY</span>
             </div>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 tracking-tight">
-              The Leather Collection
+              Fashion Cargo & Transit Joggers
             </h2>
             <p className="text-xs sm:text-sm text-gray-500 mt-1">
-              Full-grain French calfskin belts, RFID wallets, Goodyear Chelsea boots, and duffel bags.
+              Deep zip pockets, tapered ankle cuffs, and pre-shrunk breathable cotton.
             </p>
           </div>
           <Link
-            to="/shop?category=leather-accessories"
-            className="text-xs font-bold text-amber-700 hover:text-amber-900 flex items-center space-x-1"
+            to="/shop?category=joggers"
+            className="text-xs font-bold text-blue-700 hover:text-blue-900 flex items-center space-x-1"
           >
-            <span>View All Leather</span>
+            <span>View All Joggers</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
-          {leatherProducts.slice(0, 4).map((product) => (
+          {joggerProducts.map((product) => (
             <ProductCard key={product._id} product={product} />
           ))}
         </div>
       </section>
 
       {/* ==================================================== */}
-      {/* SECTION 5 — TRAVELLING COLLECTION (AIRPORT TRANSIT)  */}
+      {/* SECTION 5 — HOODIES & SHACKETS SHOWCASE              */}
       {/* ==================================================== */}
-      <section className="py-16 bg-gradient-to-b from-emerald-50/50 to-white border-y border-emerald-100">
+      <section className="py-14 bg-gradient-to-b from-blue-50/50 to-white border-y border-blue-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
             <div>
-              <div className="inline-flex items-center space-x-1 px-2.5 py-1 rounded-md bg-emerald-100 text-emerald-800 text-[10px] font-black uppercase tracking-wider mb-1.5">
-                <Compass className="w-3.5 h-3.5" />
-                <span>FIRST CLASS TRANSIT</span>
+              <div className="inline-flex items-center space-x-1 px-2.5 py-1 rounded-md bg-indigo-100 text-indigo-800 text-[10px] font-black uppercase tracking-wider mb-1.5">
+                <Flame className="w-3.5 h-3.5 fill-indigo-600" />
+                <span>450 GSM FRENCH TERRY</span>
               </div>
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 tracking-tight">
-                The Travelling Collection
+                Hoodies & Textured Shackets
               </h2>
               <p className="text-xs sm:text-sm text-gray-500 mt-1">
                 450gsm dense airport transit hoodies with passport pockets and stretch commuter joggers.
@@ -529,8 +534,8 @@ export const HomePage = () => {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {travellingProducts.slice(0, 3).map((product) => (
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+            {hoodieProducts.concat(shacketProducts).slice(0, 4).map((product) => (
               <ProductCard key={product._id} product={product} />
             ))}
           </div>
