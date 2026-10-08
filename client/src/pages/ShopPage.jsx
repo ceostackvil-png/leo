@@ -104,24 +104,24 @@ export const ShopPage = () => {
   ].filter(Boolean).length;
 
   const quickFilterTabs = [
-    { label: '🔥 All Pieces', cat: '', coll: '' },
-    { label: '👕 Oversized Tees', cat: 't-shirts', coll: '' },
-    { label: '🧥 Denim Jackets', cat: 'denim', coll: '' },
-    { label: '🌿 Linen Shirts', cat: 'linen', coll: '' },
-    { label: '❄️ Winter Hoodies', cat: 'winter-edition', coll: '' },
-    { label: '✈️ Travel Wear', cat: 'travelling-collection', coll: '' },
-    { label: '💼 Leather Collection', cat: 'leather-collection', coll: '' },
+    { label: '🔥 All Products', cat: '', coll: '' },
+    { label: '✨ Co-Ord Sets', cat: 'co-ords', coll: '' },
+    { label: '👖 Fashion Joggers', cat: 'joggers', coll: '' },
+    { label: '👕 Oversized T-Shirts', cat: 't-shirts', coll: '' },
+    { label: '🧥 Hoodies & Jackets', cat: 'winter-edition', coll: '' },
+    { label: '👔 Textured Shackets', cat: 'denim', coll: '' },
+    { label: '🌿 Pure Linen', cat: 'linen', coll: '' },
   ];
 
   return (
-    <div className="bg-white min-h-screen pt-28 pb-20 font-sans">
+    <div className="bg-[#FFFFFF] min-h-screen pt-28 pb-20 font-sans">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header Title */}
-        <div className="text-center py-6 sm:py-8 border-b border-stone-200 space-y-2">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-900 text-xs font-semibold uppercase tracking-wider">
-            <span>🦁 LEO Official Catalog</span>
+        <div className="text-center py-6 sm:py-8 border-b border-[#E8E9EA] space-y-2">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EEF2FF] border border-[#242F66]/20 text-[#242F66] text-xs font-[familyBold] uppercase tracking-wider">
+            <span>NOBERO OFFICIAL COLLECTION</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-stone-900 tracking-tight">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-[familyBold] text-[#181B2D] tracking-tight">
             {keyword
               ? `Results for "${keyword}"`
               : selectedCategory
@@ -130,15 +130,15 @@ export const ShopPage = () => {
               ? collections.find(c => c.slug === selectedCollection)?.name || 'Curated Lookbook'
               : selectedGender
               ? `${selectedGender}'s Apparel`
-              : 'The Complete LEO Collection'}
+              : 'All Apparel & Everyday Fashion'}
           </h1>
-          <p className="text-xs sm:text-sm text-stone-500 max-w-lg mx-auto font-normal">
-            Everyday heavyweight oversized tees, raw blue denim jackets, pure linen shirts, and winterwear engineered for supreme comfort.
+          <p className="text-xs sm:text-sm text-[#666875] max-w-lg mx-auto font-[familyMedium]">
+            Premium coordinated sets, everyday fashion joggers, heavy oversized tees, and cozy winterwear.
           </p>
         </div>
 
         {/* Quick Horizontal Filter Pills (Nobero style) */}
-        <div className="py-4 flex items-center gap-2.5 overflow-x-auto no-scrollbar border-b border-stone-100">
+        <div className="py-4 flex items-center gap-2.5 overflow-x-auto no-scrollbar border-b border-[#E8E9EA]">
           {quickFilterTabs.map((tab, idx) => {
             const isActive = (!tab.cat && !selectedCategory) || (selectedCategory === tab.cat);
             return (
@@ -148,10 +148,10 @@ export const ShopPage = () => {
                   updateFilter('category', tab.cat);
                   if (tab.coll) updateFilter('collection', tab.coll);
                 }}
-                className={`px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all flex items-center gap-1.5 shadow-sm ${
+                className={`px-4 py-2 rounded-full text-xs font-[familyBold] whitespace-nowrap transition-all flex items-center gap-1.5 shadow-xs ${
                   isActive
-                    ? 'bg-amber-400 text-stone-950 font-bold ring-2 ring-stone-900 shadow-md scale-105'
-                    : 'bg-stone-100 text-stone-700 hover:bg-stone-200 border border-stone-200/80'
+                    ? 'bg-[#242F66] text-white font-[familyBold] shadow-sm scale-105'
+                    : 'bg-[#F5F6F8] text-[#484B5A] hover:bg-[#E8E9EA] border border-[#E8E9EA]'
                 }`}
               >
                 {tab.label}
