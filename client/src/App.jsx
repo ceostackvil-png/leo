@@ -10,7 +10,6 @@ import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { CartDrawer } from './components/CartDrawer';
 import { SearchModal } from './components/SearchModal';
-import { LeoIntroSplash } from './components/LeoIntroSplash';
 
 // Public Pages
 import { HomePage } from './pages/HomePage';
@@ -52,9 +51,6 @@ const AppLayout = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      {/* Cinematic LEO Logo Intro Splash Animation */}
-      <LeoIntroSplash />
-
       {!isAdminRoute && !isCheckoutRoute && (
         <Navbar isSearchOpen={isSearchOpen} setIsSearchOpen={setIsSearchOpen} />
       )}
