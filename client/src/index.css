@@ -2,6 +2,77 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ========================================================== */
+/* EXACT NOBERO OFFICIAL FONT FACES & TYPOGRAPHY             */
+/* ========================================================== */
+@font-face {
+  font-family: 'familyLight';
+  src: url('https://nobero.com/cdn/shop/t/199/assets/supreme-light.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'familyRegular';
+  src: url('https://nobero.com/cdn/shop/t/199/assets/supreme-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'familyMedium';
+  src: url('https://nobero.com/cdn/shop/t/199/assets/supreme-medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'familySemiBold';
+  src: url('https://nobero.com/cdn/shop/t/199/assets/supreme-semiBold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'familyBold';
+  src: url('https://nobero.com/cdn/shop/t/199/assets/supreme-semiBold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'familyExtraBold';
+  src: url('https://nobero.com/cdn/shop/t/199/assets/supreme-extraBold.woff2') format('woff2');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'familyAntonRegular';
+  src: url('https://nobero.com/cdn/shop/t/199/assets/anton-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --color-nobero-blue: #242F66;
+  --color-nobero-dark: #181B2D;
+  --color-nobero-btn: #2D45A5;
+  --color-nobero-border: #E8E9EA;
+  --color-nobero-light: #F5F6F8;
+  --color-nobero-gray: #666875;
+  --color-nobero-muted: #9698A0;
+  --color-nobero-gold: #D97706;
+  --color-nobero-amber: #F59E0B;
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
@@ -12,86 +83,81 @@
 
   body {
     background-color: #FFFFFF;
-    color: #111827;
-    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
-    font-family: 'Plus Jakarta Sans', Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+    color: #181B2D;
+    font-family: 'familyRegular', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   }
 
-  /* Editorial & Heading styles */
-  h1, h2, h3, .font-editorial {
-    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-    font-weight: 700;
-    letter-spacing: -0.02em;
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'familyBold', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: #181B2D;
+    letter-spacing: -0.01em;
   }
+}
+
+/* Exact Nobero Typography Utilities */
+.font-nobero-light { font-family: 'familyLight', sans-serif; }
+.font-nobero-regular { font-family: 'familyRegular', sans-serif; }
+.font-nobero-medium { font-family: 'familyMedium', sans-serif; }
+.font-nobero-semibold { font-family: 'familySemiBold', sans-serif; }
+.font-nobero-bold { font-family: 'familyBold', sans-serif; }
+.font-nobero-extrabold { font-family: 'familyExtraBold', sans-serif; }
+.font-nobero-anton { font-family: 'familyAntonRegular', sans-serif; }
+
+/* Nobero Specific UI Classes */
+.nobero-btn-primary {
+  background-color: #242F66;
+  color: #FFFFFF;
+  font-family: 'familyBold', sans-serif;
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+.nobero-btn-primary:hover {
+  background-color: #2D45A5;
+}
+
+.nobero-btn-secondary {
+  background-color: #F5F6F8;
+  color: #181B2D;
+  border: 1px solid #E8E9EA;
+  font-family: 'familySemiBold', sans-serif;
+  transition: all 0.2s ease;
+}
+.nobero-btn-secondary:hover {
+  background-color: #E9EAF0;
+}
+
+.nobero-card-shadow {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.nobero-card-shadow:hover {
+  box-shadow: 0 8px 24px rgba(36, 47, 102, 0.12);
 }
 
 /* Custom Clean Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 ::-webkit-scrollbar-track {
-  background: #F1F5F9;
+  background: #F5F6F8;
 }
 ::-webkit-scrollbar-thumb {
-  background: #CBD5E1;
+  background: #D1D5DB;
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #94A3B8;
+  background: #9CA3AF;
 }
 
-/* Luxury Skeleton Shimmer */
+/* Shimmer Loading */
 .skeleton-shimmer {
-  background: linear-gradient(90deg, #f0ede6 25%, #e4dfd7 50%, #f0ede6 75%);
+  background: linear-gradient(90deg, #f5f6f8 25%, #e8e9ea 50%, #f5f6f8 75%);
   background-size: 200% 100%;
-  animation: shimmer 1.8s infinite;
+  animation: shimmer 1.6s infinite;
 }
 
 @keyframes shimmer {
   0% { background-position: 200% 0; }
   100% { background-position: -200% 0; }
-}
-
-/* Luxury Image Reveal */
-.img-zoom-container {
-  overflow: hidden;
-}
-.img-zoom-container img {
-  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease;
-}
-.img-zoom-container:hover img {
-  transform: scale(1.05);
-}
-
-/* Editorial Underline Effect */
-.luxury-underline {
-  position: relative;
-  display: inline-block;
-}
-.luxury-underline::after {
-  content: '';
-  position: absolute;
-  width: 0%;
-  height: 1px;
-  bottom: -2px;
-  left: 0;
-  background-color: currentColor;
-  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.luxury-underline:hover::after {
-  width: 100%;
-}
-
-/* Glassmorphism */
-.glass-nav {
-  background: rgba(250, 249, 245, 0.82);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-}
-
-.glass-dark {
-  background: rgba(10, 10, 10, 0.88);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
 }
