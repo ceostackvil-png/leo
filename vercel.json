@@ -12,6 +12,34 @@
       "destination": "https://nobero.com/cdn/shop/files/HB_Fashion_Joggers_des.jpg"
     },
     {
+      "source": "/images/leo/mood_cozy.jpg",
+      "destination": "https://nobero.com/cdn/shop/files/HB_Shacket_des_jpg.jpg"
+    },
+    {
+      "source": "/images/leo/mood_street.jpg",
+      "destination": "https://nobero.com/cdn/shop/files/AW_26_Homepage_Banners_Desktop_jpg.jpg"
+    },
+    {
+      "source": "/images/leo/mood_weekend.jpg",
+      "destination": "https://nobero.com/cdn/shop/files/HB_Co-Ords_des.jpg"
+    },
+    {
+      "source": "/images/leo/hero_banner_shacket_des.jpg",
+      "destination": "https://nobero.com/cdn/shop/files/HB_Shacket_des_jpg.jpg"
+    },
+    {
+      "source": "/images/leo/hero_banner_coords_des.jpg",
+      "destination": "https://nobero.com/cdn/shop/files/HB_Co-Ords_des.jpg"
+    },
+    {
+      "source": "/images/leo/hero_banner_chinos_des.jpg",
+      "destination": "https://nobero.com/cdn/shop/files/HB_Chinos_des.jpg"
+    },
+    {
+      "source": "/images/leo/hero_banner_joggers_des.jpg",
+      "destination": "https://nobero.com/cdn/shop/files/HB_Fashion_Joggers_des.jpg"
+    },
+    {
       "source": "/images/nobero/col_coords_exact.jpg",
       "destination": "https://nobero.com/cdn/shop/files/HB_Co-Ords_des.jpg"
     },
