@@ -4,6 +4,30 @@
   "framework": "vite",
   "rewrites": [
     {
+      "source": "/images/leo/col_coords_exact.jpg",
+      "destination": "https://nobero.com/cdn/shop/files/HB_Co-Ords_des.jpg"
+    },
+    {
+      "source": "/images/leo/mood_travel.jpg",
+      "destination": "https://nobero.com/cdn/shop/files/HB_Fashion_Joggers_des.jpg"
+    },
+    {
+      "source": "/images/nobero/col_coords_exact.jpg",
+      "destination": "https://nobero.com/cdn/shop/files/HB_Co-Ords_des.jpg"
+    },
+    {
+      "source": "/images/nobero/mood_travel.jpg",
+      "destination": "https://nobero.com/cdn/shop/files/HB_Fashion_Joggers_des.jpg"
+    },
+    {
+      "source": "/col_coords_exact.jpg",
+      "destination": "https://nobero.com/cdn/shop/files/HB_Co-Ords_des.jpg"
+    },
+    {
+      "source": "/mood_travel.jpg",
+      "destination": "https://nobero.com/cdn/shop/files/HB_Fashion_Joggers_des.jpg"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
