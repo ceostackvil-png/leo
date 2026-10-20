@@ -37,8 +37,24 @@ export const HomePage = () => {
           api.get('/banners'),
         ]);
 
-        if (bestRes.data.success) setBestSellers(bestRes.data.data);
-        if (banRes.data.success) setBanners(banRes.data.data);
+        if (bestRes.data?.success && Array.isArray(bestRes.data.data) && bestRes.data.data.length > 0) {
+          const hasAuthenticImages = bestRes.data.data.every(p => {
+            const img = p.images?.[0]?.url || p.images?.[0] || '';
+            return typeof img === 'string' && (img.startsWith('http') || img.startsWith('/images/'));
+          });
+          if (hasAuthenticImages) {
+            setBestSellers(bestRes.data.data);
+          }
+        }
+        if (banRes.data?.success && Array.isArray(banRes.data.data) && banRes.data.data.length > 0) {
+          const hasAuthenticBanners = banRes.data.data.every(b => {
+            const img = b.desktopImage || b.image || '';
+            return typeof img === 'string' && (img.startsWith('http') || img.startsWith('/images/'));
+          });
+          if (hasAuthenticBanners) {
+            setBanners(banRes.data.data);
+          }
+        }
       } catch (err) {
         console.error('Home data load error:', err);
       }

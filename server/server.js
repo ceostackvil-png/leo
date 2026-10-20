@@ -62,6 +62,41 @@ if (!fs.existsSync(uploadsPath)) {
 }
 app.use('/uploads', express.static(uploadsPath));
 
+// Universal Image CDN Fallback Middleware
+app.use((req, res, next) => {
+  const url = req.url || '';
+  if (/\.(jpg|jpeg|png|webp|avif|gif)(\?.*)?$/i.test(url)) {
+    // 1. Check if product image with hash
+    const prodMatch = url.match(/(?:men\(1\)\/[^/]+\/|images\/(?:leo|nobero)\/)?.*?_\d+_(.+\.(?:jpg|jpeg|png|webp|avif))/i);
+    if (prodMatch && prodMatch[1]) {
+      return res.redirect(302, `https://cdn.shopify.com/s/files/1/0337/9413/0052/files/${prodMatch[1]}`);
+    }
+    // 2. Check hero banners
+    if (url.includes('hero_banner_shacket')) {
+      return res.redirect(302, url.includes('_mob') ? 'https://nobero.com/cdn/shop/files/HB_Shacket_mob_jpg.jpg' : 'https://nobero.com/cdn/shop/files/HB_Shacket_des_jpg.jpg');
+    }
+    if (url.includes('hero_banner_coords')) {
+      return res.redirect(302, url.includes('_mob') ? 'https://nobero.com/cdn/shop/files/HB_Co-Ords_mob.jpg' : 'https://nobero.com/cdn/shop/files/HB_Co-Ords_des.jpg');
+    }
+    if (url.includes('hero_banner_chinos')) {
+      return res.redirect(302, url.includes('_mob') ? 'https://nobero.com/cdn/shop/files/HB_Chinos_mob.jpg' : 'https://nobero.com/cdn/shop/files/HB_Chinos_des.jpg');
+    }
+    if (url.includes('hero_banner_joggers')) {
+      return res.redirect(302, url.includes('_mob') ? 'https://nobero.com/cdn/shop/files/HB_Fashion_Joggers_mob.jpg' : 'https://nobero.com/cdn/shop/files/HB_Fashion_Joggers_des.jpg');
+    }
+    if (url.includes('col_coords')) {
+      return res.redirect(302, 'https://nobero.com/cdn/shop/files/HB_Co-Ords_des.jpg');
+    }
+    if (url.includes('mood_travel')) {
+      return res.redirect(302, 'https://nobero.com/cdn/shop/files/HB_Fashion_Joggers_des.jpg');
+    }
+    if (url.includes('hero-menswear.jpg')) {
+      return res.redirect(302, 'https://nobero.com/cdn/shop/files/AW_26_Homepage_Banners_Desktop_jpg.jpg');
+    }
+  }
+  next();
+});
+
 // API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);

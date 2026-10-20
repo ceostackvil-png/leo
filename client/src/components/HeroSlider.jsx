@@ -106,12 +106,30 @@ export const HeroSlider = ({ banners = [] }) => {
               src={currentSlide.desktopImage}
               alt={currentSlide.title}
               className="hidden md:block w-full h-auto object-cover max-h-[580px] xl:max-h-[640px]"
+              onError={(e) => {
+                e.currentTarget.onerror = null;
+                const src = e.currentTarget.src || '';
+                if (src.includes('shacket')) e.currentTarget.src = 'https://nobero.com/cdn/shop/files/HB_Shacket_des_jpg.jpg';
+                else if (src.includes('coord')) e.currentTarget.src = 'https://nobero.com/cdn/shop/files/HB_Co-Ords_des.jpg';
+                else if (src.includes('chino')) e.currentTarget.src = 'https://nobero.com/cdn/shop/files/HB_Chinos_des.jpg';
+                else if (src.includes('jogger')) e.currentTarget.src = 'https://nobero.com/cdn/shop/files/HB_Fashion_Joggers_des.jpg';
+                else e.currentTarget.src = 'https://nobero.com/cdn/shop/files/AW_26_Homepage_Banners_Desktop_jpg.jpg';
+              }}
             />
             {/* Mobile Banner Image */}
             <img
               src={currentSlide.mobileImage}
               alt={currentSlide.title}
               className="block md:hidden w-full h-auto object-cover aspect-[4/5] sm:aspect-[16/10]"
+              onError={(e) => {
+                e.currentTarget.onerror = null;
+                const src = e.currentTarget.src || '';
+                if (src.includes('shacket')) e.currentTarget.src = 'https://nobero.com/cdn/shop/files/HB_Shacket_mob_jpg.jpg';
+                else if (src.includes('coord')) e.currentTarget.src = 'https://nobero.com/cdn/shop/files/HB_Co-Ords_mob.jpg';
+                else if (src.includes('chino')) e.currentTarget.src = 'https://nobero.com/cdn/shop/files/HB_Chinos_mob.jpg';
+                else if (src.includes('jogger')) e.currentTarget.src = 'https://nobero.com/cdn/shop/files/HB_Fashion_Joggers_mob.jpg';
+                else e.currentTarget.src = 'https://nobero.com/cdn/shop/files/AW_26_Homepage_Banners_Mobile-2_jpg.jpg';
+              }}
             />
           </motion.div>
         </AnimatePresence>

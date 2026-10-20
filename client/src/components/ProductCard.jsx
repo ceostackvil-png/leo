@@ -50,6 +50,16 @@ export const ProductCard = ({ product }) => {
                 isHovered && secondaryImage !== primaryImage ? 'opacity-0 scale-105' : 'opacity-100 scale-100'
               }`}
               loading="lazy"
+              onError={(e) => {
+                e.currentTarget.onerror = null;
+                const src = e.currentTarget.src || '';
+                const match = src.match(/.*?_\d+_(.+\.(?:jpg|jpeg|png|webp|avif))/i);
+                if (match && match[1]) {
+                  e.currentTarget.src = `https://cdn.shopify.com/s/files/1/0337/9413/0052/files/${match[1]}`;
+                } else {
+                  e.currentTarget.src = 'https://cdn.shopify.com/s/files/1/0337/9413/0052/files/POLOPDP-5_5c355606-1884-4943-b73a-f1503bc04014.jpg';
+                }
+              }}
             />
             {/* Secondary Image on Hover */}
             {secondaryImage !== primaryImage && (
@@ -60,6 +70,10 @@ export const ProductCard = ({ product }) => {
                   isHovered ? 'opacity-100 scale-105' : 'opacity-0 scale-100'
                 }`}
                 loading="lazy"
+                onError={(e) => {
+                  e.currentTarget.onerror = null;
+                  e.currentTarget.src = primaryImage;
+                }}
               />
             )}
           </Link>
